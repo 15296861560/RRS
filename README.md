@@ -18,7 +18,7 @@
  - yum install git
  - mkdir App
  - cd App
- - git clone https://github.com/15296861560/SBBase.git
+ - git clone https://github.com/15296861560/RRS.git
  - yum install maven
  - mvn -v
  - mvn compile package
@@ -42,8 +42,6 @@
 [菜鸟教程](https://www.runoob.com/)
 
 [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
-
-[图书分类](https://baike.baidu.com/item/中国图书馆图书分类法/1919634?fr=aladdin#2)
 
 [上传图片](https://www.jianshu.com/p/c101b38adade)
 
