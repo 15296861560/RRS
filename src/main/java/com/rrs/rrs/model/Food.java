@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class Food {
-    private Long foodId;
-    private String foodName;
-    private Double price;
-    private String foodUrl;
-    private String type;
+    private Long foodId;//食物id
+    private String foodName;//食物名称
+    private Double price;//食物价格
+    private String foodUrl;//食物图片地址
+    private String type;//食物类型
 }
