@@ -1,0 +1,66 @@
+body {
+    background-color: #efefef;
+}
+
+.main{
+    background-color: white;
+    /*边距*/
+    margin: 0px 300px;
+}
+
+
+.font-locatin{
+    margin-left: 400px;
+}
+
+.bg-image{
+    background-image: url(/images/library.jpg);
+}
+
+.list-item{
+    height: 100px;
+    /*font-size: -webkit-xxx-large;*/
+    font-size: x-large;
+}
+
+.footer{
+    padding: 30px 0 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.bgBlack{
+    background-color: black;
+}
+
+.test{
+    color: mediumpurple;
+}
+
+.p-tip{
+    margin-left: 600px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+.m-top-30{
+    margin-top: 30px;
+}
+
+.pad-30{
+    padding: 30px;
+}
+
+.pad-20{
+    padding: 20px;
+}
+
+.phone-page {
+    width: 800px;
+    margin: auto;
+    padding: 100px;
+}
+
+.m-l-30{
+    margin-left: 30px;
+}

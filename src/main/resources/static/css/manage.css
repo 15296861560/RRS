@@ -1,0 +1,24 @@
+
+
+.bg-black{
+    background-color: black;
+}
+
+.main{
+    background-color: white;
+    /*边距*/
+    margin: 0px 300px;
+}
+
+.text-gray-small{
+    font-size: 12px;
+    font-weight: normal;
+    color: darkgray;
+}
+
+.search{
+    margin-top: 50px;
+    margin-left: 100px;
+}
+
+
