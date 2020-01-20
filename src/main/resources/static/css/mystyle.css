@@ -10,11 +10,19 @@ body {
 
 
 .font-locatin{
-    margin-left: 400px;
+    text-align:center;
 }
 
-.bg-image{
-    background-image: url(/images/library.jpg);
+.p-slogan{
+    text-align:center;
+    margin-top: 200px;
+    padding-bottom: 100px;
+    /*文本阴影*/
+    text-shadow: 5px 5px 5px #3388FF;
+}
+
+.bg{
+    background-size:cover;
 }
 
 .list-item{

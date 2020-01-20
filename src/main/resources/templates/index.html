@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>图书管理系统</title>
+    <title>中小型餐厅预订系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
@@ -29,18 +29,15 @@
 <div class="container-fluid">
 
     <ul class="nav nav-pills nav-justified">
-        <li role="presentation"><a href="/book">图书分类</a></li>
-        <li role="presentation"><a href="/advice">读者建议</a></li>
+        <li role="presentation"><a href="/food">菜品分类</a></li>
+        <li role="presentation"><a href="/advice">顾客建议</a></li>
         <li role="presentation"><a href="/about">关于本馆</a></li>
     </ul>
 
     <div >
-        <div class="jumbotron col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-image: url(/images/library.jpg) ">
-            <h1 class="font-locatin">欢迎来到LGY图书管理云平台</h1>
-            <p style="margin-left: 600px;
-            margin-top: 200px;
-            margin-bottom: 200px;">
-                人的影响短暂而微弱，书的影响则广泛而深远。
+        <div class="jumbotron col-lg-12 col-md-12 col-sm-12 col-xs-12 bg" th:style="'background-image: url('+${backgroundPic}+') '">
+            <h1 class="font-locatin">欢迎使用中小型餐厅预订系统</h1>
+            <p class="p-slogan" th:text="${slogan}">
             </p>
 
 
@@ -49,9 +46,9 @@
                     <li role="presentation" style=""><a href="/login/admin"><img  src="/images/admin.png"
                                                                           height="200" width="200">管理员登录</a></li>
                     <li role="presentation"><a href="/login/user"><img  src="/images/user_login.png"
-                                                                   height="200" width="200"/>读者登录</a></li>
+                                                                   height="200" width="200"/>顾客登录</a></li>
                     <li role="presentation"><a href="/register"><img  src="/images/user_register.png"
-                                                                  height="200" width="200"/>读者注册</a></li>
+                                                                  height="200" width="200"/>顾客注册</a></li>
                 </ul>
 
             </div>
