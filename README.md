@@ -54,5 +54,6 @@
 
 ##数据库脚本
 
-
+##其它脚本
+mvn -Dmybatis.generator.overwrite = true mybatis-generator：generate
 
