@@ -4,20 +4,20 @@ function delete_user(e) {
 }
 
 function agree(e) {
-    var notificationId=e.getAttribute("data-id");
-    window.location.href="/sendback/"+"agree/"+notificationId;
+    var orderId=e.getAttribute("data-id");
+    window.location.href="/sendback/"+"agree/"+orderId;
 }
 function reject(e) {
-    var notificationId=e.getAttribute("data-id");
-    window.location.href="/sendback/"+"reject/"+notificationId;
+    var orderId=e.getAttribute("data-id");
+    window.location.href="/sendback/"+"reject/"+orderId;
 }
 
 function agreeBorrow(e) {
-    var notificationId=e.getAttribute("data-id");
-    window.location.href="/manage/"+"agree/"+notificationId;
+    var orderId=e.getAttribute("data-id");
+    window.location.href="/manage/"+"agree/"+orderId;
 }
 function rejectBorrow(e) {
-    var notificationId=e.getAttribute("data-id");
-    window.location.href="/manage/"+"reject/"+notificationId;
+    var orderId=e.getAttribute("data-id");
+    window.location.href="/manage/"+"reject/"+orderId;
 }
 

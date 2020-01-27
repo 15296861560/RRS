@@ -2,7 +2,6 @@ package com.rrs.rrs.service;
 
 
 import com.rrs.rrs.mapper.AdminMapper;
-import com.rrs.rrs.mapper.UserMapper;
 import com.rrs.rrs.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

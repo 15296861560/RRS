@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="nav">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid" >
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">中小型餐厅预订系统</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+                <ul class="nav nav-pills navbar-left">
+                    <li class="dropdown" role="presentation">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" >
+                            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>订单管理
+                        <!--下拉小箭头-->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" >
+                            <li><a href="/manage">处理订单</a></li>
+                            <li><a href="/checkBook">查看菜单</a></li>
+                            <li><a href="/checkBook">传统下单</a></li>
+                            <li><a href="/upload">上传新菜</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" role="presentation">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" >
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户管理
+                            <!--下拉小箭头-->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" >
+                            <li><a href="/checkUser">查询用户</a></li>
+                            <li><a href="/manageUser">管理用户</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" role="presentation">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" >
+                            <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>大数据分析
+                    <!--下拉小箭头-->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" >
+                            <li><a href="/analyse/food">最受欢迎菜品排行</a></li>
+                            <li><a href="/analyse/user">点餐最多顾客排行</a></li>
+                            <li><a href="/analyse/category">菜品类目统计</a></li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+
+                <ul class="nav navbar-nav navbar-right">
+
+                    <!--检测session是否存在admin-->
+                    <li class="dropdown" th:if="${session.admin!=null}">
+                        <!--获取存在session中的管理员名称-->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" >
+                            <span th:text="${session.admin.getAdminName()}"></span>
+                            <!--下拉小箭头-->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" >
+                            <li><a href="#">个人资料</a></li>
+                            <li><a href="#">个人阅历</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout">退出登录</a></li>
+                        </ul>
+                    </li>
+                    <!--当没有session的时候，显示登录注册按钮，隐藏个人信息-->
+                    <li th:if="${session.admin==null}">
+                        <a href="/login/admin">登录</a>
+                    </li>
+
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+
+        <div>
+
+        </div>
+    </nav>
+
+</div>
+
+</body>
