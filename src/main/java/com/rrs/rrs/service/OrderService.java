@@ -3,6 +3,7 @@ package com.rrs.rrs.service;
 
 import com.rrs.rrs.dto.OrderDTO;
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.enums.OrderStatusEnum;
 import com.rrs.rrs.mapper.OrderMapper;
 import com.rrs.rrs.mapper.SeatMapper;
 import com.rrs.rrs.mapper.UserMapper;
@@ -74,6 +75,7 @@ public class OrderService {
             BeanUtils.copyProperties(order,orderDTO);//把food的所有相同属性拷贝到foodDTO上面
             orderDTO.setUserName(user.getUserName());
             orderDTO.setLocation(seat.getLocation());
+            orderDTO.setOrderStatus(OrderStatusEnum.valueOf(order.getOrderStatus()).getMessage());//将订单状态转成中文
             orderDTOS.add(orderDTO);
         }
         return orderDTOS;

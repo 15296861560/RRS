@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class OrderDTO {
+    private Long orderId;//订单id
     private String userName;//预订人姓名
     private String location;//预订座位位置
     private Long gmtOrder;//预订时间
