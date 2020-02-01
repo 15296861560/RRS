@@ -28,21 +28,22 @@ public class RegisterController {
 
     @PostMapping("/register")// post方法给你请求
     public String doRegister(
-            @RequestParam(value = "id",required = false)Long id,
+            @RequestParam(value = "userName",required = false)String userName,
+            @RequestParam(value = "phone",required = false)String phone,
             @RequestParam(value ="password",required = false)String password,
             HttpServletRequest request,
             HttpServletResponse response,
             Model model){
-        String result = userService.register(id, password);
+        String result = userService.register(phone,userName,password);//进行注册
         if (result.equals("success")){
-            User user= userService.findById(id);
+            User user= userService.findByPhone(phone);
             request.getSession().setAttribute("user",user);
             //将token写入cookie
             response.addCookie(new Cookie("token",user.getToken()));
             //重定向回首页
             model.addAttribute("tip","恭喜注册成功");
             model.addAttribute("src","/food");
-            return "/tip";
+            return "tip";
         }else if (result.equals(CustomizeErrorCode.REGISTER_FAIL_PHONE_NOT_FOUND.getMessage())){
             model.addAttribute("errorMessage",result);
             model.addAttribute("errorCode",CustomizeErrorCode.REGISTER_FAIL_PHONE_NOT_FOUND.getCode());

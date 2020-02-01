@@ -14,8 +14,8 @@ public interface UserMapper {
     @Select("select * from user_table where phone=#{phone}")
     User findByPhone(@Param("phone") String phone);
 
-    @Insert("insert into user_table(user_id,user_name,gmt_create,gmt_modified,token,password,phone) " +
-            "values(#{userId},#{userName},#{gmtCreate},#{gmtModified},#{token},#{password},#{phone})")
+    @Insert("insert into user_table(user_name,gmt_create,gmt_modified,token,password,phone) " +
+            "values(#{userName},#{gmtCreate},#{gmtModified},#{token},#{password},#{phone})")
     void createUser(User user);
 
     @Select("select * from user_table where token=#{token}")

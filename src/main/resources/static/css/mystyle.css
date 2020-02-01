@@ -51,13 +51,7 @@ body {
     margin-bottom: 200px;
 }
 
-.m-top-30{
-    margin-top: 30px;
-}
 
-.pad-30{
-    padding: 30px;
-}
 
 .pad-20{
     padding: 20px;
@@ -71,4 +65,8 @@ body {
 
 .m-l-30{
     margin-left: 30px;
+}
+
+.m-top-30{
+    margin-top: 30px;
 }

@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
     <script src="/js/jquery-3.4.1.min.js" ></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
     <script src="/js/myjs.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 </head>
 
@@ -30,25 +32,35 @@
     </div>
 
 
-    <div class="fixed-page">
+    <div class="fixed-register">
         <div class="tiled ">
             <form action="/register" method="post"  onsubmit="return checkout()">
                 <div class="form-group ">
-                    <label>请输入您的手机号</label>
-                    <input type="text" class="form-control" id="id" name="id" value="">
-                    <label>请输入您的密码</label>
-                    <input type="password" class="form-control" id="password" name="password" value="">
-                    <label>请确认您的密码</label>
-                    <input type="password" class="form-control" id="re_password" value="">
-                    <p class="help-block">小提示:
-                        <br>1.已经注册过的手机号不能重复注册</p>
+                    <div class="tiled ">
+
+                                <div>
+                                    <div class="head">欢迎注册中小型餐厅预订系统</div>
+                                    <div class="tips "><span class="help-block">已有微信账号？<a  href="#" target="_top">快捷登录 &gt;</a></span></div>
+                                </div>
+
+                        <div class="fixed-login">
+
+                                <input type="text" class="form-control input-box" id="userName" name="userName" value="" placeholder="设置会员名">
+                                 <input type="text" class="form-control input-box" id="phone" name="phone" value="" placeholder="请输入您的手机号码">
+                                <input type="password" class="form-control input-box" id="password" name="password" value="" placeholder="设置您的登录密码">
+                                <input type="password" class="form-control input-box" id="confirmPassword" name="confirmPassword" value="" placeholder="请再次输入您的密码">
+
+                                    <p class="help-block">小提示:
+                                        <br>1.已经注册过的手机号不能重复注册</p>
+                                    <button type="submit" class="btn btn-primary btn-block next-btn"  >同意条款并注册</button>
+                              <input type="checkbox"  id="checkbox" value="on" >
+                            <a href="#" >《中小型餐厅预订系统网站服务条款》</a>|
+                            <a href="#" >《法律声明和隐私权政策》</a>
+                        </div>
+                    </div>
+
                 </div>
-                <button type="submit" class="btn btn-primary btn-block m-t-25"  >注册</button>
             </form>
-        </div>
-
-
-
 
     </div></div>
     <div id="intercom-modal-container"></div>
