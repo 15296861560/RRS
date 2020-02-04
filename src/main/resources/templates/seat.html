@@ -22,21 +22,19 @@
                 <div class="panel-body">
                     <form role="form" class="form-inline">
                         <div class="form-group">
-                            <label for="name">名称</label>
-                            <input type="text" class="form-control" id="name1" placeholder="请输入名称">
+                            <label for="name1">位置搜索</label>
+                            <input type="text" class="form-control" id="name1" placeholder="请输入位置">
                         </div>
                         <div class="form-group">
-                            <label for="name">状态</label>
-                            <select class="form-control">
-                                <option>上架</option>
-                                <option>下架</option>
-                            </select>
+                            <button type="submit" class="btn btn-default">开始搜索</button>
                         </div>
+                    </form>
+                    <form role="form" class="form-inline">
                         <div class="form-group">
-                            <label for="name">类型</label>
+                            <label for="name2">状态搜索</label>
                             <select class="form-control">
-                                <option>饮料</option>
-                                <option>炒菜</option>
+                                <option>空</option>
+                                <option>有人</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -45,41 +43,20 @@
                     </form>
                 </div>
                 </div>
-                <!--上新-->
+                <!--添加座位-->
                 <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse2">
-                    上新
+                    添加座位
                 </div>
                 <div id="collapse2" class="collapse" data-parent="#accordion">
                 <div class="panel-body">
                     <form role="form" class="form-inline">
                         <div class="form-group">
-                            <label for="name">食物名称</label>
-                            <input type="text" class="form-control" id="name2" placeholder="请输入名称">
+                            <label >座位位置</label>
+                            <input type="text" class="form-control" id="name2" placeholder="请输入位置">
                         </div>
+
                         <div class="form-group">
-                            <label for="name">食物价格</label>
-                            <input type="text" class="form-control" id="price" placeholder="请输入价格">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">状态</label>
-                            <select class="form-control">
-                                <option>上架</option>
-                                <option>下架</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">类型</label>
-                            <select class="form-control">
-                                <option>饮料</option>
-                                <option>炒菜</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">食物图片</label>
-                            <input type="text" class="form-control" id="name" placeholder="请输入图片地址">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">上传</button>
+                            <button type="submit" class="btn btn-default">添加</button>
                         </div>
                     </form>
                 </div>
@@ -97,29 +74,21 @@
                 <table class="table table-striped ">
                     <thead>
                     <tr>
-                        <th>食物编号</th>
-                        <th>食物名称</th>
-                        <th>食物价格</th>
-                        <th>食物类型</th>
-                        <th>食物状态</th>
-                        <th>食物图片</th>
+                        <th>座位编号</th>
+                        <th>座位位置</th>
+                        <th>座位状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="foodDTO:${pageDTO.getDataDTOS()}">
-                        <td><span th:text="${foodDTO.foodId}"></span></td>
-                        <td><span th:text="${foodDTO.foodName}"></span></td>
-                        <td><span th:text="${foodDTO.price}"></span>元</td>
-                        <td><span th:text="${foodDTO.type}"></span></td>
-                        <td><span th:text="${foodDTO.status}"></span></td>
-                        <td>
-                            <img src="${foodDTO.foodUrl}" class="img-thumbnail" style="height: 30px;" />
-                        </td>
+                    <tr th:each="seat:${pageDTO.getDataDTOS()}">
+                        <td><span th:text="${seat.seatId}"></span></td>
+                        <td><span th:text="${seat.location}"></span></td>
+                        <td><span th:text="${seat.seatStatus}"></span></td>
                         <td>
                             <div class="btn-group">
-                                <a href="" class="btn btn-success">上架</a>
-                                <a href="" class="btn btn-info">下架</a>
+                                <a href="" class="btn btn-success">置空</a>
+                                <a href="" class="btn btn-info">预订</a>
                                 <a href="" class="btn btn-danger">删除</a>
                             </div>
 
