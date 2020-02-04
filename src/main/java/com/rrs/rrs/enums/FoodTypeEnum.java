@@ -1,7 +1,8 @@
 package com.rrs.rrs.enums;
 
 public enum FoodTypeEnum {
-    A("A","饮料");
+    A("A","炒菜"),
+    D("D","饮料");
 
 
     private String type;

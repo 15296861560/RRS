@@ -21,6 +21,7 @@ public class ManageController {
     @Autowired
     FoodService foodService;
 
+    //订单管理
     @GetMapping("/manage")
     public String manage(Model model,
                          @RequestParam(name="page",defaultValue = "1")Integer page,//通过@RequestParam注解获取名字为page的参数默认值为1类型为Integer
@@ -33,47 +34,30 @@ public class ManageController {
 
         PageDTO pageDTO=orderService.list(page,size);
         model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","manage");
+        model.addAttribute("section","order");
 
         return "manage";
     }
 
-    @GetMapping("/manage/{action}/{orderId}")
-    public String handleBorrow(@PathVariable(name = "action")String action,
-                         @PathVariable(name = "orderId")Long orderId
-    ){
-        //处理订单
-//        if ("agree".equals(action)) {
-//
-//            orderService.agree(orderId);
-//
-//        }
-//        if ("reject".equals(action))
-//            orderService.borrowFail(orderId);
-        return "redirect:/manage";
-    }
-
-
-
-
-    @GetMapping("/checkFood")
-    public String search(Model model,
+    //菜单管理
+    @GetMapping("/manage/menu")
+    public String manage_menu(Model model,
                          @RequestParam(name="page",defaultValue = "1")Integer page,
-                         @RequestParam(name="size",defaultValue = "9")Integer size,
-                         @RequestParam(name="search",required = false)String search,
+                         @RequestParam(name="size",defaultValue = "5")Integer size,
                          HttpServletRequest httpServletRequest){
-
         Admin admin=(Admin)httpServletRequest.getSession().getAttribute("admin");
         if (admin==null){//未登录
             return "redirect:/noLogin";
         }
 
-        PageDTO pageDTO=foodService.list(search,page,size,"name");
+        PageDTO pageDTO=foodService.list(page,size);
         model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","checkBook");
-        model.addAttribute("search",search);
+        model.addAttribute("section","menu");
+
         return "manage";
     }
+
+
 
 
 

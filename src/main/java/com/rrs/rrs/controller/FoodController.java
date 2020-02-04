@@ -32,7 +32,7 @@ public class FoodController {
                        @RequestParam(name="search",required = false)String search,
                        @RequestParam(name="attribute",defaultValue = "name")String attribute){
 
-        PageDTO pageDTO=foodService.list(search,page,size,attribute);
+        PageDTO pageDTO=foodService.list(page,size);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("classify", FoodTypeEnum.values());
         model.addAttribute("attribute", attribute);

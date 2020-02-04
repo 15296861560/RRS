@@ -53,28 +53,21 @@ public class FoodService {
 
 
     //分页数据
-    public PageDTO list(String search, Integer page, Integer size, String attribute) {
+    public PageDTO list(Integer page, Integer size) {
 
-        if (StringUtils.isNotBlank(search)){
-            search = stringToRegex(search);
-
-        }
-
+//        if (StringUtils.isNotBlank(search)){
+//            search = stringToRegex(search);
+//
+//        }
         PageDTO<FoodDTO> pageDTO=new PageDTO();
+        Integer totalCount;
+        totalCount = foodMapper.foodCountAll();
+        pageDTO.setPageDTO(totalCount,page,size);
 
-//        //构建搜索条件
-//        FoodDTO FoodDTO=new FoodDTO();
-//        FoodDTO.setAttribute(attribute);
-//        FoodDTO.setSearch(search);
-//        FoodDTO.setTotalCount(getTotalCount(FoodDTO));
-//        FoodDTO.setSize(size);
-//        pageDTO.setPageDTO(FoodDTO.getTotalCount(),page,size);
-//        Integer offset=size*(page-1);//偏移量
-//        FoodDTO.setOffset(offset);
-//        //进行搜索
-//        List<Food> foods=getFoods(FoodDTO);
-//        List<FoodDTO> foodDTOS=ToDTOS(foods);
-//        pageDTO.setDataDTOS(foodDTOS);
+        Integer offset=size*(page-1);//偏移量
+        List<Food> foods=foodMapper.list(offset,size);//分页
+        List<FoodDTO> foodDTOS=ToDTOS(foods);
+        pageDTO.setDataDTOS(foodDTOS);
         return pageDTO;
     }
 

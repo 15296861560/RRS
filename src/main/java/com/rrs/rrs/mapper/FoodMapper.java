@@ -23,7 +23,7 @@ public interface FoodMapper {
     List<Food>  selectAll();
 
     //分页查询菜单
-    @Select("select * from menu_table  order by gmt_create limit #{offset},#{size}")
+    @Select("select * from menu_table  order by food_id limit #{offset},#{size}")
     List<Food> listAll(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
     //查询食物种类数量
@@ -35,7 +35,7 @@ public interface FoodMapper {
     Integer searchCountByName(@Param(value = "search") String search);
 
     //带条件的分页查询
-    @Select("select * from menu_table where name regexp #{search} order by gmt_create limit #{offset},#{size}")
+    @Select("select * from menu_table where name regexp #{search} order by food_id limit #{offset},#{size}")
     List<Food> listSearch(QueryDTO queryDTO);
 
     //查询某种类型的食物的总数
@@ -43,10 +43,14 @@ public interface FoodMapper {
     Integer searchCountByType(String search);
 
     //查询某种类型的食物并进行分页处理
-    @Select("select * from menu_table where type=#{search} order by gmt_create limit #{offset},#{size}")
+    @Select("select * from menu_table where type=#{search} order by food_id limit #{offset},#{size}")
     List<Food> listSearchByType(QueryDTO queryDTO);
 
     //更改食物状态
     @Update("update menu_table set status=#{status}, where food_id=#{foodId}")
     void changeFoodStatus(Food food);
+
+    //分页查询所有食物
+    @Select("select * from menu_table  order by food_id limit #{offset},#{size}")
+    List<Food> list(@Param(value = "offset")Integer offset, @Param(value = "size")Integer size);
 }

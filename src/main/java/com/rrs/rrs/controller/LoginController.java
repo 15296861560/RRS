@@ -37,7 +37,7 @@ public class LoginController {
 
     @PostMapping("/login/admin")// post方法给你请求
     public String doLoginAdmin(
-            @RequestParam(value = "phone",required = false)Long id,
+            @RequestParam(value = "phone",required = false)String id,
             @RequestParam(value ="password",required = false)String password,
             HttpServletRequest request,
             HttpServletResponse response,
