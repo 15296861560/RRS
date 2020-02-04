@@ -6,6 +6,7 @@ import com.rrs.rrs.model.Admin;
 import com.rrs.rrs.service.FoodService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.SeatService;
+import com.rrs.rrs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ public class ManageController {
     FoodService foodService;
     @Autowired
     SeatService seatService;
+    @Autowired
+    UserService userService;
 
 
 
@@ -69,6 +72,21 @@ public class ManageController {
         PageDTO pageDTO=seatService.list(page,size);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","seat");
+
+        return "manage";
+    }
+
+    //用户管理
+    @GetMapping("/manage/customer")
+    public String manage_customer(Model model,
+                              @RequestParam(name="page",defaultValue = "1")Integer page,
+                              @RequestParam(name="size",defaultValue = "5")Integer size,
+                              HttpServletRequest httpServletRequest){
+        if (validate(httpServletRequest)) return "redirect:/noLogin";
+
+        PageDTO pageDTO=userService.list(page,size);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","customer");
 
         return "manage";
     }

@@ -1,15 +1,21 @@
 package com.rrs.rrs.service;
 
 
+import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.mapper.UserMapper;
+import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.model.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -68,5 +74,22 @@ public class UserService {
     }
 
 
+    //查询所有用户并进行分页处理
+    public PageDTO list(Integer page, Integer size) {
+        PageDTO<UserDTO> pageDTO=new PageDTO();
+        Integer totalCount;
+        totalCount = userMapper.userCountAll();
+        pageDTO.setPageDTO(totalCount,page,size);
 
+        Integer offset=size*(page-1);//偏移量
+        List<User> users=userMapper.listAll(offset,size);//分页
+        List<UserDTO> userDTOS=new ArrayList();
+        for(User user:users){
+            UserDTO userDTO=new UserDTO();
+            BeanUtils.copyProperties(user,userDTO);//把user的所有相同属性拷贝到userDTO上面
+            userDTOS.add(userDTO);
+        }
+        pageDTO.setDataDTOS(userDTOS);
+        return pageDTO;
+    }
 }
