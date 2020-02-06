@@ -20,21 +20,23 @@
                 <div id="collapse1" class="collapse" data-parent="#accordion">
 
                 <div class="panel-body">
-                    <form role="form" class="form-inline">
+                    <form role="form" class="form-inline" action="/admin_search_food" method="post">
                         <div class="form-group">
                             <label for="name">名称</label>
-                            <input type="text" class="form-control" id="name1" placeholder="请输入名称">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="请输入名称">
                         </div>
                         <div class="form-group">
-                            <label for="name">状态</label>
-                            <select class="form-control">
+                            <label for="status">状态</label>
+                            <select class="form-control" id="status" name="status">
+                                <option>全部</option>
                                 <option>上架</option>
                                 <option>下架</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="name">类型</label>
-                            <select class="form-control">
+                            <label for="type">类型</label>
+                            <select class="form-control" id="type" name="type">
+                                <option>全部</option>
                                 <option>饮料</option>
                                 <option>炒菜</option>
                             </select>
@@ -53,30 +55,30 @@
                 <div class="panel-body">
                     <form role="form" class="form-inline">
                         <div class="form-group">
-                            <label for="name">食物名称</label>
-                            <input type="text" class="form-control" id="name2" placeholder="请输入名称">
+                            <label for="food_name">食物名称</label>
+                            <input type="text" class="form-control" id="food_name" placeholder="请输入名称">
                         </div>
                         <div class="form-group">
-                            <label for="name">食物价格</label>
-                            <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                            <label for="price">食物价格</label>
+                            <input type="text" class="form-control" id="price" placeholder="请输入价格 /元">
                         </div>
                         <div class="form-group">
-                            <label for="name">状态</label>
-                            <select class="form-control">
+                            <label for="status" >状态</label>
+                            <select class="form-control" id="food_status">
                                 <option>上架</option>
                                 <option>下架</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="name">类型</label>
-                            <select class="form-control">
+                            <label for="type">类型</label>
+                            <select class="form-control" id="food_type">
                                 <option>饮料</option>
                                 <option>炒菜</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="name">食物图片</label>
-                            <input type="text" class="form-control" id="name" placeholder="请输入图片地址">
+                            <label for="food_url">食物图片</label>
+                            <input type="file" class="form-control" id="food_url">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">上传</button>

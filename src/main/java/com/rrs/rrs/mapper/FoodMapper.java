@@ -1,5 +1,6 @@
 package com.rrs.rrs.mapper;
 
+import com.rrs.rrs.dto.FoodQueryDTO;
 import com.rrs.rrs.dto.QueryDTO;
 import com.rrs.rrs.model.Food;
 import org.apache.ibatis.annotations.*;
@@ -35,8 +36,8 @@ public interface FoodMapper {
     Integer searchCountByName(@Param(value = "search") String search);
 
     //带条件的分页查询
-    @Select("select * from menu_table where name regexp #{search} order by food_id limit #{offset},#{size}")
-    List<Food> listSearch(QueryDTO queryDTO);
+    @Select("select * from menu_table where food_name regexp #{name} and status regexp #{status} and type regexp #{type} order by food_id limit #{offset},#{size}")
+    List<Food> listSearch(FoodQueryDTO foodQueryDTO);
 
     //查询某种类型的食物的总数
     @Select("select count(*) from menu_table where type=#{search}")
