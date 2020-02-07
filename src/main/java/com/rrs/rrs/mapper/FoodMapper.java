@@ -54,4 +54,8 @@ public interface FoodMapper {
     //分页查询所有食物
     @Select("select * from menu_table  order by food_id limit #{offset},#{size}")
     List<Food> list(@Param(value = "offset")Integer offset, @Param(value = "size")Integer size);
+
+    //删除指定食物
+    @Delete("delete from menu_table where food_id=#{foodId}")
+    void deleteFood(@Param(value = "foodId")Long foodId);
 }

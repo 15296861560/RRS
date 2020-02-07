@@ -60,6 +60,21 @@ public class ManageController {
     }
 
 
+    @GetMapping("/manage/menu/delete")
+    public String apply(Model model,
+                        HttpServletRequest request,
+                        @RequestParam(name="foodId")Long foodId){
+
+        foodService.deleteFood(foodId);//删除指定食物
+        PageDTO pageDTO=foodService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","menu");
+
+        return "manage";
+
+    }
+
+
 
     //座位管理
     @GetMapping("/manage/seat")

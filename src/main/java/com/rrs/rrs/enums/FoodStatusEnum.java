@@ -1,8 +1,8 @@
 package com.rrs.rrs.enums;
 
 public enum FoodStatusEnum {
-    GOOD("","上架"),
-    STOCKING("Stocking","下架");
+    GOOD("GOOD","上架"),
+    STOCKING("STOCKING","下架");
     private String status;
     private String message;
 

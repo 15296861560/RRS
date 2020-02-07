@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+
 <div th:fragment="menu">
 
         <div class="col-sm-10">
@@ -47,38 +48,39 @@
                     </form>
                 </div>
                 </div>
+
                 <!--上新-->
                 <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse2">
                     上新
                 </div>
                 <div id="collapse2" class="collapse" data-parent="#accordion">
                 <div class="panel-body">
-                    <form role="form" class="form-inline">
+                    <form role="form" class="form-inline" action="/upload" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="food_name">食物名称</label>
-                            <input type="text" class="form-control" id="food_name" placeholder="请输入名称">
+                            <input type="text" class="form-control" id="food_name" name="food_name"  placeholder="请输入名称">
                         </div>
                         <div class="form-group">
                             <label for="price">食物价格</label>
-                            <input type="text" class="form-control" id="price" placeholder="请输入价格 /元">
+                            <input type="text" class="form-control" id="price" name="price"  placeholder="请输入价格 份/元">
                         </div>
                         <div class="form-group">
                             <label for="status" >状态</label>
-                            <select class="form-control" id="food_status">
+                            <select class="form-control" id="food_status" name="food_status">
                                 <option>上架</option>
                                 <option>下架</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="type">类型</label>
-                            <select class="form-control" id="food_type">
+                            <select class="form-control" id="food_type" name="food_type">
                                 <option>饮料</option>
                                 <option>炒菜</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="food_url">食物图片</label>
-                            <input type="file" class="form-control" id="food_url">
+                            <label >食物图片</label>
+                            <input type="file" class="form-control" name="food_pic">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">上传</button>
@@ -86,6 +88,7 @@
                     </form>
                 </div>
                 </div>
+
             </div>
 
 
@@ -120,9 +123,9 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="" class="btn btn-success">上架</a>
-                                <a href="" class="btn btn-info">下架</a>
-                                <a href="" class="btn btn-danger">删除</a>
+                                <button href="" class="btn btn-success" th:data-id="${foodDTO.foodId}" >上架</button>
+                                <button href="" class="btn btn-info" th:data-id="${foodDTO.foodId}" onclick="">下架</button>
+                                <a th:href="@{/manage/menu/delete/(foodId=${foodDTO.foodId})}" class="btn btn-danger" >删除</a>
                             </div>
 
                         </td>

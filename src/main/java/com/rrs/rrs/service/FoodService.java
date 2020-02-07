@@ -37,12 +37,15 @@ public class FoodService {
     }
 
     //添加新食物
-    public void createFood(String foodName, String type, Double price, String foodUrl){
+    public void createFood(String foodName, String type, Double price, String status,String foodUrl){
         Food food=new Food();
         food.setFoodName(foodName);
         food.setType(type);
+        food.setPrice(price);
         food.setFoodUrl(foodUrl);
-        food.setStatus("GOOD");
+        if (status.equals("上架"))status="GOOD";
+        if (status.equals("下架"))status="STOCKING";
+        food.setStatus(status);
         foodMapper.createFood(food);
     }
 
@@ -145,5 +148,10 @@ public class FoodService {
         pageDTO.setPageDTO(totalCount,page,size);
         pageDTO.setDataDTOS(foodDTOS);
         return pageDTO;
+    }
+
+    //删除指定食物
+    public void deleteFood(Long foodId) {
+        foodMapper.deleteFood(foodId);
     }
 }
