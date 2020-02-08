@@ -25,8 +25,8 @@ public class UploadController {
     private UCloudProvider uCloudProvider;
 
 
-    @PostMapping("/upload")
-    public String upload(Model model,
+    @PostMapping("/uploadFood")
+    public String uploadFood(Model model,
                            @RequestParam(value ="food_name",required = false)String food_name,
                            @RequestParam(value ="food_type",required = false)String food_type,
                            @RequestParam(value = "food_status",required = false)String food_status,

@@ -55,7 +55,7 @@
                 </div>
                 <div id="collapse2" class="collapse" data-parent="#accordion">
                 <div class="panel-body">
-                    <form role="form" class="form-inline" action="/upload" method="post" enctype="multipart/form-data">
+                    <form role="form" class="form-inline" action="/uploadFood" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="food_name">食物名称</label>
                             <input type="text" class="form-control" id="food_name" name="food_name"  placeholder="请输入名称">
@@ -119,7 +119,7 @@
                         <td><span th:text="${foodDTO.type}"></span></td>
                         <td><span th:text="${foodDTO.status}"></span></td>
                         <td>
-                            <img src="${foodDTO.foodUrl}" class="img-thumbnail" style="height: 30px;" />
+                            <img th:src="${foodDTO.foodUrl}" class="img-thumbnail" style="height: 30px;" />
                         </td>
                         <td>
                             <div class="btn-group">
