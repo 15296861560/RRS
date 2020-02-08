@@ -5,8 +5,10 @@ import com.rrs.rrs.dto.FileDTO;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.exception.CustomizeErrorCode;
+import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.provider.UCloudProvider;
 import com.rrs.rrs.service.FoodService;
+import com.rrs.rrs.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ import java.io.IOException;
 public class UploadController {
     @Autowired
     FoodService foodService;
+    @Autowired
+    SeatService seatService;
     @Autowired
     private UCloudProvider uCloudProvider;
 
@@ -52,8 +56,6 @@ public class UploadController {
 
             foodService.createFood(food_name,food_type,price,food_status,fileDTO.getUrl());
 
-//        model.addAttribute("foodName",food_name);
-//        model.addAttribute("src",src);图片延迟缓存，有时会加载不出，所以取消上传成功后显示图片
         model.addAttribute("fileDTO",fileDTO.getMessage());
         PageDTO pageDTO=foodService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);
@@ -81,4 +83,25 @@ public class UploadController {
 
     }
 
-}
+
+    @PostMapping("/uploadSeat")
+    public String uploadSeat(Model model,
+                             @RequestParam(value ="row",required = false)String row,
+                             @RequestParam(value ="column",required = false)String column){
+        String location=row+"排"+column+"列";
+        Seat seat=seatService.findSeatByLocation(location);
+        if (seat==null)//如果这个位置的座位不存在才能创建座位
+        {
+            seatService.createSeat(location);//创建某个位置的座位
+        }else {
+            //上传座位出错
+        }
+        PageDTO pageDTO=seatService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","seat");
+        return "manage";
+
+    }
+
+
+    }

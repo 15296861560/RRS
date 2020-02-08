@@ -14,7 +14,7 @@ public interface SeatMapper {
     @Update("update seat_table set seat_status=#{seatStatus} where seat_id=#{seatId}")
     void changeSeatStatus(@Param("seatId")Integer seatId,@Param("seatStatus") String seatStatus);
 
-    @Insert("insert into seat_table(location,seat_status)values(#{location},#{seat_status})")
+    @Insert("insert into seat_table(location,seat_status)values(#{location},#{seatStatus})")
     void createSeat(Seat seat);
 
     @Select("select * from seat_table")
