@@ -123,8 +123,8 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button href="" class="btn btn-success" th:data-id="${foodDTO.foodId}" >上架</button>
-                                <button href="" class="btn btn-info" th:data-id="${foodDTO.foodId}" onclick="">下架</button>
+                                <a th:href="@{/manage/menu/toUp/(foodId=${foodDTO.foodId})}" class="btn btn-success"  >上架</a>
+                                <a th:href="@{/manage/menu/toDown/(foodId=${foodDTO.foodId})}" class="btn btn-info" >下架</a>
                                 <a th:href="@{/manage/menu/delete/(foodId=${foodDTO.foodId})}" class="btn btn-danger" >删除</a>
                             </div>
 

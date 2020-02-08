@@ -53,19 +53,5 @@ public class FoodController {
         return "singleFood";
     }
 
-    @GetMapping("/food/apply/{foodId}")
-    public String apply(Model model,
-                        HttpServletRequest request,
-                        @PathVariable(name = "foodId")Long foodId){
-        User user = (User) request.getSession().getAttribute("user");
-        if (user==null){//未登录
-            return "redirect:/noLogin";
-        }
-        //创建订单记录
 
-        //将订单状态变为预约中
-        model.addAttribute("tip","申请成功请等待餐厅接受预约");
-        model.addAttribute("src","/food");
-        return "tip";
-    }
 }

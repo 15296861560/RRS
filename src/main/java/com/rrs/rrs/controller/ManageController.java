@@ -60,8 +60,9 @@ public class ManageController {
     }
 
 
+    //删除指定食物
     @GetMapping("/manage/menu/delete")
-    public String apply(Model model,
+    public String delete(Model model,
                         HttpServletRequest request,
                         @RequestParam(name="foodId")Long foodId){
 
@@ -74,7 +75,35 @@ public class ManageController {
 
     }
 
+    //将指定食物状态改为上架
+    @GetMapping("/manage/menu/toUp")
+    public String toUp(Model model,
+                        HttpServletRequest request,
+                        @RequestParam(name="foodId")Long foodId){
 
+        foodService.changeFoodStatus(foodId,"GOOD");//改变食物状态食物
+        PageDTO pageDTO=foodService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","menu");
+
+        return "manage";
+
+    }
+
+    //将指定食物状态改为下架
+    @GetMapping("/manage/menu/toDown")
+    public String toDown(Model model,
+                        HttpServletRequest request,
+                        @RequestParam(name="foodId")Long foodId){
+
+        foodService.changeFoodStatus(foodId,"STOCKING");//改变食物状态食物
+        PageDTO pageDTO=foodService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","menu");
+
+        return "manage";
+
+    }
 
     //座位管理
     @GetMapping("/manage/seat")

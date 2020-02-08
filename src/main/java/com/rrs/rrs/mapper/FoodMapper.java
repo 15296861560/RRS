@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface FoodMapper {
     //根据id寻找食物
-    @Select("select * from menu_table where id=#{id}")
+    @Select("select * from menu_table where food_id=#{id}")
     Food findById(@Param("id") Long id);
 
     //添加新食物
@@ -48,7 +48,7 @@ public interface FoodMapper {
     List<Food> listSearchByType(QueryDTO queryDTO);
 
     //更改食物状态
-    @Update("update menu_table set status=#{status}, where food_id=#{foodId}")
+    @Update("update menu_table set status=#{status} where food_id=#{foodId}")
     void changeFoodStatus(Food food);
 
     //分页查询所有食物
