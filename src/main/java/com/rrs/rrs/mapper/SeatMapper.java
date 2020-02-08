@@ -28,4 +28,10 @@ public interface SeatMapper {
 
     @Delete("delete from seat_table where seat_id=#{seatId}")
     void deleteSeat(@Param(value = "seatId")Integer seatId);
+
+    @Select("select * from seat_table where location=#{location}")
+    Seat findByLocation(@Param(value = "location")String location);
+
+    @Select("select * from seat_table where seat_status=#{status} order by seat_id limit #{offset},#{size}")
+    List<Seat> listByStatus(@Param(value = "offset")Integer offset, @Param(value = "size")Integer size,@Param(value = "status")String status);
 }
