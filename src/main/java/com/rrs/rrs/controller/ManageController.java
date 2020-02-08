@@ -60,13 +60,17 @@ public class ManageController {
     }
 
 
-    //删除指定食物
-    @GetMapping("/manage/menu/delete")
+    //对食物进行相应操作
+    @GetMapping("/manage/menu/{action}")
     public String deleteFood(Model model,
                         HttpServletRequest request,
-                        @RequestParam(name="foodId")Long foodId){
+                        @RequestParam(name="foodId")Long foodId,
+                             @PathVariable(name = "action")String action){
 
-        foodService.deleteFood(foodId);//删除指定食物
+        if (action.equals("delete")) foodService.deleteFood(foodId);//删除指定食物
+        if (action.equals("toUp"))foodService.changeFoodStatus(foodId,"GOOD");//改变食物状态为上架
+        if (action.equals("toDown"))foodService.changeFoodStatus(foodId,"STOCKING");//改变食物状态为下架
+
         PageDTO pageDTO=foodService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","menu");
@@ -75,35 +79,6 @@ public class ManageController {
 
     }
 
-    //将指定食物状态改为上架
-    @GetMapping("/manage/menu/toUp")
-    public String toUp(Model model,
-                        HttpServletRequest request,
-                        @RequestParam(name="foodId")Long foodId){
-
-        foodService.changeFoodStatus(foodId,"GOOD");//改变食物状态食物
-        PageDTO pageDTO=foodService.list(1,5);
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","menu");
-
-        return "manage";
-
-    }
-
-    //将指定食物状态改为下架
-    @GetMapping("/manage/menu/toDown")
-    public String toDown(Model model,
-                        HttpServletRequest request,
-                        @RequestParam(name="foodId")Long foodId){
-
-        foodService.changeFoodStatus(foodId,"STOCKING");//改变食物状态食物
-        PageDTO pageDTO=foodService.list(1,5);
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","menu");
-
-        return "manage";
-
-    }
 
     //座位管理
     @GetMapping("/manage/seat")
