@@ -11,7 +11,7 @@ public interface SeatMapper {
     @Select("select * from seat_table where seat_id=#{seatId}")
     Seat findById(@Param("seatId") Integer seatId);
 
-    @Update("update seat_table set seat_status=#{seatStatus}, where seat_id=#{seatId}")
+    @Update("update seat_table set seat_status=#{seatStatus} where seat_id=#{seatId}")
     void changeSeatStatus(@Param("seatId")Integer seatId,@Param("seatStatus") String seatStatus);
 
     @Insert("insert into seat_table(location,seat_status)values(#{location},#{seat_status})")
@@ -25,4 +25,7 @@ public interface SeatMapper {
 
     @Select("select * from seat_table  order by seat_id limit #{offset},#{size}")
     List<Seat> list(@Param(value = "offset")Integer offset, @Param(value = "size")Integer size);
+
+    @Delete("delete from seat_table where seat_id=#{seatId}")
+    void deleteSeat(@Param(value = "seatId")Integer seatId);
 }

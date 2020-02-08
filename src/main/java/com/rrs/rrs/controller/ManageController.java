@@ -62,7 +62,7 @@ public class ManageController {
 
     //删除指定食物
     @GetMapping("/manage/menu/delete")
-    public String delete(Model model,
+    public String deleteFood(Model model,
                         HttpServletRequest request,
                         @RequestParam(name="foodId")Long foodId){
 
@@ -119,6 +119,29 @@ public class ManageController {
 
         return "manage";
     }
+
+
+    //对座位进行相应操作
+    @GetMapping("/manage/seat/{action}")
+    public String seatAction(Model model,
+                         HttpServletRequest request,
+                         @RequestParam(name="seatId")Integer seatId,
+                         @PathVariable(name = "action")String action){
+
+        if (action.equals("delete")) seatService.deleteSeat(seatId);//删除指定座位
+        if (action.equals("toEmpty"))seatService.changeSeatStatus(seatId,"空");//将座位状态变为空
+        if (action.equals("toOrder"))seatService.changeSeatStatus(seatId,"有人");//将座位状态变为有人
+
+        PageDTO pageDTO=seatService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","seat");
+
+        return "manage";
+
+    }
+
+
+
 
     //用户管理
     @GetMapping("/manage/customer")

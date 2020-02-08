@@ -48,7 +48,8 @@ public class SeatService {
     }
 
 
-
-
-
+    //删除座位
+    public void deleteSeat(Integer seatId) {
+        seatMapper.deleteSeat(seatId);
+    }
 }

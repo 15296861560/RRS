@@ -87,9 +87,9 @@
                         <td><span th:text="${seat.seatStatus}"></span></td>
                         <td>
                             <div class="btn-group">
-                                <a href="" class="btn btn-success">置空</a>
-                                <a href="" class="btn btn-info">预订</a>
-                                <a href="" class="btn btn-danger">删除</a>
+                                <a th:href="@{/manage/seat/toEmpty/(seatId=${seat.seatId})}" class="btn btn-success">置空</a>
+                                <a th:href="@{/manage/seat/toOrder/(seatId=${seat.seatId})}" class="btn btn-info">预订</a>
+                                <a th:href="@{/manage/seat/delete/(seatId=${seat.seatId})}" class="btn btn-danger">删除</a>
                             </div>
 
                         </td>
