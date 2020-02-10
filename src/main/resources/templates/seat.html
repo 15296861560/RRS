@@ -54,20 +54,18 @@
                             <label >座位位置</label>
                             <div class="form-group">
                                 <select class="form-control" id="row" name="row">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
+                                    <div th:each="i:${#numbers.sequence(1, 100)}">
+                                        <option th:text="${i}"></option>
+                                    </div>
                                 </select>
                                 <label for="row">排</label>
                             </div>
 
                             <div class="form-group">
                             <select class="form-control" id="column" name="column">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
+                                <div th:each="i:${#numbers.sequence(1, 100)}">
+                                    <option th:text="${i}"></option>
+                                </div>
                             </select>
                                 <label for="column">列</label>
                             </div>
