@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/mystyle.css">
+    <link rel="stylesheet" href="/css/food.css">
     <script src="/js/jquery-3.4.1.min.js" ></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/myjs.js"></script>
 
 </head>
 
@@ -24,45 +26,45 @@
         <li role="presentation"><a href="/about">关于本馆</a></li>
     </ul>
 
+
+    <h2><span class="glyphicon glyphicon-list " aria-hidden="true"></span> 搜索</h2>
+    <hr>
+    <!--搜索框-->
+    <form class="nav nav-pills nav-justified">
+        <div class="form-group input-group-lg col-xs-8">
+            <input type="text" class="form-control" placeholder="Search" name="search">
+        </div>
+        <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search " aria-hidden="true"></span>搜索</button>
+    </form>
+
     <!--菜品分类-->
     <h2><span class="glyphicon glyphicon-list " aria-hidden="true"></span> 类别</h2>
     <hr>
     <div class="container-fluid" style="background-color: #d9edf7;">
-            <div class="list-group col-xs-3 col-md-3" th:each="foodType:${classify}">
+            <div class="list-group col-xs-3 col-md-3" th:each="foodType:${foodTypeS}">
                 <a th:class="${foodType.getMessage().equals(classic)?'list-group-item m-top bg-color-aqua':'list-group-item m-top'}"
                    th:href="@{/food(attribute='type',search=${foodType.getType()})}" th:text="${foodType.getMessage()}"></a>
             </div>
     </div>
 
-    <!--显示菜品-->
-    <h2><span class="glyphicon glyphicon-list " aria-hidden="true"></span> 搜索</h2>
-    <hr>
-    <!--查询菜品-->
-        <!--搜索框-->
-        <form class="nav nav-pills nav-justified">
-            <div class="form-group input-group-lg col-xs-8">
-                <input type="text" class="form-control" placeholder="Search" name="search">
-            </div>
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search " aria-hidden="true"></span>搜索</button>
-        </form>
 
         <!--显示菜品列表-->
-        <h2><span th:text="${attribute.equals('type')?classic:'菜谱'}" class="glyphicon glyphicon-list " aria-hidden="true"></span></h2>
+        <h2><span th:text="${attribute.equals('type')?classic:'全部分类'}" class="glyphicon glyphicon-list " aria-hidden="true"></span></h2>
         <hr>
         <div class="container-fluid">
             <div class="media col-xs-6 col-md-4"  th:each="foodDTO:${pageDTO.getDataDTOS()}">
-                <!--封面-->
+                <!--食物图片-->
                 <div class="media-left">
-                    <a th:href="@{'/food/'+${foodDTO.id}}">
-                        <img class="media-object" th:src="${foodDTO.cover}" height="165" width="120">
+                    <a th:href="@{'/food/'+${foodDTO.foodId}}">
+                        <img class="media-object" th:src="${foodDTO.foodUrl}" height="165" width="120">
                     </a>
                 </div>
                 <div class="media-body">
                     <h3 class="media-heading" >
-                        <a th:href="@{'/food/'+${foodDTO.id}}" th:text="${foodDTO.name}"></a>
+                        <a th:href="@{'/food/'+${foodDTO.foodId}}" th:text="${foodDTO.foodName}"></a>
                     </h3>
                     <span class="text-gray-small">
-                        食物价格：<span th:text="${foodDTO.price}"></span><br>
+                        食物价格：<span th:text="${foodDTO.price}">元</span><br>
                         食物类型:<span th:text="${foodDTO.type}"></span><br>
                 </span>
 

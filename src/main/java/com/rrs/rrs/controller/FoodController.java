@@ -6,7 +6,6 @@ import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodStatusEnum;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.model.Food;
-import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.FoodService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class FoodController {
@@ -29,14 +27,15 @@ public class FoodController {
     public String food(Model model,
                        @RequestParam(name="page",defaultValue = "1")Integer page,
                        @RequestParam(name="size",defaultValue = "9")Integer size,
-                       @RequestParam(name="search",required = false)String search,
+                       @RequestParam(name="search",required = false)String search,//查询内容
                        @RequestParam(name="attribute",defaultValue = "name")String attribute){
 
         PageDTO pageDTO=foodService.list(page,size);
         model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("classify", FoodTypeEnum.values());
-        model.addAttribute("attribute", attribute);
+        model.addAttribute("foodTypeS", FoodTypeEnum.values());//食物所有类型的枚举
+        model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别
         model.addAttribute("search", search);
+        //如果是以类别的方式显示则把具体类别传到前端
         if ("type".equals(attribute)) model.addAttribute("classic", FoodTypeEnum.valueOf(search).getMessage());
         return "food";
     }
