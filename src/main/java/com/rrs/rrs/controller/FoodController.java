@@ -30,7 +30,10 @@ public class FoodController {
                        @RequestParam(name="search",required = false)String search,//查询内容
                        @RequestParam(name="attribute",defaultValue = "name")String attribute){
 
-        PageDTO pageDTO=foodService.list(page,size);
+        PageDTO pageDTO=new PageDTO();
+        if ("name".equals(attribute)&&search==null)pageDTO=foodService.listByStatus(page,size,"GOOD");//默认情况下
+        else if ("name".equals(attribute))pageDTO=foodService.listByName(page,size,search);
+        else if ("type".equals(attribute))pageDTO=foodService.listByType(page,size,search);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("foodTypeS", FoodTypeEnum.values());//食物所有类型的枚举
         model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别

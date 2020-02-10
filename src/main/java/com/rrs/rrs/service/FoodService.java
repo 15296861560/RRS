@@ -57,13 +57,9 @@ public class FoodService {
     }
 
 
-    //分页数据
+    //将所有食物查询出来并进行分页处理
     public PageDTO list(Integer page, Integer size) {
 
-//        if (StringUtils.isNotBlank(search)){
-//            search = stringToRegex(search);
-//
-//        }
         PageDTO<FoodDTO> pageDTO=new PageDTO();
         Integer totalCount;
         totalCount = foodMapper.foodCountAll();
@@ -73,6 +69,26 @@ public class FoodService {
         List<Food> foods=foodMapper.list(offset,size);//分页
         List<FoodDTO> foodDTOS=ToDTOS(foods);
         pageDTO.setDataDTOS(foodDTOS);
+        return pageDTO;
+    }
+
+    //将所有上架食物查询出来并进行分页处理
+    public PageDTO listByStatus(Integer page, Integer size,String status) {
+
+        PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部",status,"全部");
+
+        return pageDTO;
+    }
+
+    //根据名称搜索上架食物并进行分页处理
+    public PageDTO listByName(Integer page, Integer size, String search) {
+        PageDTO<FoodDTO> pageDTO=listSearch(page,size,search,"GOOD","全部");
+        return pageDTO;
+    }
+
+    //根据类型搜索上架食物并进行分页处理
+    public PageDTO listByType(Integer page, Integer size, String search) {
+        PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部","GOOD",search);
         return pageDTO;
     }
 
@@ -98,34 +114,8 @@ public class FoodService {
         return foodDTOS;
     }
 
-    //获取总数
-    private Integer getTotalCount(FoodDTO FoodDTO){
-        Integer totalCount=0;
-//        if (StringUtils.isBlank(FoodDTO.getSearch())) {
-//            totalCount = foodMapper.foodCountAll();//书的总数
-//        }else if ("name".equals(FoodDTO.getAttribute())){
-//            totalCount = foodMapper.searchCountByName(FoodDTO.getSearch());//符合搜索条件的书的总数
-//        }else {
-//            totalCount = foodMapper.searchCountByType(FoodDTO.getSearch());//类别搜索
-//        }
-        return totalCount;
-    }
 
-    //返回分页后食物列表
-    private List<Food> getFoods(FoodDTO FoodDTO){
-        List<Food> foods=new ArrayList();
-//        if (StringUtils.isBlank(FoodDTO.getSearch())) {
-//            foods = foodMapper.listAll(FoodDTO.getOffset(),FoodDTO.getSize());//普通分页
-//
-//        }else if ("name".equals(FoodDTO.getAttribute())){
-//            foods = foodMapper.listSearch(FoodDTO);//带搜索条件的分页
-//        }else {
-//            foods = foodMapper.listSearchByType(FoodDTO);
-//        }
-        return foods;
-    }
-
-
+    //根据条件对食物进行查询和分页
     public PageDTO listSearch(int page, int size,String name,String status,String type) {
         PageDTO<FoodDTO> pageDTO=new PageDTO();
         Integer offset=size*(page-1);//偏移量
@@ -134,6 +124,8 @@ public class FoodService {
         foodQueryDTO.setOffset(offset);
         foodQueryDTO.setSize(size);
         if (name.equals("全部"))name="^";
+        else name=stringToRegex(name);
+
         if (status.equals("全部"))status="^";
         if (type.equals("全部"))type="^";
         foodQueryDTO.setName(name);
@@ -154,4 +146,6 @@ public class FoodService {
     public void deleteFood(Long foodId) {
         foodMapper.deleteFood(foodId);
     }
+
+
 }

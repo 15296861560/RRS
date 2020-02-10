@@ -43,7 +43,7 @@
     <div class="container-fluid" style="background-color: #d9edf7;">
         <div class="list-group col-xs-3 col-md-3">
             <!--全部分类不在食物具体类型里故单独写出来，默认情况全部分类处于被选中状态-->
-            <a href="/book" th:class="${attribute.equals('type')?'list-group-item m-top':'list-group-item m-top bg-color-aqua'}">全部分类</a>
+            <a href="/food" th:class="${attribute.equals('type')?'list-group-item m-top':'list-group-item m-top bg-color-aqua'}">全部分类</a>
         </div>
             <div class="list-group col-xs-3 col-md-3" th:each="foodType:${foodTypeS}">
                 <a th:class="${foodType.getMessage().equals(classic)?'list-group-item m-top bg-color-aqua':'list-group-item m-top'}"
