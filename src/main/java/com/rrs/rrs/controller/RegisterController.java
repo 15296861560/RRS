@@ -22,7 +22,7 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String register(Model model){
-
+        model.addAttribute("backgroundPic", "/images/background/restaurant4.jpg");
         return "register";
     }
 

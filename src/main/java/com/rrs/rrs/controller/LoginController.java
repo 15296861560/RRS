@@ -31,6 +31,7 @@ public class LoginController {
         model.addAttribute("account","管理员账号:");
         model.addAttribute("pwd","管理员密码:");
         model.addAttribute("action","admin");
+        model.addAttribute("backgroundPic", "/images/background/restaurant4.jpg");
 
         return "login";
     }
@@ -64,6 +65,8 @@ public class LoginController {
         model.addAttribute("account","用户账号:");
         model.addAttribute("pwd","用户密码:");
         model.addAttribute("action","user");
+        model.addAttribute("backgroundPic", "/images/background/restaurant4.jpg");
+
 
         return "login";
     }
