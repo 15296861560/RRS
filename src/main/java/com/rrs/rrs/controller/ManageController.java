@@ -2,6 +2,7 @@ package com.rrs.rrs.controller;
 
 
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.model.Admin;
 import com.rrs.rrs.service.FoodService;
 import com.rrs.rrs.service.OrderService;
@@ -53,6 +54,8 @@ public class ManageController {
         if (validate(httpServletRequest)) return "redirect:/noLogin";
 
         PageDTO pageDTO=foodService.list(page,size);
+
+        model.addAttribute("foodTypeS", FoodTypeEnum.values());
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","menu");
 
@@ -72,6 +75,7 @@ public class ManageController {
         if (action.equals("toDown"))foodService.changeFoodStatus(foodId,"STOCKING");//改变食物状态为下架
 
         PageDTO pageDTO=foodService.list(1,5);
+        model.addAttribute("foodTypeS", FoodTypeEnum.values());
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","menu");
 

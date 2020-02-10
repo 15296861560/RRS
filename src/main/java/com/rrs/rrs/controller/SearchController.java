@@ -1,6 +1,7 @@
 package com.rrs.rrs.controller;
 
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.service.FoodService;
 import com.rrs.rrs.service.OrderService;
@@ -32,6 +33,7 @@ public class SearchController {
 
 
         PageDTO pageDTO=foodService.listSearch(1,5,name,status,type);
+        model.addAttribute("foodTypeS", FoodTypeEnum.values());
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","menu");
         return "manage";
