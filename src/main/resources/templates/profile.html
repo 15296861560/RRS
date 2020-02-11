@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="个人中心"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+
+</head>
+<body>
+
+<!--导航栏-->
+<div th:insert="~{navigation::nav}"></div>
+
+<div class="container-fluid main">
+
+    <ul class="nav nav-pills nav-justified">
+        <li role="presentation" ><a href="/food">菜品分类</a></li>
+        <li role="presentation" ><a href="/profile" class="purple">个人中心</a></li>
+        <li role="presentation"><a href="/about">关于本馆</a></li>
+    </ul>
+
+    <!--个人中心-->
+    <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人中心</h2>
+    <hr>
+    <!--个人资料-->
+    <div class="media col-xs-12 col-md-12">
+        <ul class="list-group">
+            <li class="list-group-item">会员姓名：<span th:text="${userDTO.userName}"></span><br></li>
+            <li class="list-group-item">注册时间：<span th:text="${#dates.format(userDTO.gmtCreate,'yyyy-MM-dd hh:mm')}"></span><br></li>
+            <li class="list-group-item">联系号码：
+                <span th:if="${userDTO.phone==null}"><a href="/profile/phone">点击绑定</a></span>
+                <span th:if="${userDTO.phone!=null}" th:text="${userDTO.phone}"></span></li>
+            <!--<li class="list-group-item"><a href="/profile/history">下单历史：</a><span th:text="${userDTO.history}"></span><br></li>-->
+        </ul>
+
+    </div>
+    </div>
+
+<div th:insert="~{footer::foot}"></div>
+
+</body>
+</html>

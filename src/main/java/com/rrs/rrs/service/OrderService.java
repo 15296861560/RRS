@@ -27,6 +27,8 @@ public class OrderService {
     @Autowired
     private SeatMapper seatMapper;
 
+
+
     //寻找订单
     //根据订单号
     public Order findOrderById(Long orderId){ return orderMapper.findById(orderId);}
@@ -81,5 +83,9 @@ public class OrderService {
         return orderDTOS;
     }
 
+    //撤销订单
+    public  void setStatusToRequestReturn(Long orderId) {
+
+    }
 
 }

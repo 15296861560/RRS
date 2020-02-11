@@ -85,11 +85,17 @@ public class UserService {
         List<User> users=userMapper.listAll(offset,size);//分页
         List<UserDTO> userDTOS=new ArrayList();
         for(User user:users){
-            UserDTO userDTO=new UserDTO();
-            BeanUtils.copyProperties(user,userDTO);//把user的所有相同属性拷贝到userDTO上面
+            UserDTO userDTO=userToDTO(user);
             userDTOS.add(userDTO);
         }
         pageDTO.setDataDTOS(userDTOS);
         return pageDTO;
+    }
+
+    //将user对象转换为userDTO对象
+    public UserDTO userToDTO(User user) {
+        UserDTO userDTO=new UserDTO();
+        BeanUtils.copyProperties(user,userDTO);//把user的所有相同属性拷贝到userDTO上面
+        return userDTO;
     }
 }
