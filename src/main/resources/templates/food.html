@@ -58,7 +58,7 @@
         <div class="container-fluid">
             <div class="media col-xs-6 col-md-4"  th:each="foodDTO:${pageDTO.getDataDTOS()}">
                 <!--食物图片-->
-                <div class="media-left">
+                <div class="media-heading">
                     <a th:href="@{'/food/'+${foodDTO.foodId}}">
                         <img class="media-object" th:src="${foodDTO.foodUrl}" height="165" width="120">
                     </a>
@@ -68,9 +68,24 @@
                         <a th:href="@{'/food/'+${foodDTO.foodId}}" th:text="${foodDTO.foodName}"></a>
                     </h3>
                     <span class="text-gray-small">
-                        食物价格：<span th:text="${foodDTO.price}">元</span><br>
+                        食物价格：<span th:text="${foodDTO.price+'元'}" style="color: red"></span><br>
                         食物类型:<span th:text="${foodDTO.type}"></span><br>
-                </span>
+                    </span>
+
+                    <form role="form" class="form-inline" action="/uploadSeat" method="post">
+                        <div class="form-group">
+                            <label for="num" >预订数量:</label>
+                            <select  id="num" name="num">
+                                <div th:each="i:${#numbers.sequence(1, 100)}">
+                                    <option th:text="${i}"></option>
+                                </div>
+                            </select>
+
+                        </div>
+                        <br><button class="btn btn-info">加入订单</button>
+
+                    </form>
+
 
                 </div>
             </div>
