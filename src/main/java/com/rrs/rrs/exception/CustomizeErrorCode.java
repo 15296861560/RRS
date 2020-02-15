@@ -6,6 +6,7 @@ public enum  CustomizeErrorCode {
     REGISTER_FAIL_PHONE_REGISTERED(1002,"注册失败，该手机号已注册，请直接登录!"),
     LOGIN_FAIL(1003,"登录失败，用户账号或密码错误，请重新尝试!"),
     NO_LOGIN(1004,"您还未登录无法进行该操作，请登录后重试！"),
+    FAIL_TO_ORDER(100,"加入订单失败！"),
     FOOD_NOT_FOUND(2001,"您找的菜品不存在，请换一个试试吧!"),
     FOOD_UPLOAD_FAIL(2002,"菜品上传失败!"),
     FILE_UPLOAD_FAIL(2002,"文件上传失败!"),

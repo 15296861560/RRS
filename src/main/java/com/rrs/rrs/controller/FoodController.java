@@ -1,19 +1,24 @@
 package com.rrs.rrs.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.FoodDTO;
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.enums.FoodStatusEnum;
 import com.rrs.rrs.enums.FoodTypeEnum;
+import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.model.Food;
+import com.rrs.rrs.model.User;
+import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.FoodService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -21,6 +26,8 @@ public class FoodController {
 
     @Autowired
     FoodService foodService;
+    @Autowired
+    BasketService basketService;
 
 
     @GetMapping("/food")
@@ -53,6 +60,26 @@ public class FoodController {
         foodDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());
         model.addAttribute("foodDTO",foodDTO);
         return "singleFood";
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/toOrder",method = RequestMethod.POST)
+    public Object toOrder(@RequestBody JSONObject dataJson,
+                         HttpServletRequest request){
+        Long foodId=Long.parseLong(dataJson.getString("foodId"));//从json中获取食物id并将其转为Long类型
+        Integer number=Integer.parseInt(dataJson.getString("number"));//从json中获取数量并将其转换为Integ类型
+        User user=(User)request.getSession().getAttribute("user");//从session中获取登录用户信息
+
+        //加入订单
+        Long userId=user.getUserId();
+        boolean flag=basketService.toOrder(foodId,number,userId);
+
+        if (flag){
+//            加入订单成功
+            return ResultDTO.okOf();
+        }
+        else return ResultDTO.errorOf(CustomizeErrorCode.FAIL_TO_ORDER);
     }
 
 
