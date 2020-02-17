@@ -45,6 +45,8 @@ public class FoodController {
         model.addAttribute("foodTypeS", FoodTypeEnum.values());//食物所有类型的枚举
         model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别
         model.addAttribute("search", search);
+        model.addAttribute("nav","food");
+
         //如果是以类别的方式显示则把具体类别传到前端
         if ("type".equals(attribute)) model.addAttribute("classic", FoodTypeEnum.valueOf(search).getMessage());
         return "food";

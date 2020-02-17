@@ -17,11 +17,8 @@
 
 <div class="container-fluid main">
 
-    <ul class="nav nav-pills nav-justified">
-        <li role="presentation" ><a href="/food">菜品分类</a></li>
-        <li role="presentation" ><a href="/profile" class="purple">个人中心</a></li>
-        <li role="presentation"><a href="/about">关于本馆</a></li>
-    </ul>
+    <div th:insert="~{main-nav::main-nav}"></div>
+
 
     <!--个人中心-->
     <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人中心</h2>

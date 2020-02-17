@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="个人中心"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+
+</head>
+<body>
+
+<!--导航栏-->
+<div th:insert="~{navigation::nav}"></div>
+
+<div class="container-fluid main">
+
+    <ul class="nav nav-pills nav-justified">
+        <li role="presentation" ><a href="/food">菜品分类</a></li>
+        <li role="presentation" ><a href="/profile" class="purple">个人中心</a></li>
+        <li role="presentation"><a href="/about">关于本馆</a></li>
+    </ul>
+
+    <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 已选菜品</h2>
+    <hr>
+    <!--已选菜品-->
+    <div class="col-sm-10">
+
+        <div id="accordion" class="panel panel-default ">
+            <!--搜索-->
+            <div class="panel-heading" >
+                搜索
+            </div>
+
+                <div class="panel-body">
+                    <form role="form" class="form-inline" action="/admin_search_food" method="post">
+                        <div class="form-group">
+                            <label for="name">名称</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="请输入名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="type">类型</label>
+                            <select class="form-control" id="type" name="type">
+                                <option>全部</option>
+                                <option>饮料</option>
+                                <option>炒菜</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">开始搜索</button>
+                        </div>
+                    </form>
+                </div>
+
+        </div>
+
+
+        <!--
+            列表展示
+        -->
+        <div class="table-responsive">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th>食物编号</th>
+                    <th>食物图片</th>
+                    <th>食物名称</th>
+                    <th>预订数量</th>
+                    <th>单价</th>
+                    <th>小计</th>
+                    <th>食物类型</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="basketDetailDTO:${pageDTO.getDataDTOS()}">
+                    <td><span th:text="${basketDetailDTO.foodId}"></span></td>
+                    <td>
+                        <img th:src="${basketDetailDTO.foodUrl}" class="img-thumbnail" style="height: 30px;" />
+                    </td>
+                    <td><span th:text="${basketDetailDTO.foodName}"></span></td>
+                    <td><span th:text="${basketDetailDTO.qty}"></span>份</td>
+                    <td><span th:text="${basketDetailDTO.price}"></span>元</td>
+                    <td><span th:text="${basketDetailDTO.subtotal}"></span>元</td>
+                    <td><span th:text="${basketDetailDTO.type}"></span></td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{/manage/menu/toUp/(foodId=${basketDetailDTO.foodId})}" class="btn btn-success"  >修改数量</a>
+                            <a th:href="@{/manage/menu/delete/(foodId=${basketDetailDTO.foodId})}" class="btn btn-danger" >删除</a>
+                        </div>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页-->
+        <ul class="pagination" style="float: right;">
+            <li th:if="${pageDTO.showFirst}">
+                <a th:href="@{/manage/(page=1,search=${search})}" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li th:if="${pageDTO.showPre}">
+                <a th:href="@{/manage/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+            <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/manage/(page=${page},search=${search})}" th:text="${page}" ></a></li>
+
+            <li th:if="${pageDTO.showNext}">
+                <a th:href="@{/manage/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:if="${pageDTO.showEnd}">
+                <a th:href="@{/manage/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+
+            </li>
+        </ul>
+
+
+        <button class="btn btn-success" style="float: right;">提交订单</button>
+
+    </div>
+
+
+
+</div>
+
+<div th:insert="~{footer::foot}"></div>
+
+</body>
+</html>

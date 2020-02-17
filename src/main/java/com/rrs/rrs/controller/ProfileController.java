@@ -1,13 +1,17 @@
 package com.rrs.rrs.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.rrs.rrs.dto.BasketDetailDTO;
+import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.exception.CustomizeErrorCode;
+import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.Food;
 import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.provider.ZhenziProvider;
+import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,8 @@ public class ProfileController {
     OrderService orderService;
     @Autowired
     ZhenziProvider zhenziProvider;
+    @Autowired
+    BasketService basketService;
 
     @GetMapping("/profile")
     public String displayProfile(Model model,
@@ -40,8 +46,25 @@ public class ProfileController {
         UserDTO userDTO=userService.userToDTO(user);
 
         model.addAttribute("userDTO",userDTO);
+        model.addAttribute("nav","profile");
 
         return "profile";
+    }
+
+    //已选菜品
+    @GetMapping("/profile/basket")
+    public String basket(Model model,
+                                 HttpServletRequest httpServletRequest){
+        User user=(User)httpServletRequest.getSession().getAttribute("user");
+        if (user==null){//未登录
+            return "redirect:/noLogin";
+        }
+
+        PageDTO<BasketDetailDTO> pageDTO=basketService.listBasketDetail(1,9,user.getUserId());//获取购物车细节信息
+        model.addAttribute("pageDTO",pageDTO);
+
+        model.addAttribute("nav","profile");
+        return "shopcart";
     }
 
 //    @GetMapping("/profile/history")

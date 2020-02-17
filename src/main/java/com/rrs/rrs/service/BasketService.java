@@ -1,13 +1,20 @@
 package com.rrs.rrs.service;
 
+import com.rrs.rrs.dto.BasketDetailDTO;
+import com.rrs.rrs.dto.FoodDTO;
+import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.mapper.BasketDetailMapper;
 import com.rrs.rrs.mapper.BasketMapper;
+import com.rrs.rrs.mapper.FoodMapper;
 import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.BasketDetail;
 import com.rrs.rrs.model.Food;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +24,7 @@ public class BasketService {
     @Autowired
     private BasketDetailMapper basketDetailMapper;
     @Autowired
-    private FoodService foodService;
+    private FoodMapper foodMapper;
 
     public boolean toOrder(Long foodId, Integer number,Long userId) {
 
@@ -65,7 +72,7 @@ public class BasketService {
 
         }
         //某种食物加入订单后
-        Food food=foodService.findFoodById(foodId);
+        Food food=foodMapper.findById(foodId);
         //修改支付金额
         double payment=basket.getPayment()+food.getPrice()*number;
         basket.setPayment(payment);
@@ -75,5 +82,39 @@ public class BasketService {
         return true;
 
 
+    }
+
+    //对购物车细节进行分页处理
+    public PageDTO listBasketDetail(int page, int size,Long userId) {
+        List<BasketDetailDTO> basketDetailDTOS=getBasketDetail(userId);//获取购物车细节信息
+        PageDTO<BasketDetailDTO> pageDTO=new PageDTO();
+
+        Integer offset=size*(page-1);//偏移量
+        Integer totalCount=basketDetailDTOS.size();//总数目
+        pageDTO.setPageDTO(totalCount,page,size);
+        pageDTO.setDataDTOS(basketDetailDTOS);
+        return pageDTO;
+
+    }
+
+
+        //获取购物车细节并将其转换为DTO
+    private List<BasketDetailDTO> getBasketDetail(Long userId) {
+        Basket basket=basketMapper.findByUserId(userId);//获取该用户的购物车
+        List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basket.getBasketId());//获取该用户所有的购物车细节
+        //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
+        List<BasketDetailDTO> basketDetailDTOS=new ArrayList<>();
+        for (BasketDetail basketDetail:basketDetails) {
+            BasketDetailDTO basketDetailDTO=new BasketDetailDTO();
+            Food food=foodMapper.findById(basketDetail.getFoodId());
+            BeanUtils.copyProperties(food,basketDetailDTO);//把food的属性拷贝到BasketDetailDTO上面
+            int qty=basketDetail.getQty();//数量
+            basketDetailDTO.setQty(qty);
+            basketDetailDTO.setSubtotal(food.getPrice()*qty);//小计
+            basketDetailDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());//将类型转转换成中文
+            basketDetailDTOS.add(basketDetailDTO);
+        }
+
+        return basketDetailDTOS;
     }
 }

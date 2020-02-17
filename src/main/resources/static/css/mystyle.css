@@ -70,3 +70,8 @@ body {
 .m-top-30{
     margin-top: 30px;
 }
+
+.nav .active{color: #cfb2f6;}
+
+box-btn{padding-left: 52px;}
+

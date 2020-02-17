@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>个人中心</title>
+  <link rel="stylesheet"  href="/css/main.css">
+  <link rel="stylesheet"  href="/layui/css/layui.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/mystyle.css">
+  <script src="/js/jquery-3.4.1.min.js" ></script>
+  <script src="/js/bootstrap.js" type="application/javascript"></script>
+  <script type="text/javascript" src="/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+    <!--导航栏-->
+    <div th:insert="~{navigation::nav}"></div>
+
+
+
+  <div class="content content-nav-base shopcart-content" style="background-color: #FFFFFF">
+    <div th:insert="~{main-nav::main-nav}"></div>
+
+
+    <div class="cart w1200">
+      <div class="cart-table-th">
+        <div class="th th-chk">
+          <div class="select-all">
+            <div class="cart-checkbox">
+              <input class="check-all check" id="allCheckked" type="checkbox" value="true">
+            </div>
+          <label>&nbsp;&nbsp;全选</label>
+          </div>
+        </div>
+        <div class="th th-item">
+          <div class="th-inner">
+            食物名称
+          </div>
+        </div>
+        <div class="th th-price">
+          <div class="th-inner">
+            单价
+          </div>
+        </div>
+        <div class="th th-amount">
+          <div class="th-inner">
+            数量
+          </div>
+        </div>
+        <div class="th th-sum">
+          <div class="th-inner">
+            小计
+          </div>
+        </div>
+        <div class="th th-op">
+          <div class="th-inner">
+            操作
+          </div>
+        </div>  
+      </div>
+
+
+      <div class="OrderList">
+        <div class="order-content" id="list-cont">
+          <ul class="item-content layui-clear" th:each="basketDetailDTO:${pageDTO.getDataDTOS()}">
+            <li class="th th-chk">
+              <div class="select-all">
+                <div class="cart-checkbox">
+                  <input class="CheckBoxShop check"  type="checkbox" num="all" name="select-all" value="true">
+                </div>
+              </div>
+            </li>
+
+            <li class="th th-item">
+              <div class="item-cont">
+                <a href="javascript:;"><img th:src="${basketDetailDTO.foodUrl}" class="img-thumbnail" alt=""></a>
+                <div class="text">
+                  <div class="title" th:text="${basketDetailDTO.foodName}"></div>
+                  <p><span>备注</span>
+                </div>
+              </div>
+            </li>
+            <li class="th th-price">
+              <span class="th-su" th:text="${basketDetailDTO.price}"></span>
+            </li>
+            <li class="th th-amount">
+              <div class="box-btn layui-clear">
+                <div class="less layui-btn">-</div>
+                <input class="Quantity-input" type="" name="" th:value="${basketDetailDTO.qty}" disabled="disabled">
+                <div class="add layui-btn">+</div>
+              </div>
+            </li>
+            <li class="th th-sum">
+              <span class="sum" th:text="${basketDetailDTO.price}"></span>
+            </li>
+            <li class="th th-op">
+              <span class="dele-btn">删除</span>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+
+
+
+      <div class="FloatBarHolder layui-clear">
+        <div class="th th-chk">
+          <div class="select-all">
+            <div class="cart-checkbox">
+              <input class="check-all check" id="" name="select-all" type="checkbox"  value="true">
+            </div>
+            <label>&nbsp;&nbsp;已选<span class="Selected-pieces">0</span>件</label>
+          </div>
+        </div>
+        <div class="th batch-deletion">
+          <span class="batch-dele-btn">批量删除</span>
+        </div>
+        <div class="th Settlement">
+          <button class="layui-btn">结算</button>
+        </div>
+        <div class="th total">
+          <p>应付：<span class="pieces-total">0</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+  layui.config({
+    base: '/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['mm','jquery','element','car'],function(){
+    var mm = layui.mm,$ = layui.$,element = layui.element,car = layui.car;
+
+    car.init()
+
+
+});
+</script>
+
+</body>
+</html>
