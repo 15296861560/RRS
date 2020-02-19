@@ -29,38 +29,37 @@
     <div class="col-sm-2 ">
         <div id="#accordion" >
             <ul class="list-group margin-bottom-25 nav" >
-                <a class="list-group-item" collapsed data-toggle="collapse" href="#collapse1"  >全部分类</a>
-                <div id="collapse1" class="collapse" data-parent="#accordion">
-                        <a class="list-group-item">全部分类1</a>
-                </div>
+                <a th:class="${attribute.equals('type')?'list-group-item bg-color-aqua':'list-group-item bgBule'}"  href="/food"  >全部分类</a>
 
-                <a class="list-group-item" collapsed data-toggle="collapse" href="#A">主菜</a>
-                <div id="A" class="collapse " data-parent="#accordion" >
+
+                <a class="list-group-item bgBlue" collapsed data-toggle="collapse" href="#A">主菜</a>
+                <div id="A" class="collapse b " data-parent="#accordion" >
                     <div th:each="foodType:${foodTypeS.get(0)}">
-                        <a class="list-group-item"  th:text="${foodType.getMessage()}"></a>
+                        <a th:class="${foodType.getMessage().equals(classic)?'list-group-item active':'list-group-item'}" th:href="@{/food(attribute='type',search=${foodType.getType()})}"  th:text="${foodType.getMessage()}"></a>
                     </div>
                 </div>
 
-                <a class="list-group-item" collapsed data-toggle="collapse" href="#B">配菜</a>
+                <a class="list-group-item bgBlue" collapsed data-toggle="collapse" href="#B">配菜</a>
                 <div id="B" class="collapse " data-parent="#accordion" >
                     <div th:each="foodType:${foodTypeS.get(1)}">
-                        <a class="list-group-item"  th:text="${foodType.getMessage()}"></a>
+                        <a th:class="${foodType.getMessage().equals(classic)?'list-group-item active':'list-group-item'}" th:href="@{/food(attribute='type',search=${foodType.getType()})}"  th:text="${foodType.getMessage()}"></a>
                     </div>
                 </div>
 
-                <a class="list-group-item" collapsed data-toggle="collapse" href="#C">主食</a>
+                <a class="list-group-item bgBlue" collapsed data-toggle="collapse" href="#C">主食</a>
                 <div id="C" class="collapse " data-parent="#accordion" >
                     <div th:each="foodType:${foodTypeS.get(2)}">
-                        <a class="list-group-item"  th:text="${foodType.getMessage()}"></a>
+                        <a th:class="${foodType.getMessage().equals(classic)?'list-group-item active':'list-group-item'}" th:href="@{/food(attribute='type',search=${foodType.getType()})}" th:text="${foodType.getMessage()}"></a>
                     </div>
                 </div>
 
-                <a class="list-group-item" collapsed data-toggle="collapse" href="#D">饮品</a>
+                <a class="list-group-item bgBlue" collapsed data-toggle="collapse" href="#D">饮品</a>
                 <div id="D" class="collapse " data-parent="#accordion" >
                     <div th:each="foodType:${foodTypeS.get(3)}">
-                        <a class="list-group-item"  th:text="${foodType.getMessage()}"></a>
+                        <a th:class="${foodType.getMessage().equals(classic)?'list-group-item active':'list-group-item'}"  th:href="@{/food(attribute='type',search=${foodType.getType()})}" th:text="${foodType.getMessage()}"></a>
                     </div>
                 </div>
+
 
 
             </ul>

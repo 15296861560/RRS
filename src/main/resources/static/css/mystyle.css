@@ -45,6 +45,10 @@ body {
     background-color: white;
 }
 
+.bgBlue{
+    background-color: #00FFFF;
+}
+
 .test{
     color: mediumpurple;
 }
