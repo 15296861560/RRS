@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -41,8 +43,12 @@ public class FoodController {
         if ("name".equals(attribute)&&search==null)pageDTO=foodService.listByStatus(page,size,"GOOD");//默认情况下
         else if ("name".equals(attribute))pageDTO=foodService.listByName(page,size,search);
         else if ("type".equals(attribute))pageDTO=foodService.listByType(page,size,search);
+
+        //将食物类别再分类
+        List list=FoodTypeEnum.valueOf("E").listByClassify();
+
         model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("foodTypeS", FoodTypeEnum.values());//食物所有类型的枚举
+        model.addAttribute("foodTypeS", list);//食物所有类型的枚举
         model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别
         model.addAttribute("search", search);
         model.addAttribute("nav","food");

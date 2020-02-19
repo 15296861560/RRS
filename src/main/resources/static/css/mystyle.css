@@ -41,6 +41,10 @@ body {
     background-color: black;
 }
 
+.bgWhile{
+    background-color: white;
+}
+
 .test{
     color: mediumpurple;
 }
@@ -74,4 +78,6 @@ body {
 .nav .active{color: #cfb2f6;}
 
 box-btn{padding-left: 52px;}
+
+
 

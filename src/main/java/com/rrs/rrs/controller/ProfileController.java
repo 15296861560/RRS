@@ -32,8 +32,7 @@ public class ProfileController {
     OrderService orderService;
     @Autowired
     ZhenziProvider zhenziProvider;
-    @Autowired
-    BasketService basketService;
+
 
     @GetMapping("/profile")
     public String displayProfile(Model model,
@@ -51,21 +50,7 @@ public class ProfileController {
         return "profile";
     }
 
-    //已选菜品
-    @GetMapping("/profile/basket")
-    public String basket(Model model,
-                                 HttpServletRequest httpServletRequest){
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        if (user==null){//未登录
-            return "redirect:/noLogin";
-        }
 
-        PageDTO<BasketDetailDTO> pageDTO=basketService.listBasketDetail(1,9,user.getUserId());//获取购物车细节信息
-        model.addAttribute("pageDTO",pageDTO);
-
-        model.addAttribute("nav","profile");
-        return "shopcart";
-    }
 
 //    @GetMapping("/profile/history")
 //    public String displayHistory(Model model,
@@ -116,6 +101,7 @@ public class ProfileController {
         return "phone";
     }
 
+    //修改手机号码
     @ResponseBody//把页面转化成其它结构
     @RequestMapping(value = "/profile/phone",method = RequestMethod.POST)
     public Object post(@RequestBody String data,

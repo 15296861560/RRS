@@ -4,44 +4,32 @@ function apply(e) {
     window.location.href="/profile/apply/"+orderId;
 }
 
-function verify() {
-    var phone=document.getElementById("phone").value;
-    var send=document.getElementById("send");
+function settle(e) {
     $.ajax({
         type: "POST",
-        url: "/profile/phone",
+        url: "/Settle",
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
-            "phone": phone,
-            "action": "verify"
+            "seatId": 2,
+            "gmtOrder": 1580553242827,
+            "action": "order"
         }),
         success: function (response) {
-            if (response.code == 200) {//发送验证码成功
-                send.innerText = "验证码发送成功请进行验证";
+            if (response.code == 200) {//预约成功
+                window.location.href="/profile/basket";
+                Swal.fire({
+                    icon: 'success',
+                    title: '结算成功！',
+                    text: '祝您用餐愉快☺',
+                });
             } else {
-                send.innerText = "验证码发送失败请重新尝试";
+                Swal.fire({
+                    icon: 'error',
+                    title: '结算失败！',
+                    text: '请重新尝试！',
+                });
             }
         }
     });
 }
 
-function check() {
-    var phone=document.getElementById("phone").value;
-    var verifyCode=document.getElementById("verifyCode").value;
-    $.ajax({
-        type: "POST",
-        url: "/profile/phone/verify",
-        contentType: 'application/json',
-        data: JSON.stringify({//将json对象转换成字符串
-            "phone": phone,
-            "verifyCode": verifyCode
-        }),
-        success: function (response) {
-            if (response.code == 200) {//验证成功，跳转到个人资料页面
-                window.open("/profile");
-            } else {
-                alert("验证失败,请重新尝试");
-            }
-        }
-    });
-}

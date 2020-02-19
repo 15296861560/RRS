@@ -1,15 +1,20 @@
 package com.rrs.rrs.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum FoodTypeEnum {
-    A("A","小炒"),
-    B("B","蒸菜"),
-    C("C","凉菜"),
-    D("D","甜点"),
-    E("E","汤类"),
-    F("F","主食"),
-    G("G","海鲜"),
-    H("H","美酒"),
-    I("I","饮料");
+    AA("AA","小炒"),
+    AB("AB","蒸菜"),
+    BC("BC","凉菜"),
+    BD("BD","甜点"),
+    BE("BE","汤类"),
+    CF("CF","米饭"),
+    AG("AG","海鲜"),
+    DH("DH","美酒"),
+    DI("DI","饮料"),
+    CJ("CJ","粉面"),
+    E("E","其它");
 
 
     private String type;
@@ -26,5 +31,37 @@ public enum FoodTypeEnum {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getClassify(){
+        char classify=type.charAt(0);
+        if (classify=='A')return "主菜";
+        else if (classify=='B')return "配菜";
+        else if (classify=='C')return "主食";
+        else if (classify=='D')return "饮品";
+        else return "其它";
+    }
+
+    public List listByClassify(){
+        FoodTypeEnum[] foodTypeEnums=FoodTypeEnum.values();
+        List A=new ArrayList();
+        List B=new ArrayList();
+        List C=new ArrayList();
+        List D=new ArrayList();
+        List E=new ArrayList();
+        List list=new ArrayList();
+        for (FoodTypeEnum foodType:foodTypeEnums) {
+            if (foodType.getClassify().equals("主菜"))A.add(foodType);
+            else if (foodType.getClassify().equals("配菜"))B.add(foodType);
+            else if (foodType.getClassify().equals("主食"))C.add(foodType);
+            else if (foodType.getClassify().equals("饮品"))D.add(foodType);
+            else E.add(foodType);
+        }
+        list.add(A);
+        list.add(B);
+        list.add(C);
+        list.add(D);
+        list.add(E);
+        return list;
     }
 }

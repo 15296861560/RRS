@@ -1,6 +1,7 @@
 package com.rrs.rrs.mapper;
 
 import com.rrs.rrs.model.Order;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -10,6 +11,12 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
+
+    //创建订单
+    @Insert("insert into order_table(user_id,seat_id,gmt_order,content,amount,order_status) " +
+            "values(#{userId},#{seatId},#{gmtOrder},#{content},#{amount},#{orderStatus})")
+    void createOrder(Order order);
+
     //根据订单号查找订单
     @Select("select * from order_table where order_id=#{orderId}")
     Order findById(@Param("orderId") Long orderId);

@@ -7,9 +7,11 @@ import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.mapper.BasketDetailMapper;
 import com.rrs.rrs.mapper.BasketMapper;
 import com.rrs.rrs.mapper.FoodMapper;
+import com.rrs.rrs.mapper.OrderMapper;
 import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.BasketDetail;
 import com.rrs.rrs.model.Food;
+import com.rrs.rrs.model.Order;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class BasketService {
     private BasketDetailMapper basketDetailMapper;
     @Autowired
     private FoodMapper foodMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     public boolean toOrder(Long foodId, Integer number,Long userId) {
 
@@ -107,14 +111,42 @@ public class BasketService {
         for (BasketDetail basketDetail:basketDetails) {
             BasketDetailDTO basketDetailDTO=new BasketDetailDTO();
             Food food=foodMapper.findById(basketDetail.getFoodId());
-            BeanUtils.copyProperties(food,basketDetailDTO);//把food的属性拷贝到BasketDetailDTO上面
+            BeanUtils.copyProperties(basketDetail,basketDetailDTO);//把basketDetail的相同属性拷贝到BasketDetailDTO上面
+            BeanUtils.copyProperties(food,basketDetailDTO);//把food的相同属性拷贝到BasketDetailDTO上面
             int qty=basketDetail.getQty();//数量
-            basketDetailDTO.setQty(qty);
             basketDetailDTO.setSubtotal(food.getPrice()*qty);//小计
             basketDetailDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());//将类型转转换成中文
             basketDetailDTOS.add(basketDetailDTO);
         }
 
         return basketDetailDTOS;
+    }
+
+    //订单结算
+    public boolean settle(Long userId,String gmtOrder,Integer seatId) {
+       Basket basket= basketMapper.findByUserId(userId);
+       Long basketId=basket.getBasketId();
+       if (basket.getUserId().equals(userId)){//是本人进行结算则进行结算操作
+
+           //创建订单
+           Order order=new Order();
+           order.setUserId(userId);
+           order.setSeatId(seatId);
+           order.setAmount(basket.getPayment());
+           order.setGmtOrder(1l);
+           order.setOrderStatus("APPLYING");
+           List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basketId);
+           order.setContent(basketDetails.toString());
+           orderMapper.createOrder(order);
+
+           basketMapper.changeBasketStatus(basketId,"false");//更改购物车状态
+           basketDetailMapper.deleteBasketDetailByBasketId(basketId);//所有该购物车的食物
+
+           return true;
+       }else {
+           return false;
+
+       }
+
     }
 }
