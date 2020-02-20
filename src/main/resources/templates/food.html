@@ -112,8 +112,8 @@
 
                     <form role="form" class="form-inline">
                         <div class="form-group">
-                            <label for="num" >预订数量:</label>
-                            <select  id="num" name="num">
+                            <label  >预订数量:</label>
+                            <select  th:id="${'num-'+foodDTO.foodId}">
                                 <div th:each="i:${#numbers.sequence(1, 100)}">
                                     <option th:text="${i}"></option>
                                 </div>

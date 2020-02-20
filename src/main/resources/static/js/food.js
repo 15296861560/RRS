@@ -1,6 +1,7 @@
 function toOrder(e) {
-    var number=document.getElementById("num").value;
+    // var number=document.getElementById("num").value;
     var foodId=e.getAttribute("data-id");
+    var number=$("#num-"+foodId).val();
     var foodName=e.getAttribute("data-name");
     $.ajax({
         type: "POST",
