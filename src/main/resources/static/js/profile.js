@@ -11,7 +11,7 @@ function settle(e) {
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
             "seatId": 2,
-            "gmtOrder": 1580553242827,
+            "orderTime": 1580553242827,
             "action": "order"
         }),
         success: function (response) {

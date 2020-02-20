@@ -13,8 +13,8 @@ import java.util.List;
 public interface OrderMapper {
 
     //创建订单
-    @Insert("insert into order_table(user_id,seat_id,gmt_order,content,amount,order_status) " +
-            "values(#{userId},#{seatId},#{gmtOrder},#{content},#{amount},#{orderStatus})")
+    @Insert("insert into order_table(user_id,seat_id,order_time,content,amount,order_status) " +
+            "values(#{userId},#{seatId},#{orderTime},#{content},#{amount},#{orderStatus})")
     void createOrder(Order order);
 
     //根据订单号查找订单
@@ -30,6 +30,6 @@ public interface OrderMapper {
     Integer orderCount();
 
     //对所有订单进行分页处理
-    @Select("select * from order_table order by gmt_order limit #{offset},#{size}")
+    @Select("select * from order_table order by order_time limit #{offset},#{size}")
     List<Order> list(@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
 }

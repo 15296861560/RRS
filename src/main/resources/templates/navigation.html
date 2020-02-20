@@ -28,7 +28,7 @@
                 <!--查询餐位-->
                 <form class="navbar-form navbar-left" action="/seat/find" method="post">
                     <div class="form-group">
-                        <input type='text' class="form-control" id='datetime' />
+                        <input type="text" class="form-control" id="datetime" name="datetime"/>
                     </div>
                     <button type="submit" class="btn btn-default">查询餐位</button>
                 </form>
@@ -36,7 +36,7 @@
                 <script>
                     $(function() {
                         $("#datetime").datetimepicker({
-                            format: 'YYYY-MM-DD hh:mm',
+                            format: 'YYYY-MM-DD HH:mm',
                             locale: moment.locale('zh-cn')
                         });
                     });

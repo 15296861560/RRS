@@ -62,5 +62,15 @@ public class SearchController {
         return "manage";
     }
 
+    //用户根据时间查询座位
+    @PostMapping("/seat/find")
+    public String searchSeat(Model model,
+                                   @RequestParam(value ="datetime",required = false)String datetime){
 
+        System.out.println(datetime);
+//        PageDTO pageDTO=seatService.listSearchStatus(1,5,status);
+//        model.addAttribute("pageDTO",pageDTO);
+//        model.addAttribute("section","seat");
+        return "index";
+    }
 }

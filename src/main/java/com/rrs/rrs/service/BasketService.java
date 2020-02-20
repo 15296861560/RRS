@@ -123,7 +123,7 @@ public class BasketService {
     }
 
     //订单结算
-    public boolean settle(Long userId,String gmtOrder,Integer seatId) {
+    public boolean settle(Long userId,String orderTime,Integer seatId) {
        Basket basket= basketMapper.findByUserId(userId);
        Long basketId=basket.getBasketId();
        if (basket.getUserId().equals(userId)){//是本人进行结算则进行结算操作
@@ -133,7 +133,7 @@ public class BasketService {
            order.setUserId(userId);
            order.setSeatId(seatId);
            order.setAmount(basket.getPayment());
-           order.setGmtOrder(1l);
+           order.setOrderTime("2020-02-20 16:17");
            order.setOrderStatus("APPLYING");
            List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basketId);
            order.setContent(basketDetails.toString());

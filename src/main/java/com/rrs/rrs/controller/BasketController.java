@@ -43,12 +43,12 @@ public class BasketController {
                           HttpServletRequest request){
         //从json中获取信息并将其转为对应类型
         Integer seatId=Integer.parseInt(dataJson.getString("seatId"));
-        String gmtOrder=dataJson.getString("gmtOrder");
+        String orderTime=dataJson.getString("orderTime");
 
         User user=(User)request.getSession().getAttribute("user");//从session中获取登录用户信息
 
         Long userId=user.getUserId();
-        boolean flag=basketService.settle(userId,gmtOrder,seatId);
+        boolean flag=basketService.settle(userId,orderTime,seatId);
 
         if (flag){
 //            加入订单成功
