@@ -17,6 +17,8 @@ public class WebConfig implements WebMvcConfigurer {
     private SessionInterceptor sessionInterceptor;
     @Autowired
     private UserInterceptor userInterceptor;
+    @Autowired
+    private AdminInterceptor adminInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
@@ -24,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
         List<String> paths=new ArrayList();
         paths.add("/profile/**");
         registry.addInterceptor(userInterceptor).addPathPatterns(paths);
-        registry.addInterceptor(userInterceptor).addPathPatterns("/manage/**");
+        registry.addInterceptor(adminInterceptor).addPathPatterns("/manage/**");
 
     }
 }
