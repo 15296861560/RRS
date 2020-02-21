@@ -58,6 +58,7 @@ public class UploadController {
 
         model.addAttribute("fileDTO",fileDTO.getMessage());
         PageDTO pageDTO=foodService.list(1,5);
+        model.addAttribute("foodTypeS", FoodTypeEnum.values());
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","menu");
 
