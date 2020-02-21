@@ -79,7 +79,8 @@
                         <td><span th:text="${seat.seatStatus}"></span></td>
                         <td>
                             <div class="btn-group">
-                                <a th:href="@{/manage/seat/toOrder/(seatId=${seat.seatId})}" class="btn btn-info">预订</a>
+                                <!--<a th:href="@{/manage/seat/toOrderSeat/(seatId=${seat.seatId})}"  class="btn btn-info">预订</a>-->
+                                <button th:data-id="${seat.seatId}" onclick="toOrderSeat(this)" class="btn btn-info">预订</button>
                             </div>
 
                         </td>
@@ -92,25 +93,25 @@
             <!--分页-->
             <ul class="pagination" style="float: right;">
                 <li th:if="${pageDTO.showFirst}">
-                    <a th:href="@{/seat/find/(page=1)}" aria-label="First">
+                    <a th:href="@{/seat/find/(page=1,datetime=${datetime})}" aria-label="First">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
 
                 <li th:if="${pageDTO.showPre}">
-                    <a th:href="@{/seat/find/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
+                    <a th:href="@{/seat/find/(page=${pageDTO.currentPage - 1},datetime=${datetime})}" aria-label="Pre">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
-                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/seat/find/(page=${page},search=${search})}" th:text="${page}" ></a></li>
+                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/seat/find/(page=${page},datetime=${datetime})}" th:text="${page}" ></a></li>
 
                 <li th:if="${pageDTO.showNext}">
-                    <a th:href="@{/seat/find/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
+                    <a th:href="@{/seat/find/(page=${pageDTO.currentPage+1},datetime=${datetime})}" aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
                 <li th:if="${pageDTO.showEnd}">
-                    <a th:href="@{/seat/find/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                    <a th:href="@{/seat/find/(page=${pageDTO.totalPage},datetime=${datetime})}" aria-label="End">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
 

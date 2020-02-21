@@ -73,6 +73,7 @@ public class SearchController {
         System.out.println(datetime);
         PageDTO pageDTO=seatService.listSearchStatus(page,size,"空");
         model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("datetime",datetime);
         model.addAttribute("nav","food");
         return "seat-find";
     }
