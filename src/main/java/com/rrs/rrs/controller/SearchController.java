@@ -10,6 +10,7 @@ import com.rrs.rrs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -63,12 +64,14 @@ public class SearchController {
     }
 
     //用户根据时间查询座位
-    @PostMapping("/seat/find")
+    @GetMapping("/seat/find")
     public String searchSeat(Model model,
-                                   @RequestParam(value ="datetime",required = false)String datetime){
+                                   @RequestParam(value ="datetime",required = false)String datetime,
+                             @RequestParam(name="page",defaultValue = "1")Integer page,
+                             @RequestParam(name="size",defaultValue = "5")Integer size){
 
         System.out.println(datetime);
-        PageDTO pageDTO=seatService.listSearchStatus(1,5,"空");
+        PageDTO pageDTO=seatService.listSearchStatus(page,size,"空");
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("nav","food");
         return "seat-find";

@@ -60,9 +60,9 @@ public class SeatService {
     public PageDTO listSearchStatus(int page, int size, String status) {
         PageDTO<Seat> pageDTO=new PageDTO();
         Integer totalCount;
+        totalCount=seatMapper.seatCountByStatus(status);
         Integer offset=size*(page-1);//偏移量
         List<Seat> seats=seatMapper.listByStatus(offset,size,status);//分页
-        totalCount=seats.size();
         pageDTO.setPageDTO(totalCount,page,size);
         pageDTO.setDataDTOS(seats);
         return pageDTO;

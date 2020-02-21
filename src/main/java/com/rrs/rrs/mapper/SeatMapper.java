@@ -34,4 +34,7 @@ public interface SeatMapper {
 
     @Select("select * from seat_table where seat_status=#{status} order by seat_id limit #{offset},#{size}")
     List<Seat> listByStatus(@Param(value = "offset")Integer offset, @Param(value = "size")Integer size,@Param(value = "status")String status);
+
+    @Select("select count(1) from seat_table where seat_status=#{status}")
+    Integer seatCountByStatus(@Param(value = "status")String status);
 }

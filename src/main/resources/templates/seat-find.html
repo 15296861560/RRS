@@ -92,25 +92,25 @@
             <!--分页-->
             <ul class="pagination" style="float: right;">
                 <li th:if="${pageDTO.showFirst}">
-                    <a th:href="@{/manage/(page=1,search=${search})}" aria-label="First">
+                    <a th:href="@{/seat/find/(page=1)}" aria-label="First">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
 
                 <li th:if="${pageDTO.showPre}">
-                    <a th:href="@{/manage/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
+                    <a th:href="@{/seat/find/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
-                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/manage/(page=${page},search=${search})}" th:text="${page}" ></a></li>
+                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/seat/find/(page=${page},search=${search})}" th:text="${page}" ></a></li>
 
                 <li th:if="${pageDTO.showNext}">
-                    <a th:href="@{/manage/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
+                    <a th:href="@{/seat/find/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
                 <li th:if="${pageDTO.showEnd}">
-                    <a th:href="@{/manage/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                    <a th:href="@{/seat/find/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
 
