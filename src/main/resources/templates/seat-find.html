@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>预约餐位</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/manage.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/manage.js" type="application/javascript"></script>
+</head>
+<body>
+
+<!--导航栏-->
+<div th:insert="~{navigation::nav}"></div>
+
+
+<div class="container-fluid main">
+
+    <div class="bgWhile" th:insert="~{main-nav::main-nav}"></div>
+
+
+            <div id="accordion" class="panel panel-default ">
+                <!--搜索-->
+                <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse1" >
+                    搜索
+                </div>
+                <div id="collapse1" class="collapse" data-parent="#accordion">
+
+                <div class="panel-body">
+                    <form role="form" class="form-inline" action="/admin_search_seat_location" method="post">
+                        <div class="form-group">
+                            <label for="location">位置搜索</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="请输入位置">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">开始搜索</button>
+                        </div>
+                    </form>
+                    <form role="form" class="form-inline" action="/admin_search_seat_status" method="post">
+                        <div class="form-group">
+                            <label for="status">状态搜索</label>
+                            <select class="form-control" id="status" name="status">
+                                <option>空</option>
+                                <option>有人</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">开始搜索</button>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!--
+                列表展示
+            -->
+            <div class="table-responsive">
+                <table class="table table-striped ">
+                    <thead>
+                    <tr>
+                        <th>座位编号</th>
+                        <th>座位位置</th>
+                        <th>座位状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="seat:${pageDTO.getDataDTOS()}">
+                        <td><span th:text="${seat.seatId}"></span></td>
+                        <td><span th:text="${seat.location}"></span></td>
+                        <td><span th:text="${seat.seatStatus}"></span></td>
+                        <td>
+                            <div class="btn-group">
+                                <a th:href="@{/manage/seat/toOrder/(seatId=${seat.seatId})}" class="btn btn-info">预订</a>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--分页-->
+            <ul class="pagination" style="float: right;">
+                <li th:if="${pageDTO.showFirst}">
+                    <a th:href="@{/manage/(page=1,search=${search})}" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li th:if="${pageDTO.showPre}">
+                    <a th:href="@{/manage/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/manage/(page=${page},search=${search})}" th:text="${page}" ></a></li>
+
+                <li th:if="${pageDTO.showNext}">
+                    <a th:href="@{/manage/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${pageDTO.showEnd}">
+                    <a th:href="@{/manage/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+
+                </li>
+            </ul>
+
+        </div>
+<!--页尾-->
+<div th:insert="~{footer::foot}"></div>
+</body>
+</html>

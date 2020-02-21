@@ -68,9 +68,9 @@ public class SearchController {
                                    @RequestParam(value ="datetime",required = false)String datetime){
 
         System.out.println(datetime);
-//        PageDTO pageDTO=seatService.listSearchStatus(1,5,status);
-//        model.addAttribute("pageDTO",pageDTO);
-//        model.addAttribute("section","seat");
-        return "index";
+        PageDTO pageDTO=seatService.listSearchStatus(1,5,"空");
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("nav","food");
+        return "seat-find";
     }
 }
