@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/css/mystyle.css">
     <script src="/js/jquery-3.4.1.min.js" ></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
-    <script src="/js/manage.js" type="application/javascript"></script>
+    <script src="/js/seat.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body>
 
@@ -59,9 +60,9 @@
 
 
 
-            <!--
-                列表展示
-            -->
+    <!--
+        列表展示
+    -->
             <div class="table-responsive">
                 <table class="table table-striped ">
                     <thead>
@@ -79,7 +80,6 @@
                         <td><span th:text="${seat.seatStatus}"></span></td>
                         <td>
                             <div class="btn-group">
-                                <!--<a th:href="@{/manage/seat/toOrderSeat/(seatId=${seat.seatId})}"  class="btn btn-info">预订</a>-->
                                 <button th:data-id="${seat.seatId}" onclick="toOrderSeat(this)" class="btn btn-info">预订</button>
                             </div>
 
