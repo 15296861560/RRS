@@ -3,6 +3,7 @@ package com.rrs.rrs.controller;
 
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
+import com.rrs.rrs.enums.OrderStatusEnum;
 import com.rrs.rrs.service.FoodService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.SeatService;
@@ -41,6 +42,25 @@ public class ManageController {
         model.addAttribute("section","order");
 
         return "manage";
+    }
+
+    //对订单进行管理
+    @GetMapping("/manage/order/{action}")
+    public String orderAction(Model model,
+                             HttpServletRequest request,
+                             @RequestParam(name="orderId")Long orderId,
+                             @PathVariable(name = "action")String action){
+
+        if (action.equals("delete")) orderService.deleteOrder(orderId);//删除指定座位
+        if (action.equals("agree"))orderService.changeOrderStatus(orderId, OrderStatusEnum.APPLY_OK.getMessage());//将订单状态变为预订成功
+        if (action.equals("finish"))orderService.changeOrderStatus(orderId,OrderStatusEnum.FINISH.getMessage());//将订单状态变为已完成
+
+        PageDTO pageDTO=orderService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","order");
+
+        return "manage";
+
     }
 
     //菜单管理

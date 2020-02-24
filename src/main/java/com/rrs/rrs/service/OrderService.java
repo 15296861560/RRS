@@ -83,9 +83,17 @@ public class OrderService {
         return orderDTOS;
     }
 
+    //删除订单
+    public void deleteOrder(Long orderId){
+        orderMapper.deleteOrderById(orderId);
+    }
+
     //撤销订单
     public  void setStatusToRequestReturn(Long orderId) {
 
     }
 
+    public void changeOrderStatus(Long orderId, String status) {
+        orderMapper.changeOrderStatus(orderId,status);
+    }
 }

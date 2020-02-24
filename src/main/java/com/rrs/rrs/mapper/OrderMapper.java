@@ -1,10 +1,7 @@
 package com.rrs.rrs.mapper;
 
 import com.rrs.rrs.model.Order;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +29,12 @@ public interface OrderMapper {
     //对所有订单进行分页处理
     @Select("select * from order_table order by order_time limit #{offset},#{size}")
     List<Order> list(@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
+
+    //根据订单号删除订单
+    @Delete("delete from order_table where order_id=#{orderId}")
+    void deleteOrderById(@Param(value = "orderId")Long orderId);
+
+    //更改订单状态
+    @Update("update order_table set order_status=#{orderStatus} where order_id=#{seatId}")
+    void changeOrderStatus(@Param(value = "orderId")Long orderId,@Param(value = "status") String status);
 }
