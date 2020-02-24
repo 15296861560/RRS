@@ -42,7 +42,7 @@ public class BasketController {
     @ResponseBody
     @RequestMapping(value = "/Settle",method = RequestMethod.POST)
     public Object settle(@RequestBody JSONObject dataJson,
-                          HttpServletRequest request){
+                          HttpServletRequest request, HttpServletResponse response){
         Integer seatId=null;
         String orderTime=null;
         //通过request获取Cookie
@@ -66,8 +66,15 @@ public class BasketController {
         Long userId=user.getUserId();
         boolean flag=basketService.settle(userId,orderTime,seatId);//进行结算创建订单
 
-        if (flag){
-//            加入订单成功
+        if (flag){//结算成功
+            //清除存在cookie中的座位信息
+            Cookie seatIdCookie = new Cookie("seatId", null);
+            seatIdCookie.setMaxAge(0);
+            Cookie orderTimeCookie = new Cookie("orderTime",null);
+            orderTimeCookie.setMaxAge(0);
+            response.addCookie(seatIdCookie);
+            response.addCookie(orderTimeCookie);
+
             return ResultDTO.okOf();
         }
         else return ResultDTO.errorOf(CustomizeErrorCode.FAIL_TO_ORDER);
