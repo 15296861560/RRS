@@ -90,10 +90,25 @@ public class OrderService {
 
     //撤销订单
     public  void setStatusToRequestReturn(Long orderId) {
+    }
+
+    //预定成功
+    public void orderApplyOK(Long orderId) {
+        Order order=orderMapper.findById(orderId);
+        changeOrderStatus(orderId, OrderStatusEnum.APPLY_OK.getStatus());//将订单状态变为预订成功
+        seatMapper.changeSeatStatus(order.getSeatId(),"有人");//将预定的位置变为有人
 
     }
 
-    public void changeOrderStatus(Long orderId, String status) {
+    //订单完成
+    public void orderFinish(Long orderId) {
+        Order order=orderMapper.findById(orderId);
+        changeOrderStatus(orderId,OrderStatusEnum.FINISH.getStatus());//将订单状态变为已完成
+        seatMapper.changeSeatStatus(order.getSeatId(),"空");//将预定的位置变为空
+
+    }
+
+    private void changeOrderStatus(Long orderId, String status) {
         orderMapper.changeOrderStatus(orderId,status);
     }
 }
