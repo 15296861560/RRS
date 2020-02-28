@@ -1,3 +1,24 @@
+/*变化样式*/
+@keyframes img-move {
+    from {
+        transform: scale(1)
+    }
+
+    to {
+        transform: scale(1.2)
+    }
+}
+
+@keyframes img-leave {
+    from {
+        transform: scale(1.2)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
 body {
     background-color: #efefef;
 }

@@ -173,4 +173,14 @@
 <!--页尾-->
 <div th:insert="~{footer::foot}"></div>
 </body>
+<script type="text/javascript">
+    // 鼠标移动到图片上的时候会发生变化
+    $('img.media-object').on('mouseenter', function () {
+        $(this).css('animation', 'img-move .5s linear forwards')
+    });
+    $('img.media-object').on('mouseleave', function () {
+        $(this).css('animation', 'img-leave .5s linear forwards')
+    })
+</script>
+
 </html>
