@@ -133,10 +133,17 @@ public class BasketService {
            order.setUserId(userId);
            order.setSeatId(seatId);
            order.setAmount(basket.getPayment());
-           order.setOrderTime("2020-02-20 16:17");
+           order.setOrderTime(orderTime);
            order.setOrderStatus("APPLYING");
            List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basketId);
-           order.setContent(basketDetails.toString());
+           //添加订单内容
+           String content="";
+           for (BasketDetail basketDetail:basketDetails) {
+               Food food=foodMapper.findById(basketDetail.getFoodId());
+               content=content+food.getFoodName()+basketDetail.getQty()+"份；";
+           }
+           order.setContent(content);
+
            orderMapper.createOrder(order);
 
            basketMapper.changeBasketStatus(basketId,"false");//更改购物车状态

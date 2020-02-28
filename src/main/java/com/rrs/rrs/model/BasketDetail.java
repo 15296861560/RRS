@@ -8,5 +8,4 @@ public class BasketDetail {
     private Long basketId;//购物车id
     private Integer qty;//数量
     private Long foodId;//食物id
-
 }
