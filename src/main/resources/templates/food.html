@@ -97,7 +97,7 @@
 
         <!--显示菜品列表-->
         <div class="container-fluid">
-            <div class="media col-xs-6 col-md-4"  th:each="foodDTO:${pageDTO.getDataDTOS()}">
+            <div class="col-xs-6 col-md-4"  th:each="foodDTO:${pageDTO.getDataDTOS()}">
                 <!--食物图片-->
                 <div class="media-heading">
                     <a th:href="@{'/food/'+${foodDTO.foodId}}">
