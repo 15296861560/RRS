@@ -23,7 +23,7 @@ public class BasketController {
     BasketService basketService;
 
     //已选菜品
-    @GetMapping("/profile/basket")
+    @GetMapping("/basket")
     public String basket(Model model,
                          HttpServletRequest httpServletRequest){
         User user=(User)httpServletRequest.getSession().getAttribute("user");
@@ -33,7 +33,7 @@ public class BasketController {
 
         PageDTO<BasketDetailDTO> pageDTO=basketService.listBasketDetail(1,9,user.getUserId());//获取购物车细节信息
         model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("nav","profile");
+        model.addAttribute("nav","basket");
         return "shopcart";
     }
 
