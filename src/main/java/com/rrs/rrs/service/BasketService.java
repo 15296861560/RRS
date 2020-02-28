@@ -94,7 +94,11 @@ public class BasketService {
         PageDTO<BasketDetailDTO> pageDTO=new PageDTO();
 
         Integer offset=size*(page-1);//偏移量
-        Integer totalCount=basketDetailDTOS.size();//总数目
+        //总数目
+        Integer totalCount;
+        if (basketDetailDTOS==null)totalCount=0;
+        else totalCount=basketDetailDTOS.size();
+
         pageDTO.setPageDTO(totalCount,page,size);
         pageDTO.setDataDTOS(basketDetailDTOS);
         return pageDTO;
@@ -105,6 +109,8 @@ public class BasketService {
         //获取购物车细节并将其转换为DTO
     private List<BasketDetailDTO> getBasketDetail(Long userId) {
         Basket basket=basketMapper.findByUserId(userId);//获取该用户的购物车
+        //判断该用户是否创建过购物车
+        if (basket==null)return null;
         List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basket.getBasketId());//获取该用户所有的购物车细节
         //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
         List<BasketDetailDTO> basketDetailDTOS=new ArrayList<>();
