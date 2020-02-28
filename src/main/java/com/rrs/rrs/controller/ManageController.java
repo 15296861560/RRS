@@ -52,8 +52,8 @@ public class ManageController {
                              @PathVariable(name = "action")String action){
 
         if (action.equals("delete")) orderService.deleteOrder(orderId);//删除指定座位
-        if (action.equals("agree"))orderService.changeOrderStatus(orderId, OrderStatusEnum.APPLY_OK.getMessage());//将订单状态变为预订成功
-        if (action.equals("finish"))orderService.changeOrderStatus(orderId,OrderStatusEnum.FINISH.getMessage());//将订单状态变为已完成
+        if (action.equals("agree"))orderService.changeOrderStatus(orderId, OrderStatusEnum.APPLY_OK.getStatus());//将订单状态变为预订成功
+        if (action.equals("finish"))orderService.changeOrderStatus(orderId,OrderStatusEnum.FINISH.getStatus());//将订单状态变为已完成
 
         PageDTO pageDTO=orderService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);

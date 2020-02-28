@@ -35,6 +35,6 @@ public interface OrderMapper {
     void deleteOrderById(@Param(value = "orderId")Long orderId);
 
     //更改订单状态
-    @Update("update order_table set order_status=#{orderStatus} where order_id=#{seatId}")
+    @Update("update order_table set order_status=#{orderStatus} where order_id=#{orderId}")
     void changeOrderStatus(@Param(value = "orderId")Long orderId,@Param(value = "orderStatus") String orderStatus);
 }
