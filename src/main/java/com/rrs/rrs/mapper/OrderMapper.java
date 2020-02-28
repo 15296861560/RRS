@@ -36,5 +36,5 @@ public interface OrderMapper {
 
     //更改订单状态
     @Update("update order_table set order_status=#{orderStatus} where order_id=#{seatId}")
-    void changeOrderStatus(@Param(value = "orderId")Long orderId,@Param(value = "status") String status);
+    void changeOrderStatus(@Param(value = "orderId")Long orderId,@Param(value = "orderStatus") String orderStatus);
 }
