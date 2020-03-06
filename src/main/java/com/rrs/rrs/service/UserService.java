@@ -98,4 +98,11 @@ public class UserService {
         BeanUtils.copyProperties(user,userDTO);//把user的所有相同属性拷贝到userDTO上面
         return userDTO;
     }
+
+    //绑定手机号
+    public void bindingPhone(User user, String phone) {
+        user.setPhone(phone);
+        user.setGmtModified(System.currentTimeMillis());
+        userMapper.update(user);
+    }
 }

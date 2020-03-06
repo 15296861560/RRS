@@ -18,7 +18,6 @@ function checkout() {
     var password = $("#password").val();
     var confirmPassword = $("#confirmPassword").val();
     var checkbox = $("#checkbox");
-    debugger;
 
 
 
@@ -82,6 +81,27 @@ function checkout() {
         return false;
     };
 
+    var code=check();
+    console.log(code);
+
+    if (code!=200) {
+        if (code==1002) {
+            Swal.fire({
+                icon: 'error',
+                title: '注册失败！',
+                text: '该手机号已注册，请直接登录！',
+            });
+        }else {
+            Swal.fire({
+                icon: 'error',
+                title: '验证码错误！',
+                text: '请检查您的验证码！',
+            });
+        }
+
+        return false;
+    }
+
     return true;
 
 }
@@ -92,7 +112,7 @@ function verify() {
     var send=document.getElementById("send");
     $.ajax({
         type: "POST",
-        url: "/profile/phone",
+        url: "/register/phone",
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
             "phone": phone,
@@ -101,8 +121,10 @@ function verify() {
         success: function (response) {
             if (response.code == 200) {//发送验证码成功
                 send.innerText = "验证码发送成功请进行验证";
+                send.classList.add("btn-success");
             } else {
                 send.innerText = "验证码发送失败请重新尝试";
+                send.classList.add("btn-danger");
             }
         }
     });
@@ -112,22 +134,22 @@ function verify() {
 function check() {
     var phone=document.getElementById("phone").value;
     var verifyCode=document.getElementById("verifyCode").value;
+    var code;
     $.ajax({
         type: "POST",
-        url: "/profile/phone/verify",
+        url: "/register/phone/verify",
+        async: false,//将ajax改为同步执行
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
             "phone": phone,
             "verifyCode": verifyCode
         }),
         success: function (response) {
-            if (response.code == 200) {//验证成功，跳转到个人资料页面
-                window.open("/profile");
-            } else {
-                alert("验证失败,请重新尝试");
-            }
+            code= response.code;
+            return code;
         }
     });
+    return code;
 }
 
 

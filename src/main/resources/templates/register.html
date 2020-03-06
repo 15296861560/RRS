@@ -47,7 +47,13 @@
 
                                 <input type="text" class="form-control input-box" id="userName" name="userName" value="" placeholder="设置会员名">
                                  <input type="text" class="form-control input-box" id="phone" name="phone" value="" placeholder="请输入您的手机号码">
-                                <input type="password" class="form-control input-box" id="password" name="password" value="" placeholder="设置您的登录密码">
+
+                            <div class="form-inline ">
+                            <input type="text" class="form-control input-box w50" id="verifyCode" name="verifyCode" value="" placeholder="短信验证码">
+                            <button type="button" class="btn btn-primary input-box w50" id="send" onclick="verify()">发送短信验证码</button>
+                            </div>
+
+                            <input type="password" class="form-control input-box" id="password" name="password" value="" placeholder="设置您的登录密码">
                                 <input type="password" class="form-control input-box" id="confirmPassword" name="confirmPassword" value="" placeholder="请再次输入您的密码">
 
                                     <p class="help-block">小提示:
