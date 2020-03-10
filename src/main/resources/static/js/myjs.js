@@ -2,17 +2,6 @@
 // 校验是否按照要求输入数据
 function checkout() {
 
-    // Swal.fire({
-    //     title: 'Submit your Github username',
-    //     input: 'text',
-    //     inputAttributes: {
-    //         autocapitalize: 'off'
-    //     },
-    //     showCancelButton: true,
-    //     confirmButtonText: 'Look up',
-    //     showLoaderOnConfirm: true
-    // });
-
     var userName = $("#userName").val();
     var phone = $("#phone").val();
     var password = $("#password").val();
@@ -82,8 +71,6 @@ function checkout() {
     };
 
     var code=check();
-    console.log(code);
-
     if (code!=200) {
         if (code==1002) {
             Swal.fire({
@@ -108,8 +95,10 @@ function checkout() {
 
 //发送验证码
 function verify() {
-    var phone=document.getElementById("phone").value;
+    var phone=document.getElementById("phone").innerText;
+    if (phone=="")phone=document.getElementById("phone").value;
     var send=document.getElementById("send");
+    debugger
     $.ajax({
         type: "POST",
         url: "/register/phone",
@@ -132,7 +121,8 @@ function verify() {
 
 //检查验证码
 function check() {
-    var phone=document.getElementById("phone").value;
+    var phone=document.getElementById("phone").innerText;
+    if (phone=="")phone=document.getElementById("phone").value;
     var verifyCode=document.getElementById("verifyCode").value;
     var code;
     $.ajax({
@@ -150,6 +140,44 @@ function check() {
         }
     });
     return code;
+}
+
+//校验验证码
+function confirmPhone() {
+    var phone=document.getElementById("phone").innerText;
+    if (phone=="")phone=document.getElementById("phone").value;
+    var verifyCode=document.getElementById("verifyCode").value;
+    var code;
+    debugger
+    $.ajax({
+        type: "POST",
+        url: "/profile/phone/verify",
+        async: false,//将ajax改为同步执行
+        contentType: 'application/json',
+        data: JSON.stringify({//将json对象转换成字符串
+            "phone": phone,
+            "verifyCode": verifyCode
+        }),
+        success: function (response) {
+            code= response.code;
+        }
+    });
+    if (code!=200) {
+        Swal.fire({
+            icon: 'error',
+            title: '验证失败！',
+            text: '请检查您的验证码！',
+        });
+    }else {
+        Swal.fire({
+            icon: 'success',
+            title: '验证成功！',
+            text: '即将跳转到修改号码页面！',
+        });
+        // 3秒后跳转到修改手机号码页面
+        var t = setTimeout(function(){window.location.href="/profile/changePhone";},3000);
+    }
+
 }
 
 

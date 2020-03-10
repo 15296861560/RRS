@@ -1,17 +1,11 @@
 package com.rrs.rrs.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rrs.rrs.dto.BasketDetailDTO;
-import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.exception.CustomizeErrorCode;
-import com.rrs.rrs.model.Basket;
-import com.rrs.rrs.model.Food;
-import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.provider.ZhenziProvider;
-import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -94,29 +86,39 @@ public class ProfileController {
     }
 
 
+    //修改用户名
+    @GetMapping("/profile/changeName")
+    public String changeName(Model model,
+                               HttpServletRequest request){
+        return "changeName";
+    }
+
+    //修改登录密码
+    @GetMapping("/profile/changePassword")
+    public String changePassword(Model model,
+                               HttpServletRequest request){
+        return "changePassword";
+    }
+
+    //验证手机号码
+    @GetMapping("/profile/confirmPhone")
+    public String confirmPhone(Model model,
+                               HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+
+        model.addAttribute("user",user);
+        return "confirmPhone";
+    }
+
     //修改手机号码
     @GetMapping("/profile/changePhone")
-    public String bindingPhone(Model model,
+    public String changePhone(Model model,
                                HttpServletRequest request){
-        return "phone";
+        return "changePhone";
     }
 
-    //发送验证码
-    @ResponseBody//把页面转化成其它结构
-    @RequestMapping(value = "/profile/phone",method = RequestMethod.POST)
-    public Object post(@RequestBody String data,
-                       HttpServletRequest request){
-        JSONObject dataJson = JSONObject.parseObject(data);
-        String phone=dataJson.getString("phone");
-        try {
-            if (zhenziProvider.sendVerifyCode(request,phone))
-                return ResultDTO.okOf();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_SEND_FAIL);
-    }
 
+    //验证验证码
     @ResponseBody
     @RequestMapping(value = "/profile/phone/verify",method = RequestMethod.POST)
     public Object verify(@RequestBody JSONObject dataJson,
@@ -129,10 +131,7 @@ public class ProfileController {
         String verifyCode2=verify.getString("verifyCode");
         //进行验证
         if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){
-//            验证成功绑定手机号
-            User userSession=(User)request.getSession().getAttribute("user");
-            User user=userService.findById(userSession.getUserId());
-//            userService.bindingPhone(user,phone);
+//            验证成功
             return ResultDTO.okOf();
         }
         else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);

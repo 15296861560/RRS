@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>修改手机</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/profile.js" type="application/javascript"></script>
+    <script src="/js/myjs.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+</head>
+
+<body>
+
+<!--导航栏-->
+<div th:insert="~{navigation::nav}"></div>
+
+<div class="align-items-center ">
+
+    <div class="bg">
+        <div >
+            <div class="text-center ">
+                <a href="/"><img class="img-top" src="/images/phone.png"  height="100" width="100"></a>
+            </div>
+
+            <h3 class="text-center">修改手机</h3>
+
+        </div>
+
+        <div class="phone-page">
+            <div class="tiled ">
+                <form class="form-inline">
+                    <div>
+                        <span th:text="${'手机验证码验证 账户 '+user.getUserName()+' 为确认是你本人操作，请完成以下验证'}"></span><hr>
+                        <span>手机号码<span id="phone" th:text="${user.getPhone()}"></span></span>
+                        <div class="form-inline ">
+                            <input type="text" class="form-control input-box w50" id="verifyCode" name="verifyCode" value="" placeholder="短信验证码">
+                            <button type="button" class="btn btn-primary input-box w50" id="send" onclick="verify()">发送短信验证码</button>
+                        </div>
+                    </div>
+                </form>
+                    <div>
+                        <button type="button" class="btn btn-success btn-block pad-20 m-top-30 " onclick="confirmPhone()" >确认</button>
+                    </div>
+
+            </div>
+
+
+
+
+        </div></div>
+    <div id="intercom-modal-container"></div>
+    <!--页尾-->
+    <div th:insert="~{footer::foot}"></div>
+</div>
+
+</body>
+</html>

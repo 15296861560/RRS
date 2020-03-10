@@ -30,7 +30,7 @@
             <li class="list-group-item"><b>注册时间：</b><span th:text="${#dates.format(userDTO.gmtCreate,'yyyy-MM-dd hh:mm')}"></span></li>
             <li class="list-group-item"><b>联系号码：</b>
                 <span th:if="${userDTO.phone==null}"><a href="/profile/phone">点击绑定</a></span>
-                <span th:if="${userDTO.phone!=null}" th:text="${userDTO.phone}"></span>  <a class="navbar-right m-r-30" href="/profile/changePhone">点击修改</a></li>
+                <span th:if="${userDTO.phone!=null}" th:text="${userDTO.phone}"></span>  <a class="navbar-right m-r-30" href="/profile/confirmPhone">点击修改</a></li>
             <li class="list-group-item"><b>登录密码：</b><span>建议您定期更换密码，设置一个包含字母，符号或数字中至少两项且长度超过6位的密码。</span> <a class="navbar-right m-r-30" href="/profile/changePassword">点击修改</a></li>
 
             <!--<li class="list-group-item"><a href="/profile/history">下单历史：</a><span th:text="${userDTO.history}"></span><br></li>-->
