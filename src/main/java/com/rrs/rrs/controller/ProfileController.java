@@ -93,15 +93,15 @@ public class ProfileController {
         return "tip";
     }
 
-    @GetMapping("/profile/phone")
+
+    //修改手机号码
+    @GetMapping("/profile/changePhone")
     public String bindingPhone(Model model,
                                HttpServletRequest request){
-
-
         return "phone";
     }
 
-    //修改手机号码
+    //发送验证码
     @ResponseBody//把页面转化成其它结构
     @RequestMapping(value = "/profile/phone",method = RequestMethod.POST)
     public Object post(@RequestBody String data,
