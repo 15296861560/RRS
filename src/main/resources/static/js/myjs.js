@@ -120,14 +120,14 @@ function verify() {
 }
 
 //检查验证码
-function check() {
+function check(){
     var phone=document.getElementById("phone").innerText;
     if (phone=="")phone=document.getElementById("phone").value;
     var verifyCode=document.getElementById("verifyCode").value;
     var code;
     $.ajax({
         type: "POST",
-        url: "/register/phone/verify",
+        url: "/profile/phone/binding",
         async: false,//将ajax改为同步执行
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
@@ -136,10 +136,33 @@ function check() {
         }),
         success: function (response) {
             code= response.code;
-            return code;
         }
     });
-    return code;
+
+    debugger;
+
+    if (code==200) {
+        Swal.fire({
+            icon: 'success',
+            title: '绑定成功！',
+            text: '即将跳转回个人中心页面！',
+        });
+        // 3秒后跳转到修改个人中心页面
+        var t = setTimeout(function(){window.location.href="/profile";},3000);
+    }else if (code==1002){
+        Swal.fire({
+            icon: 'error',
+            title: '请检查您的手机号码！',
+            text: '该手机号码已经被其它账号绑定过了！',
+        });
+    } else {
+
+        Swal.fire({
+            icon: 'error',
+            title: '请检查您的验证码！',
+            text: '验证码错误！',
+        });
+    }
 }
 
 //校验验证码
@@ -148,7 +171,6 @@ function confirmPhone() {
     if (phone=="")phone=document.getElementById("phone").value;
     var verifyCode=document.getElementById("verifyCode").value;
     var code;
-    debugger
     $.ajax({
         type: "POST",
         url: "/profile/phone/verify",

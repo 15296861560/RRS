@@ -1,7 +1,9 @@
 package com.rrs.rrs.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.mapper.UserMapper;
@@ -11,7 +13,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -100,9 +104,38 @@ public class UserService {
     }
 
     //绑定手机号
-    public void bindingPhone(User user, String phone) {
+    public void bindingPhone(@RequestBody JSONObject dataJson, HttpServletRequest request) {
+        String phone=dataJson.getString("phone");
+        User user=(User)request.getSession().getAttribute("user");
         user.setPhone(phone);
         user.setGmtModified(System.currentTimeMillis());
         userMapper.update(user);
+    }
+
+    //验证手机号和验证码
+    public Object getVerify(@RequestBody JSONObject dataJson, HttpServletRequest request) {
+        //接受发送过来的手机号和验证码
+        String phone=dataJson.getString("phone");
+        String verifyCode=dataJson.getString("verifyCode");
+        //先检查该号码是否被注册过
+        User user=findByPhone(phone);
+        if (user!=null){//该手机号已经被注册过
+            return ResultDTO.errorOf(CustomizeErrorCode.REGISTER_FAIL_PHONE_REGISTERED);
+        }
+        return verify(request, phone, verifyCode);
+    }
+
+    //验证
+    public Object verify(HttpServletRequest request, String phone, String verifyCode) {
+        //获取存在session的验证信息
+        JSONObject verify=(JSONObject)request.getSession().getAttribute("verify");
+        String phone2=verify.getString("phone");
+        String verifyCode2=verify.getString("verifyCode");
+        //进行验证
+        if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){
+//            验证成功
+            return ResultDTO.okOf();
+        }
+        else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
     }
 }

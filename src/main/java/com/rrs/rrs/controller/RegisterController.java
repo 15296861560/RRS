@@ -84,25 +84,7 @@ public class RegisterController {
     @RequestMapping(value = "/register/phone/verify",method = RequestMethod.POST)
     public Object verify(@RequestBody JSONObject dataJson,
                          HttpServletRequest request){
-        //接受发送过来的手机号和验证码
-        String phone=dataJson.getString("phone");
-        String verifyCode=dataJson.getString("verifyCode");
-        //先检查该号码是否被注册过
-        User user=userService.findByPhone(phone);
-        if (user!=null){//该手机号已经被注册过
-            return ResultDTO.errorOf(CustomizeErrorCode.REGISTER_FAIL_PHONE_REGISTERED);
-        }
-
-
-        //获取存在session的验证信息
-        JSONObject verify=(JSONObject)request.getSession().getAttribute("verify");
-        String phone2=verify.getString("phone");
-        String verifyCode2=verify.getString("verifyCode");
-        //进行验证
-        if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){//验证成功
-            return ResultDTO.okOf();
-        }
-        else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
+        return userService.getVerify(dataJson, request);
     }
 
 

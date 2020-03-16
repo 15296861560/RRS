@@ -117,6 +117,20 @@ public class ProfileController {
         return "changePhone";
     }
 
+    //重新绑定手机号码
+    @ResponseBody
+    @RequestMapping(value = "/profile/phone/binding",method = RequestMethod.POST)
+    public Object binding(@RequestBody JSONObject dataJson,
+                         HttpServletRequest request){
+        ResultDTO result=(ResultDTO)userService.getVerify(dataJson, request);
+        if (result.getCode()==200){//验证成功进行绑定
+            userService.bindingPhone(dataJson, request);
+        }
+
+        return result;
+    }
+
+
 
     //验证验证码
     @ResponseBody
@@ -125,17 +139,9 @@ public class ProfileController {
                        HttpServletRequest request){
         String phone=dataJson.getString("phone");
         String verifyCode=dataJson.getString("verifyCode");
-        //获取存在session的验证信息
-        JSONObject verify=(JSONObject)request.getSession().getAttribute("verify");
-        String phone2=verify.getString("phone");
-        String verifyCode2=verify.getString("verifyCode");
-        //进行验证
-        if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){
-//            验证成功
-            return ResultDTO.okOf();
-        }
-        else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
+        return userService.verify(request, phone, verifyCode);
     }
+
 
 
 
