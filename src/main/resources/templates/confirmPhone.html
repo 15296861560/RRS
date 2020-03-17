@@ -29,7 +29,7 @@
                 <a href="/"><img class="img-top" src="/images/phone.png"  height="100" width="100"></a>
             </div>
 
-            <h3 class="text-center">修改手机</h3>
+            <h3 class="text-center">验证手机号码</h3>
 
         </div>
 
@@ -42,6 +42,7 @@
                         <div class="form-inline ">
                             <input type="text" class="form-control input-box w50" id="verifyCode" name="verifyCode" value="" placeholder="短信验证码">
                             <button type="button" class="btn btn-primary input-box w50" id="send" onclick="verify()">发送短信验证码</button>
+                            <input type="hidden" th:value="${nextUrl}" id="nextUrl">
                         </div>
                     </div>
                 </form>

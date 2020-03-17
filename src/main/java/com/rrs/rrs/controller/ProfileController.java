@@ -101,11 +101,16 @@ public class ProfileController {
     }
 
     //验证手机号码
-    @GetMapping("/profile/confirmPhone")
+    @GetMapping("/profile/confirmPhone/{action}")
     public String confirmPhone(Model model,
+                               @PathVariable(name = "action")String action,
                                HttpServletRequest request){
         User user=(User)request.getSession().getAttribute("user");
-
+        if (action.equals("changePhone")){//为了修改手机而验证号码
+            model.addAttribute("nextUrl","/profile/changePhone");
+        }else if (action.equals("changePassword")){//为了修改密码而验证号码
+            model.addAttribute("nextUrl","/profile/changePassword");
+        }
         model.addAttribute("user",user);
         return "confirmPhone";
     }

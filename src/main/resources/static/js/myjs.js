@@ -170,6 +170,7 @@ function confirmPhone() {
     var phone=document.getElementById("phone").innerText;
     if (phone=="")phone=document.getElementById("phone").value;
     var verifyCode=document.getElementById("verifyCode").value;
+    var nextUrl=document.getElementById("nextUrl").value;
     var code;
     $.ajax({
         type: "POST",
@@ -194,10 +195,10 @@ function confirmPhone() {
         Swal.fire({
             icon: 'success',
             title: '验证成功！',
-            text: '即将跳转到修改号码页面！',
+            text: '即将跳转到修改页面！',
         });
         // 3秒后跳转到修改手机号码页面
-        var t = setTimeout(function(){window.location.href="/profile/changePhone";},3000);
+        var t = setTimeout(function(){window.location.href=nextUrl;},3000);
     }
 
 }
