@@ -75,8 +75,16 @@ public class OrderService {
             User user=userMapper.findById(order.getUserId());
             Seat seat=seatMapper.findById(order.getSeatId());
             BeanUtils.copyProperties(order,orderDTO);//把food的所有相同属性拷贝到foodDTO上面
-            orderDTO.setUserName(user.getUserName());
-            orderDTO.setLocation(seat.getLocation());
+            if (user==null){
+                orderDTO.setUserName("被注销账号的用户");
+            }else {
+                orderDTO.setUserName(user.getUserName());
+            }
+            if (seat==null){
+                orderDTO.setLocation("该位置已更新");
+            }else {
+                orderDTO.setLocation(seat.getLocation());
+            }
             orderDTO.setOrderStatus(OrderStatusEnum.valueOf(order.getOrderStatus()).getMessage());//将订单状态转成中文
             orderDTOS.add(orderDTO);
         }
