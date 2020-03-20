@@ -93,11 +93,21 @@ public class ProfileController {
         return "changeName";
     }
 
-    //修改登录密码
+    //去修改登录密码页面
     @GetMapping("/profile/changePassword")
-    public String changePassword(Model model,
+    public String toChangePassword(Model model,
                                HttpServletRequest request){
         return "changePassword";
+    }
+
+    //修改登录密码
+    @ResponseBody
+    @RequestMapping(value ="/profile/changePassword",method = RequestMethod.POST)
+    public Object changePassword(@RequestBody JSONObject dataJson,
+                                 HttpServletRequest request){
+        String password=dataJson.getString("password");
+        User user=(User)request.getSession().getAttribute("user");
+        return userService.changePassword(password,user);
     }
 
     //验证手机号码

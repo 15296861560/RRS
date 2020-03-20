@@ -133,9 +133,21 @@ public class UserService {
         String verifyCode2=verify.getString("verifyCode");
         //进行验证
         if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){
-//            验证成功
+            // 验证成功
             return ResultDTO.okOf();
         }
         else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
+    }
+
+    //修改登录密码
+    public Object changePassword(String password,User user){
+        String newPassword= DigestUtils.md5DigestAsHex(password.getBytes());//对新密码进行加密
+        user.setPassword(newPassword);
+        try {
+            userMapper.update(user);
+        }catch (Exception e){
+            return ResultDTO.errorOf(CustomizeErrorCode.UNKNOWN_ERROR);
+        }
+        return ResultDTO.okOf();
     }
 }

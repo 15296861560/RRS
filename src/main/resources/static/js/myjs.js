@@ -203,5 +203,55 @@ function confirmPhone() {
 
 }
 
+//检查验证码
+function changePasswor(){
+    var password=document.getElementById("password").value;
+    var confirmPassword=document.getElementById("confirmPassword").value;
+    var code;
+
+    if(password==confirmPassword){//如果密码与确认密码相同
+        $.ajax({
+            type: "POST",
+            url: "/profile/changePassword",
+            async: false,//将ajax改为同步执行
+            contentType: 'application/json',
+            data: JSON.stringify({//将json对象转换成字符串
+                "password": password,
+            }),
+            success: function (response) {
+                code= response.code;
+            }
+        });
+debugger;
+
+        if (code==200) {
+            Swal.fire({
+                icon: 'success',
+                title: '修改密码成功！',
+                text: '即将跳转回个人中心页面！',
+            });
+            // 3秒后跳转到修改个人中心页面
+            var t = setTimeout(function(){window.location.href="/profile";},3000);
+        }else {
+
+            Swal.fire({
+                icon: 'error',
+                title: '修改密码失败！',
+                text: '请重新尝试！',
+            });
+        }
+    }else {
+        Swal.fire({
+            icon: 'error',
+            title: '修改密码失败！',
+            text: '新的登录密码与确认密码不相同！',
+        });
+    }
+
+
+}
+
+
+
 
 
