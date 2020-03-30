@@ -160,10 +160,9 @@ public class ManageController {
         if (action.equals("delete")) userService.deleteById(userId);//删除指定用户
         if (action.equals("reset"))userService.changePhone(userId);//重置密码
 
-        PageDTO pageDTO=seatService.list(1,5);
+        PageDTO pageDTO=userService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","seat");
-
+        model.addAttribute("section","customer");
         return "manage";
 
     }
