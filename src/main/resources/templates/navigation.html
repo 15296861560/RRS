@@ -58,6 +58,10 @@
                             <li><a href="/profile">个人中心</a></li>
                             <li><a href="/basket">已选菜品</a></li>
                             <li><a href="/profile/history">下单历史</a></li>
+                            <li th:if="${session.admin!=null}">
+                                <a href="/manage">返回管理页面</a>
+                            </li>
+
                             <li role="separator" class="divider"></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
