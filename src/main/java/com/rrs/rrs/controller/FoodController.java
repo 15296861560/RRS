@@ -8,10 +8,12 @@ import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.enums.FoodStatusEnum;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.exception.CustomizeErrorCode;
+import com.rrs.rrs.model.Admin;
 import com.rrs.rrs.model.Food;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.FoodService;
+import com.rrs.rrs.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,8 @@ public class FoodController {
     FoodService foodService;
     @Autowired
     BasketService basketService;
+    @Autowired
+    UserService userService;
 
 
     @GetMapping("/food")
@@ -39,24 +43,45 @@ public class FoodController {
                        @RequestParam(name="search",required = false)String search,//查询内容
                        @RequestParam(name="attribute",defaultValue = "name")String attribute){
 
-        PageDTO pageDTO=new PageDTO();
-        if ("name".equals(attribute)&&search==null)pageDTO=foodService.listByStatus(page,size,"GOOD");//默认情况下
-        else if ("name".equals(attribute))pageDTO=foodService.listByName(page,size,search);
-        else if ("type".equals(attribute))pageDTO=foodService.listByType(page,size,search);
+        FoodPage(model, page, size, search, attribute);
+        return "food";
+    }
+
+    //传统下单
+    @GetMapping("/manage/tradition")
+    public String tradition(Model model,
+                       @RequestParam(name="page",defaultValue = "1")Integer page,
+                       @RequestParam(name="size",defaultValue = "9")Integer size,
+                       @RequestParam(name="search",required = false)String search,//查询内容
+                       @RequestParam(name="attribute",defaultValue = "name")String attribute,
+                            HttpServletRequest request){
+
+        FoodPage(model, page, size, search, attribute);
+        Admin admin= (Admin) request.getSession().getAttribute("admin");
+        User user=userService.findByPhone(admin.getPhone());
+        request.getSession().setAttribute("user",user);
+        return "food";
+    }
+
+    private void FoodPage(Model model, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "size", defaultValue = "9") Integer size, @RequestParam(name = "search", required = false) String search, @RequestParam(name = "attribute", defaultValue = "name") String attribute) {
+        PageDTO pageDTO = new PageDTO();
+        if ("name".equals(attribute) && search == null) pageDTO = foodService.listByStatus(page, size, "GOOD");//默认情况下
+        else if ("name".equals(attribute)) pageDTO = foodService.listByName(page, size, search);
+        else if ("type".equals(attribute)) pageDTO = foodService.listByType(page, size, search);
 
         //将食物类别再分类
-        List list=FoodTypeEnum.valueOf("E").listByClassify();
+        List list = FoodTypeEnum.valueOf("E").listByClassify();
 
-        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("pageDTO", pageDTO);
         model.addAttribute("foodTypeS", list);//食物所有类型的枚举
         model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别
         model.addAttribute("search", search);
-        model.addAttribute("nav","food");
+        model.addAttribute("nav", "food");
 
         //如果是以类别的方式显示则把具体类别传到前端
         if ("type".equals(attribute)) model.addAttribute("classic", FoodTypeEnum.valueOf(search).getMessage());
-        return "food";
     }
+
 
     @GetMapping("/food/{foodId}")
     public String foodDisplay(Model model,
