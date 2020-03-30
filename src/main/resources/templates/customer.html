@@ -62,8 +62,8 @@
                         <td><span th:text="${userDTO.phone}"></span></td>
                         <td>
                             <div class="btn-group">
-                                <a href="@{/manage/customer/reset/(userId=${userDTO.userId)}" class="btn btn-success">重置密码</a>
-                                <a href="@{/manage/customer/delete/(userId=${userDTO.userId)}" class="btn btn-danger">删除</a>
+                                <a th:href="@{/manage/customer/reset/(userId=${userDTO.userId})}" class="btn btn-success">重置密码</a>
+                                <a th:href="@{/manage/customer/delete/(userId=${userDTO.userId})}" class="btn btn-danger">删除</a>
                             </div>
 
                         </td>

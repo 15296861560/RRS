@@ -182,6 +182,24 @@ public class ManageController {
         return "manage";
     }
 
+    //高级管理员对管理员进行相应操作
+    @GetMapping("/manage/admin/{action}")
+    public String adminAction(Model model,
+                                 HttpServletRequest request,
+                                 @RequestParam(name="adminId")String adminId,
+                                 @PathVariable(name = "action")String action){
+
+        if (action.equals("delete")) adminService.deleteById(adminId);//删除指定管理员
+        if (action.equals("up"))adminService.levelUp(adminId);//提升权限
+        if (action.equals("down"))adminService.levelDown(adminId);//提升权限
+
+        PageDTO pageDTO=adminService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","admin");
+        return "manage";
+
+    }
+
 
 
 

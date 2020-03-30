@@ -39,4 +39,29 @@ public class AdminService {
         pageDTO.setDataDTOS(admins);
         return pageDTO;
     }
+
+    //删除指定管理员
+    public void deleteById(String adminId) {
+        adminMapper.deleteById(adminId);
+    }
+
+    //提升权限
+    public void levelUp(String adminId) {
+        Admin admin=adminMapper.findById(adminId);
+        int curLevel=admin.getLevel();
+        if (curLevel<9){
+            admin.setLevel(curLevel+1);
+        }
+        adminMapper.changeLevel(admin);
+    }
+
+    //降低权限
+    public void levelDown(String adminId) {
+        Admin admin=adminMapper.findById(adminId);
+        int curLevel=admin.getLevel();
+        if (curLevel>1){
+            admin.setLevel(curLevel-1);
+        }
+        adminMapper.changeLevel(admin);
+    }
 }
