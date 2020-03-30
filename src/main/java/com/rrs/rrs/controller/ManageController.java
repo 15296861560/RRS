@@ -150,6 +150,25 @@ public class ManageController {
         return "manage";
     }
 
+    //对用户进行相应操作
+    @GetMapping("/manage/customer/{action}")
+    public String customerAction(Model model,
+                             HttpServletRequest request,
+                             @RequestParam(name="userId")Long userId,
+                             @PathVariable(name = "action")String action){
+
+        if (action.equals("delete")) userService.deleteById(userId);//删除指定用户
+        if (action.equals("reset"))userService.changePhone(userId);//重置密码
+
+        PageDTO pageDTO=seatService.list(1,5);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","seat");
+
+        return "manage";
+
+    }
+
+
     //管理员管理
     @GetMapping("/manage/admin")
     public String manage_admin(Model model,

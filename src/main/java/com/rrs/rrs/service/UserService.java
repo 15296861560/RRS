@@ -150,4 +150,9 @@ public class UserService {
         }
         return ResultDTO.okOf();
     }
+
+    //重置密码
+    public void changePhone(Long userId) {
+
+    }
 }
