@@ -4,10 +4,7 @@ package com.rrs.rrs.controller;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.enums.OrderStatusEnum;
-import com.rrs.rrs.service.FoodService;
-import com.rrs.rrs.service.OrderService;
-import com.rrs.rrs.service.SeatService;
-import com.rrs.rrs.service.UserService;
+import com.rrs.rrs.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +24,8 @@ public class ManageController {
     SeatService seatService;
     @Autowired
     UserService userService;
+    @Autowired
+    AdminService adminService;
 
 
 
@@ -147,6 +146,20 @@ public class ManageController {
         PageDTO pageDTO=userService.list(page,size);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","customer");
+
+        return "manage";
+    }
+
+    //管理员管理
+    @GetMapping("/manage/admin")
+    public String manage_admin(Model model,
+                                  @RequestParam(name="page",defaultValue = "1")Integer page,
+                                  @RequestParam(name="size",defaultValue = "5")Integer size,
+                                  HttpServletRequest httpServletRequest){
+
+        PageDTO pageDTO=adminService.list(page,size);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","admin");
 
         return "manage";
     }
