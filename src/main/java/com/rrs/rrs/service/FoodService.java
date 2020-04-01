@@ -136,7 +136,7 @@ public class FoodService {
         List<FoodDTO> foodDTOS=ToDTOS(foods);
 
         Integer totalCount;
-        totalCount =foods.size();
+        totalCount =foodMapper.listSearchCount(foodQueryDTO);//查搜索数目
         pageDTO.setPageDTO(totalCount,page,size);
         pageDTO.setDataDTOS(foodDTOS);
         return pageDTO;

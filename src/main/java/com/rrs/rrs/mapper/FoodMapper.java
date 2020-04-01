@@ -39,6 +39,10 @@ public interface FoodMapper {
     @Select("select * from menu_table where food_name regexp #{name} and status regexp #{status} and type regexp #{type} order by food_id limit #{offset},#{size}")
     List<Food> listSearch(FoodQueryDTO foodQueryDTO);
 
+    //带条件的查询数目
+    @Select("select count(1) from menu_table where food_name regexp #{name} and status regexp #{status} and type regexp #{type}")
+    Integer listSearchCount(FoodQueryDTO foodQueryDTO);
+
     //查询某种类型的食物的总数
     @Select("select count(*) from menu_table where type=#{search}")
     Integer searchCountByType(String search);
