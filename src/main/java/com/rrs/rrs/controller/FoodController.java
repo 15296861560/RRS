@@ -83,15 +83,14 @@ public class FoodController {
     }
 
 
+    //单个菜品页面
     @GetMapping("/food/{foodId}")
     public String foodDisplay(Model model,
                               @PathVariable(name = "foodId")Long foodId){
         Food food=foodService.findFoodById(foodId);
-        FoodDTO foodDTO=new FoodDTO();
-        BeanUtils.copyProperties(food,foodDTO);//把food的所有属性拷贝到foodDTO上面
-        foodDTO.setStatus(FoodStatusEnum.valueOf(food.getStatus()).getMessage());
-        foodDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());
+        FoodDTO foodDTO=foodService.getFoodDTO(food);
         model.addAttribute("foodDTO",foodDTO);
+        model.addAttribute("nav", "food");
         return "singleFood";
     }
 

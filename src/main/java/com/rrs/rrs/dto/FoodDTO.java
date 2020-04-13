@@ -10,4 +10,5 @@ public class FoodDTO {
     private String foodUrl;//食物图片地址
     private String type;//食物类型
     private String status;//食物状态
+    private Long likeCount;//点赞数
 }

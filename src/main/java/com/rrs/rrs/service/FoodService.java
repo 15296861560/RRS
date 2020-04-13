@@ -105,13 +105,18 @@ public class FoodService {
     private List<FoodDTO> ToDTOS(List<Food> foods){
         List<FoodDTO> foodDTOS=new ArrayList();
         for(Food food:foods){
-            FoodDTO foodDTO=new FoodDTO();
-            BeanUtils.copyProperties(food,foodDTO);//把food的所有相同属性拷贝到foodDTO上面
-            foodDTO.setStatus(FoodStatusEnum.valueOf(food.getStatus()).getMessage());
-            foodDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());
+            FoodDTO foodDTO = getFoodDTO(food);
             foodDTOS.add(foodDTO);
         }
         return foodDTOS;
+    }
+
+    public FoodDTO getFoodDTO(Food food) {
+        FoodDTO foodDTO=new FoodDTO();
+        BeanUtils.copyProperties(food,foodDTO);//把food的所有相同属性拷贝到foodDTO上面
+        foodDTO.setStatus(FoodStatusEnum.valueOf(food.getStatus()).getMessage());
+        foodDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());
+        return foodDTO;
     }
 
 

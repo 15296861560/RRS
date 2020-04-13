@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>中小型餐厅预订系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <link rel="stylesheet" href="/css/food.css">
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/myjs.js"></script>
+    <script src="/js/food.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+
+</head>
+
+<body>
+
+<!--导航栏-->
+<div th:insert="~{navigation::nav}"></div>
+
+<div class="container-fluid main">
+
+    <div th:insert="~{main-nav::main-nav}"></div>
+
+    <div class="media col-xs-12 col-md-12">
+        <!--食物图片-->
+        <div class="media-left col-xs-6 col-md-6">
+            <a th:href="@{'/food/'+${foodDTO.foodId}}">
+                <img class="media-object" th:src="${foodDTO.foodUrl}" height="240" width="330">
+            </a>
+        </div>
+        <div class="media-right col-xs-6 col-md-6">
+
+            <h3 class="media-heading" th:text="${foodDTO.foodName}"></h3>
+
+            <ul class="list-group">
+                <li class="list-group-item" ><b>食物价格：</b><span th:text="${foodDTO.price+'元'}" style="color: red"></span></li>
+                <li class="list-group-item"><b>食物类型：</b><span th:text="${foodDTO.type}"></span></li>
+                <li class="list-group-item"><b>点赞数：</b><span th:text="${foodDTO.likeCount}"></span></li>
+
+            </ul>
+
+            <form role="form" class="form-inline">
+                <div class="form-group">
+                    <label  >预订数量:</label>
+                    <select class="form-control" th:id="${'num-'+foodDTO.foodId}">
+                        <div th:each="i:${#numbers.sequence(1, 100)}">
+                            <option th:text="${i}"></option>
+                        </div>
+                    </select>
+
+                </div>
+                <button type="button" class="btn btn-info" onclick="toOrder(this)" th:data-id="${foodDTO.foodId}" th:data-name="${foodDTO.foodName}">加入订单</button>
+
+            </form>
+    </div>
+</div>
+
+<div th:insert="~{footer::foot}"></div>
+
+</div>
+</body>
+<script type="text/javascript">
+    // 鼠标移动到图片上的时候会发生变化
+    $('img.media-object').on('mouseenter', function () {
+        $(this).css('animation', 'img-move .5s linear forwards')
+    });
+    $('img.media-object').on('mouseleave', function () {
+        $(this).css('animation', 'img-leave .5s linear forwards')
+    })
+</script>
+
+</html>
