@@ -74,7 +74,7 @@ public class OrderService {
             OrderDTO orderDTO=new OrderDTO();
             User user=userMapper.findById(order.getUserId());
             Seat seat=seatMapper.findById(order.getSeatId());
-            BeanUtils.copyProperties(order,orderDTO);//把food的所有相同属性拷贝到foodDTO上面
+            BeanUtils.copyProperties(order,orderDTO);//把order的所有相同属性拷贝到orderDTO上面
             if (user==null){
                 orderDTO.setUserName("被注销账号的用户");
             }else {

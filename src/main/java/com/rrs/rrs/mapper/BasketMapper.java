@@ -10,7 +10,7 @@ public interface BasketMapper {
     @Select("select * from basket_table where basket_id=#{basketId}")
     Basket findById(@Param("basketId") Long basketId);
 
-    @Select("select * from basket_table where user_id=#{userId}")
+    @Select("select * from basket_table where user_id=#{userId} and basket_status='true'")
     Basket findByUserId(@Param("userId") Long userId);
 
     //更改购物车状态

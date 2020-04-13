@@ -153,7 +153,6 @@ public class BasketService {
            orderMapper.createOrder(order);
 
            basketMapper.changeBasketStatus(basketId,"false");//更改购物车状态
-           basketDetailMapper.deleteBasketDetailByBasketId(basketId);//所有该购物车的食物
 
            return true;
        }else {
@@ -162,4 +161,13 @@ public class BasketService {
        }
 
     }
+
+
+    //获取排名前i的最受欢迎菜品
+    public ArrayList getFoodRankData(int i) {
+
+
+        return null;
+    }
+
 }
