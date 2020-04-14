@@ -49,27 +49,23 @@
         <!--右边内容栏-->
         <!--订单管理-->
         <div th:if="${section=='order'}">
-        <div th:insert="~{order::order}"></div>
+        <div th:insert="~{manage/order::order}"></div>
         </div>
         <!--菜单管理-->
         <div th:if="${section=='menu'}">
-        <div th:insert="~{menu::menu}"></div>
+        <div th:insert="~{manage/menu::menu}"></div>
         </div>
         <!--座位管理-->
         <div th:if="${section=='seat'}">
-            <div th:insert="~{seat::seat}"></div>
+            <div th:insert="~{manage/seat::seat}"></div>
         </div>
         <!--用户管理-->
         <div th:if="${section=='customer'}">
-            <div th:insert="~{customer::customer}"></div>
-        </div>
-        <!--传统下单-->
-        <div th:if="${section=='tradition'}">
-            <div th:insert="~{tradition::tradition}"></div>
+            <div th:insert="~{manage/customer::customer}"></div>
         </div>
         <!--管理员管理-->
         <div th:if="${section=='admin'}">
-            <div th:insert="~{admin::admin}"></div>
+            <div th:insert="~{manage/admin::admin}"></div>
         </div>
 
     </div>
