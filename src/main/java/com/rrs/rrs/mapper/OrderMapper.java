@@ -3,6 +3,7 @@ package com.rrs.rrs.mapper;
 import com.rrs.rrs.model.Order;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,4 +38,13 @@ public interface OrderMapper {
     //更改订单状态
     @Update("update order_table set order_status=#{orderStatus} where order_id=#{orderId}")
     void changeOrderStatus(@Param(value = "orderId")Long orderId,@Param(value = "orderStatus") String orderStatus);
+
+    //获取所有的订单信息
+    @Select("select * from order_table")
+    ArrayList<Order> getAllOrder();
+
+    //获取所有的订单状态为已完成的订单信息
+    @Select("select * from order_table where order_status='FINISH'")
+    ArrayList<Order> getAllOrderStatusTrue();
+
 }

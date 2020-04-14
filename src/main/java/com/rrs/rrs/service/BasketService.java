@@ -162,7 +162,7 @@ public class BasketService {
     }
 
 
-    //获取排名前i的最受欢迎菜品
+    //获取排名前l的最受欢迎菜品
     public List getFoodRankData(int l) {
         //获取所有的购物车细节
         ArrayList<BasketDetail> basketDetailList=basketDetailMapper.getAllBasketDetail();
@@ -205,15 +205,15 @@ public class BasketService {
         }
 
         //将foodId和数量分离
-        List foodIdList=new ArrayList();
+        List foodList=new ArrayList();
         List qtyList=new ArrayList();
         for (HashMap.Entry<Long,Integer> item:sortList) {
             Food food=foodMapper.findById(item.getKey());
-            foodIdList.add(food.getFoodName());
+            foodList.add(food.getFoodName());
             qtyList.add(item.getValue());
         }
         List resultList=new ArrayList();
-        resultList.add(foodIdList);
+        resultList.add(foodList);
         resultList.add(qtyList);
             return resultList;
 

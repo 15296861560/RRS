@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" style="height: 100%">
 <head>
     <title>图书管理系统(管理端）</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/manage.css">
     <link rel="stylesheet" href="/css/mystyle.css">
-    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
     <script src="/js/manage.js" type="application/javascript"></script>
     <script src="/js/echarts.min.js"></script>
@@ -19,50 +19,36 @@
 <!--导航栏-->
 <div th:insert="~{navigation-manage::nav}"></div>
 
+<div class="container-fluid">
 
-<input type="hidden" th:value="${foodIdListData}" id="foodIdListData">
-<input type="hidden" th:value="${qtyListData}" id="qtyListData">
+    <div class="row">
+        <div class="col-sm-2">
+            <a href="#" class="list-group-item active"><span class="glyphicon glyphicon-home"></span>数据分析
+            </a>
+            <!-- 小图标样式设置 -->
+            <a href="/analysis/food" th:class="${section.equals('food')?'list-group-item active':'list-group-item'}">
+                <span class="glyphicon glyphicon-book" aria-hidden="true">
+                    </span>最受欢迎菜品排行</a>
+            <a href="/analysis/user" th:class="${section.equals('user')?'list-group-item active':'list-group-item'}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true">
+                    </span>点餐最多顾客排行</a>
+            <a href="/analysis/category" th:class="${section.equals('category')?'list-group-item active':'list-group-item'}">
+                        <span class="glyphicon  glyphicon-th-list" aria-hidden="true">
+                    </span>菜品类目统计</a>
 
+        </div>
+        <!--右边内容栏-->
+        <!--最受欢迎菜品排行-->
+        <div th:if="${section=='food'}">
+            <div th:insert="~{analysis/foodRank::foodRank}"></div>
+        </div>
+        <!--点餐最多顾客排行-->
+        <div th:if="${section=='user'}">
+            <div th:insert="~{analysis/userRank::userRank}"></div>
+        </div>
 
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 1500px;height:600px;"></div>
-<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-
-    //初始化数据
-    var foodIdListData=eval(document.getElementById('foodIdListData').value);
-    var qtyListData =eval(document.getElementById('qtyListData').value);
-
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '最受欢迎菜品排行'
-        },
-        tooltip: {},
-        legend: {
-            data:['销量']
-        },
-        xAxis: {
-            data: foodIdListData
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: qtyListData
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-</script>
-
-
-
-
-
-
+    </div>
+</div>
 
 
 <!--页尾-->

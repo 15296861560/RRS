@@ -14,8 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -118,5 +117,54 @@ public class OrderService {
 
     private void changeOrderStatus(Long orderId, String status) {
         orderMapper.changeOrderStatus(orderId,status);
+    }
+
+    //获取排名前l的下单次数最多的顾客
+    public List getUserRankData(int l) {
+
+        //获取所有的订单状态为已完成的订单信息
+        ArrayList<Order> analysisList=orderMapper.getAllOrderStatusTrue();
+
+        //统计各个用户下单的次数
+        HashMap<Long,Integer> analysisMap=new HashMap();
+        for (Order order:analysisList) {
+            Long userId=order.getUserId();
+            if (analysisMap.containsKey(userId)){//如果analysisMap中有该用户的id，计数加1
+                analysisMap.replace(userId,analysisMap.get(userId)+1);
+            }else {//果analysisMap中没有该用户的id，以该id为键1为值加入analysisMap中
+                analysisMap.put(userId,1);
+            }
+        }
+
+        //对统计数据进行排序
+        List<HashMap.Entry<Long,Integer> > sortList = new ArrayList<HashMap.Entry<Long,Integer> >(analysisMap.entrySet());
+        Collections.sort(sortList, new Comparator<HashMap.Entry<Long,Integer> >() {
+
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<Long,Integer> o1, HashMap.Entry<Long,Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        //获取排名前l条数据
+        if (sortList.size() > l) {//判断list长度
+            sortList = sortList.subList(0, l);//取前l条数据
+        }
+
+        //将userId和数量分离
+        List userList=new ArrayList();
+        List qtyList=new ArrayList();
+        for (HashMap.Entry<Long,Integer> item:sortList) {
+            User user=userMapper.findById(item.getKey());
+            userList.add(user.getUserName());
+            qtyList.add(item.getValue());
+        }
+        List resultList=new ArrayList();
+        resultList.add(userList);
+        resultList.add(qtyList);
+
+
+        return resultList;
     }
 }
