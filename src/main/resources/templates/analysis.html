@@ -20,7 +20,8 @@
 <div th:insert="~{navigation-manage::nav}"></div>
 
 
-<input type="hidden" th:value="${foodRankData}" id="foodRankData">
+<input type="hidden" th:value="${foodIdListData}" id="foodIdListData">
+<input type="hidden" th:value="${qtyListData}" id="qtyListData">
 
 
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -30,8 +31,8 @@
     var myChart = echarts.init(document.getElementById('main'));
 
     //初始化数据
-    var foodRankData =document.getElementById('foodRankData');
-    debugger;
+    var foodIdListData=eval(document.getElementById('foodIdListData').value);
+    var qtyListData =eval(document.getElementById('qtyListData').value);
 
     // 指定图表的配置项和数据
     var option = {
@@ -43,13 +44,13 @@
             data:['销量']
         },
         xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            data: foodIdListData
         },
         yAxis: {},
         series: [{
             name: '销量',
             type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
+            data: qtyListData
         }]
     };
 

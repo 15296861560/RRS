@@ -3,6 +3,7 @@ package com.rrs.rrs.mapper;
 import com.rrs.rrs.model.BasketDetail;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,4 +30,8 @@ public interface BasketDetailMapper {
     //重新修改某个食物的数量
     @Update("update basket_detail_table set qty=#{qty} where basket_detail_id=#{basketDetailId}")
     void changeBasketDetailQty(BasketDetail basketDetail);
+
+    //获取所有的订单细节
+    @Select("select * from basket_detail_table")
+    ArrayList<BasketDetail> getAllBasketDetail();
 }

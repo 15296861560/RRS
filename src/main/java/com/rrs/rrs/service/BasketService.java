@@ -16,8 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BasketService {
@@ -164,10 +163,60 @@ public class BasketService {
 
 
     //获取排名前i的最受欢迎菜品
-    public ArrayList getFoodRankData(int i) {
+    public List getFoodRankData(int l) {
+        //获取所有的购物车细节
+        ArrayList<BasketDetail> basketDetailList=basketDetailMapper.getAllBasketDetail();
+        //获取所有状态为true的购物车id
+        ArrayList basketIdList=basketMapper.getAllBasketStatusTrue();
 
+        //获取所有的已购买历史
+        ArrayList<BasketDetail> analysisList=new ArrayList();
+        for (BasketDetail basketDetail:basketDetailList) {
+            if (!basketIdList.contains(basketDetail.getBasketId())){
+                analysisList.add(basketDetail);
+            }
+        }
 
-        return null;
+        //统计各个菜品被购买的次数
+        HashMap<Long,Integer> analysisMap=new HashMap();
+        for (BasketDetail basketDetail:analysisList) {
+            Long foodId=basketDetail.getFoodId();
+            if (analysisMap.containsKey(foodId)){//如果analysisMap中有该食物的id，计数加1
+                analysisMap.replace(foodId,analysisMap.get(foodId)+1);
+            }else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
+                analysisMap.put(foodId,1);
+            }
+        }
+
+        //对统计数据进行排序
+        List<HashMap.Entry<Long,Integer> > sortList = new ArrayList<HashMap.Entry<Long,Integer> >(analysisMap.entrySet());
+        Collections.sort(sortList, new Comparator<HashMap.Entry<Long,Integer> >() {
+
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<Long,Integer> o1, HashMap.Entry<Long,Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        //获取排名前l条数据
+        if (sortList.size() > l) {//判断list长度
+            sortList = sortList.subList(0, l);//取前l条数据
+        }
+
+        //将foodId和数量分离
+        List foodIdList=new ArrayList();
+        List qtyList=new ArrayList();
+        for (HashMap.Entry<Long,Integer> item:sortList) {
+            Food food=foodMapper.findById(item.getKey());
+            foodIdList.add(food.getFoodName());
+            qtyList.add(item.getValue());
+        }
+        List resultList=new ArrayList();
+        resultList.add(foodIdList);
+        resultList.add(qtyList);
+            return resultList;
+
     }
 
 }

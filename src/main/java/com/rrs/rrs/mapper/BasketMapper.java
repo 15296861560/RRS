@@ -3,6 +3,7 @@ package com.rrs.rrs.mapper;
 import com.rrs.rrs.model.Basket;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
 
 
 @Mapper
@@ -27,4 +28,8 @@ public interface BasketMapper {
     //更改支付金额
     @Update("update basket_table set payment=#{payment} where basket_id=#{basketId}")
     void changePayment(Basket basket);
+
+    //获取所有状态为true的购物车id
+    @Select("select basket_id from basket_table where basket_status='true'")
+    ArrayList<Long> getAllBasketStatusTrue();
 }
