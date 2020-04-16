@@ -18,7 +18,7 @@
         <input type="hidden" th:value="${qtyListData}" id="qtyListData">
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1300px;height:600px;"></div>
+        <div id="main" style="width: 1375px;height:600px;"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('main'));
@@ -37,7 +37,7 @@
                     data: ['销量']
                 },
                 xAxis: {
-                    data: nameListData
+                    data:  ["紫菜蛋花汤", "红烧牛肉", "红烧排骨", "玉米蛋花汤", "可口可乐-罐装", "可樂娜特級啤酒", "玉米排骨汤", "冬瓜排骨汤", "山药排骨汤", "巧克力蛋糕"]
                 },
                 yAxis: {},
                 series: [{
