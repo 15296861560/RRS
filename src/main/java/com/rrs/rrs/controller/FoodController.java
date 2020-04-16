@@ -72,6 +72,12 @@ public class FoodController {
         //将食物类别再分类
         List list = FoodTypeEnum.valueOf("E").listByClassify();
 
+        //获取销售为前5的菜品
+        List rankData=new ArrayList();
+        rankData=basketService.getFoodRankData(5);
+        List nameList= (List) rankData.get(0);
+        model.addAttribute("popularFood",nameList);
+
         model.addAttribute("pageDTO", pageDTO);
         model.addAttribute("foodTypeS", list);//食物所有类型的枚举
         model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别
