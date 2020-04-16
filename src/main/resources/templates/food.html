@@ -164,8 +164,8 @@
     <!--右边推荐栏-->
     <div class="col-sm-2">
         <h2>最受欢迎的菜品</h2>
-        <span  th:each="popular:${popularFood}">
-            <a  class="popular-font" href="#" th:text="${popular}"></a><br>
+        <span  th:each="food:${popularFood}">
+             <a class="popular-font" th:href="@{'/food/'+${food.foodId}}" th:text="${food.foodName}"></a><br>
         </span>
 
         <h2>您可能喜欢的菜品</h2>

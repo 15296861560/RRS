@@ -1,7 +1,6 @@
 package com.rrs.rrs.service;
 
 import com.rrs.rrs.dto.BasketDetailDTO;
-import com.rrs.rrs.dto.FoodDTO;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.mapper.BasketDetailMapper;
@@ -162,42 +161,9 @@ public class BasketService {
     }
 
 
-    //获取排名前l的最受欢迎菜品
+    //获取排名前l的最受欢迎菜品（名称和销售数量）
     public List getFoodRankData(int l) {
-        //获取所有的购物车细节
-        ArrayList<BasketDetail> basketDetailList=basketDetailMapper.getAllBasketDetail();
-        //获取所有状态为true的购物车id
-        ArrayList basketIdList=basketMapper.getAllBasketStatusTrue();
-
-        //获取所有的已购买历史
-        ArrayList<BasketDetail> analysisList=new ArrayList();
-        for (BasketDetail basketDetail:basketDetailList) {
-            if (!basketIdList.contains(basketDetail.getBasketId())){
-                analysisList.add(basketDetail);
-            }
-        }
-
-        //统计各个菜品被购买的次数
-        HashMap<Long,Integer> analysisMap=new HashMap();
-        for (BasketDetail basketDetail:analysisList) {
-            Long foodId=basketDetail.getFoodId();
-            if (analysisMap.containsKey(foodId)){//如果analysisMap中有该食物的id，计数加1
-                analysisMap.replace(foodId,analysisMap.get(foodId)+1);
-            }else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
-                analysisMap.put(foodId,1);
-            }
-        }
-
-        //对统计数据进行排序
-        List<HashMap.Entry<Long,Integer> > sortList = new ArrayList<HashMap.Entry<Long,Integer> >(analysisMap.entrySet());
-        Collections.sort(sortList, new Comparator<HashMap.Entry<Long,Integer> >() {
-
-            //降序排序
-            @Override
-            public int compare(HashMap.Entry<Long,Integer> o1, HashMap.Entry<Long,Integer> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
+        List<Map.Entry<Long, Integer>> sortList = getFoodSellSortList();
 
         //获取排名前l条数据
         if (sortList.size() > l) {//判断list长度
@@ -219,4 +185,61 @@ public class BasketService {
 
     }
 
+    //获取排名前l的最受欢迎菜品（food）
+    public List getPopularFood(int l) {
+        List<Map.Entry<Long, Integer>> sortList = getFoodSellSortList();
+
+        //获取排名前l条数据
+        if (sortList.size() > l) {//判断list长度
+            sortList = sortList.subList(0, l);//取前l条数据
+        }
+        //将id转成food
+        List foodList=new ArrayList();
+
+        for (HashMap.Entry<Long,Integer> item:sortList) {
+            Food food=foodMapper.findById(item.getKey());
+            foodList.add(food);
+        }
+
+        return foodList;
+    }
+
+    //获取销售菜品的销售情况，按降序排列
+    private List<Map.Entry<Long, Integer>> getFoodSellSortList() {
+        //获取所有的购物车细节
+        ArrayList<BasketDetail> basketDetailList = basketDetailMapper.getAllBasketDetail();
+        //获取所有状态为true的购物车id
+        ArrayList basketIdList = basketMapper.getAllBasketStatusTrue();
+
+        //获取所有的已购买历史
+        ArrayList<BasketDetail> analysisList = new ArrayList();
+        for (BasketDetail basketDetail : basketDetailList) {
+            if (!basketIdList.contains(basketDetail.getBasketId())) {
+                analysisList.add(basketDetail);
+            }
+        }
+
+        //统计各个菜品被购买的次数
+        HashMap<Long, Integer> analysisMap = new HashMap();
+        for (BasketDetail basketDetail : analysisList) {
+            Long foodId = basketDetail.getFoodId();
+            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该食物的id，计数加1
+                analysisMap.replace(foodId, analysisMap.get(foodId) + 1);
+            } else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
+                analysisMap.put(foodId, 1);
+            }
+        }
+
+        //对统计数据进行排序
+        List<HashMap.Entry<Long, Integer>> sortList = new ArrayList<HashMap.Entry<Long, Integer>>(analysisMap.entrySet());
+        Collections.sort(sortList, new Comparator<HashMap.Entry<Long, Integer>>() {
+
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<Long, Integer> o1, HashMap.Entry<Long, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        return sortList;
+    }
 }
