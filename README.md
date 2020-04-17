@@ -43,7 +43,10 @@
 
 [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
 
-[上传图片](https://www.jianshu.com/p/c101b38adade)
+[SweetAlert](https://sweetalert2.github.io/#examples)
+
+[Layui](https://www.layui.com/)
+
 
 ##工具
 [Git](https://git-scm.com/download)
