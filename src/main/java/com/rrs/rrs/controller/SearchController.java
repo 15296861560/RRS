@@ -45,7 +45,6 @@ public class SearchController {
     public String searchSeatLocation(Model model,
                              @RequestParam(value ="location",required = false)String location){
 
-
         Seat seat=seatService.findSeatByLocation(location);
         model.addAttribute("pageDTO",seat);
         model.addAttribute("section","seat");

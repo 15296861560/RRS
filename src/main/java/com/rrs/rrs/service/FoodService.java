@@ -43,8 +43,8 @@ public class FoodService {
         food.setType(type);
         food.setPrice(price);
         food.setFoodUrl(foodUrl);
-        if (status.equals("上架"))status="GOOD";
-        if (status.equals("下架"))status="STOCKING";
+        if (status.equals("上架"))status=FoodStatusEnum.GOOD.getStatus();
+        if (status.equals("下架"))status=FoodStatusEnum.STOCKING.getStatus();
         food.setStatus(status);
         foodMapper.createFood(food);
     }
@@ -131,7 +131,15 @@ public class FoodService {
         if (name.equals("全部"))name="^";
         else name=stringToRegex(name);
 
-        if (status.equals("全部"))status="^";
+        //对食物状态进行转换
+        if (status.equals("上架"))status=FoodStatusEnum.GOOD.getStatus();
+        else if (status.equals("下架"))status=FoodStatusEnum.STOCKING.getStatus();
+        else status="^";
+
+        //对食物类型进行转换
+        for (FoodTypeEnum footType:FoodTypeEnum.values()) {
+            if (type.equals(footType.getMessage()))type=footType.getType();
+        }
         if (type.equals("全部"))type="^";
         foodQueryDTO.setName(name);
         foodQueryDTO.setStatus(status);

@@ -26,9 +26,14 @@
  - cp src/main/resources/application.properties src/main/resources/application-production.properties
  - vim src/main/resources/application-production.properties
  - mvn package
- - java -jar -Dspring.profile.active=production target/demo-0.0.1-SNAPSHOT.jar
+ - java -jar -Dspring.profile.active=production target/rrs-0.0.1-SNAPSHOT.jar
  - ps -aux | grep-java
  - git pull
+ 使项目一直运行
+ -yum install screen
+ - screen -S  rrs
+ -java -jar -Dspring.profile.active=production target/rrs-0.0.1-SNAPSHOT.jar
+ - CTRL+C终止运行
 
 ## 资料
 [Spring 文档](https://spring.io/guides)
