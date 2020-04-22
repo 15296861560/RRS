@@ -192,8 +192,14 @@ public class OrderService {
 
         List<Order> orderSum=new ArrayList();
 
-        if (name.equals("全部")){//直接查全部信息
-            List<Order> orders=orderMapper.getAllOrder();
+        if (name.equals("全部")){
+            List<Order> orders=new ArrayList<>();
+            if (status.equals("^")){//获取全部订单
+                orders=orderMapper.getAllOrder();
+            }
+            else {//根据状态获取订单信息
+                orders=orderMapper.getOrdersByStatus(status);
+            }
             orderSum.addAll(orders);
         }
         else  if (condition.equals("预订人")){//根据预订人查订单

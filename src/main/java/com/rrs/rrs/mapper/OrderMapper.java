@@ -48,6 +48,10 @@ public interface OrderMapper {
     @Select("select * from order_table where order_status='FINISH'")
     ArrayList<Order> getAllOrderStatusTrue();
 
+    //根据订单状态获取订单
+    @Select("select * from order_table where order_status=#{status}")
+    ArrayList<Order> getOrdersByStatus(@Param(value = "status")String status);
+
     //根据用户id查询订单
     @Select("select * from order_table where user_id=#{Id} and order_status regexp #{status}")
     List<Order> listSearchByUserId(DataQueryDTO dataQueryDTO);
