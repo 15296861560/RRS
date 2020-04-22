@@ -40,6 +40,20 @@ public class SearchController {
         return "manage";
     }
 
+    //管理员查订单
+    @PostMapping("/admin_search_order")
+    public String searchOrder(Model model,
+                             @RequestParam(value ="name",required = false,defaultValue = "全部")String name,
+                             @RequestParam(value = "status",required = false)String status,
+                             @RequestParam(value ="condition",required = false)String condition){
+
+
+        PageDTO pageDTO=orderService.listSearch(1,5,name,status,condition);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","order");
+        return "manage";
+    }
+
     //管理员根据位置查座位
     @PostMapping("/admin_search_seat_location")
     public String searchSeatLocation(Model model,

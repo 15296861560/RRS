@@ -1,5 +1,6 @@
 package com.rrs.rrs.mapper;
 
+import com.rrs.rrs.dto.DataQueryDTO;
 import com.rrs.rrs.model.Order;
 import org.apache.ibatis.annotations.*;
 
@@ -46,5 +47,9 @@ public interface OrderMapper {
     //获取所有的订单状态为已完成的订单信息
     @Select("select * from order_table where order_status='FINISH'")
     ArrayList<Order> getAllOrderStatusTrue();
+
+    //根据用户id查询订单
+    @Select("select * from order_table where user_id=#{Id} and order_status regexp #{status}")
+    List<Order> listSearchByUserId(DataQueryDTO dataQueryDTO);
 
 }

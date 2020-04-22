@@ -1,8 +1,10 @@
 package com.rrs.rrs.service;
 
 
+import com.rrs.rrs.dto.DataQueryDTO;
 import com.rrs.rrs.dto.OrderDTO;
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.QueryDTO;
 import com.rrs.rrs.enums.OrderStatusEnum;
 import com.rrs.rrs.mapper.OrderMapper;
 import com.rrs.rrs.mapper.SeatMapper;
@@ -166,5 +168,59 @@ public class OrderService {
 
 
         return resultList;
+    }
+
+    //查询订单
+    public PageDTO listSearch(int page, int size, String name, String status, String condition) {
+        PageDTO<OrderDTO> pageDTO=new PageDTO();
+        Integer offset=size*(page-1);//偏移量
+        //构建查询条件
+        DataQueryDTO dataQueryDTO=new DataQueryDTO();
+        dataQueryDTO.setOffset(offset);
+        dataQueryDTO.setSize(size);
+
+        //对订单状态进行转换
+        for (OrderStatusEnum orderStatus:OrderStatusEnum.values()) {
+            if (status.equals(orderStatus.getMessage())){
+                status=orderStatus.getStatus();
+                break;
+            }
+        }
+        if (status.equals("全部"))status="^";
+
+        dataQueryDTO.setStatus(status);
+
+        List<Order> orderSum=new ArrayList();
+
+        if (name.equals("全部")){//直接查全部信息
+            List<Order> orders=orderMapper.getAllOrder();
+            orderSum.addAll(orders);
+        }
+        else  if (condition.equals("预订人")){//根据预订人查订单
+
+
+                List<User> users=userMapper.listSearchByName(name);
+                for (User user:users) {
+                    dataQueryDTO.setId(user.getUserId());
+                    List<Order> orders=orderMapper.listSearchByUserId(dataQueryDTO);//查询某位联系人的订单信息
+                    orderSum.addAll(orders);
+                }
+
+
+        }else {//根据订单编号查订单
+            try {
+                Order order=orderMapper.findById(Long.parseLong(name));
+                orderSum.add(order);
+            }catch (Exception e){
+            }
+
+        }
+
+        List<OrderDTO> orderDTOS=ToDTOS(orderSum);//将订单转换成DTO
+        pageDTO.setPageDTO(orderDTOS.size(),page,size);
+        pageDTO.setDataDTOS(orderDTOS);
+        return pageDTO;
+
+
     }
 }

@@ -1,9 +1,8 @@
 package com.rrs.rrs.service;
 
 import com.rrs.rrs.dto.FoodDTO;
-import com.rrs.rrs.dto.FoodQueryDTO;
+import com.rrs.rrs.dto.DataQueryDTO;
 import com.rrs.rrs.dto.PageDTO;
-import com.rrs.rrs.dto.QueryDTO;
 import com.rrs.rrs.enums.FoodStatusEnum;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.mapper.FoodMapper;
@@ -125,9 +124,9 @@ public class FoodService {
         PageDTO<FoodDTO> pageDTO=new PageDTO();
         Integer offset=size*(page-1);//偏移量
         //构建查询条件
-        FoodQueryDTO foodQueryDTO=new FoodQueryDTO();
-        foodQueryDTO.setOffset(offset);
-        foodQueryDTO.setSize(size);
+        DataQueryDTO dataQueryDTO =new DataQueryDTO();
+        dataQueryDTO.setOffset(offset);
+        dataQueryDTO.setSize(size);
         if (name.equals("全部"))name="^";
         else name=stringToRegex(name);
 
@@ -138,18 +137,21 @@ public class FoodService {
 
         //对食物类型进行转换
         for (FoodTypeEnum footType:FoodTypeEnum.values()) {
-            if (type.equals(footType.getMessage()))type=footType.getType();
+            if (type.equals(footType.getMessage())){
+                type=footType.getType();
+                break;
+            }
         }
         if (type.equals("全部"))type="^";
-        foodQueryDTO.setName(name);
-        foodQueryDTO.setStatus(status);
-        foodQueryDTO.setType(type);
+        dataQueryDTO.setName(name);
+        dataQueryDTO.setStatus(status);
+        dataQueryDTO.setType(type);
 
-        List<Food> foods=foodMapper.listSearch(foodQueryDTO);//分页
+        List<Food> foods=foodMapper.listSearch(dataQueryDTO);//分页
         List<FoodDTO> foodDTOS=ToDTOS(foods);
 
         Integer totalCount;
-        totalCount =foodMapper.listSearchCount(foodQueryDTO);//查搜索数目
+        totalCount =foodMapper.listSearchCount(dataQueryDTO);//查搜索数目
         pageDTO.setPageDTO(totalCount,page,size);
         pageDTO.setDataDTOS(foodDTOS);
         return pageDTO;
