@@ -61,10 +61,13 @@ public class SearchController {
     //管理员根据位置查座位
     @PostMapping("/admin_search_seat_location")
     public String searchSeatLocation(Model model,
-                             @RequestParam(value ="location",required = false)String location){
+                             @RequestParam(value ="location",required = false)String location,
+                                     @RequestParam(name="page",defaultValue = "1")Integer page,
+                                     @RequestParam(name="size",defaultValue = "5")Integer size){
 
-        Seat seat=seatService.findSeatByLocation(location);
-        model.addAttribute("pageDTO",seat);
+        PageDTO pageDTO=seatService.findSeatByLocation(location,page,size);
+
+        model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","seat");
         return "manage";
     }

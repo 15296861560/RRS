@@ -5,6 +5,8 @@ import com.rrs.rrs.mapper.SeatMapper;
 import com.rrs.rrs.model.Seat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,17 @@ public class SeatService {
     }
     public Seat findSeatByLocation(String location){
         return seatMapper.findByLocation(location);
+    }
+
+    public PageDTO findSeatByLocation(String location,int page,int size){
+        PageDTO<Seat> pageDTO=new PageDTO();
+        //根据具体位置查座位
+        Seat seat=seatMapper.findByLocation(location);
+        List<Seat> seats = new ArrayList();
+        seats.add(seat);
+        pageDTO.setDataDTOS(seats);
+        pageDTO.setPageDTO(seats.size(),page,size);
+        return pageDTO;
     }
 
 
