@@ -87,11 +87,7 @@ public class UserService {
 
         Integer offset=size*(page-1);//偏移量
         List<User> users=userMapper.listAll(offset,size);//分页
-        List<UserDTO> userDTOS=new ArrayList();
-        for(User user:users){
-            UserDTO userDTO=userToDTO(user);
-            userDTOS.add(userDTO);
-        }
+        List<UserDTO> userDTOS = usersToDTOS(users);
         pageDTO.setDataDTOS(userDTOS);
         return pageDTO;
     }
@@ -154,5 +150,45 @@ public class UserService {
     //重置密码
     public void changePhone(Long userId) {
 
+    }
+
+    //根据姓名查询用户
+    public PageDTO findByName(String name,int page,int size) {
+        PageDTO<UserDTO> pageDTO=new PageDTO();
+        //根据姓名查询用户
+        List<User> users=userMapper.listSearchByName(name);
+        //将User转换为DTO
+        List<UserDTO> userDTOS = usersToDTOS(users);
+        pageDTO.setDataDTOS(userDTOS);
+        pageDTO.setPageDTO(userDTOS.size(),page,size);
+        return pageDTO;
+    }
+
+    //管理员根据联系号码查询用户
+    public PageDTO findByPhone(String phone,int page,int size) {
+        PageDTO<UserDTO> pageDTO=new PageDTO();
+        List<UserDTO> userDTOS =new ArrayList<>();
+
+        //根据根据联系号码查询用户
+        User user=userMapper.findByPhone(phone);
+        if (user!=null){
+            //将User转换为DTO
+            UserDTO userDTO=userToDTO(user);
+            userDTOS.add(userDTO);
+        }
+
+        pageDTO.setDataDTOS(userDTOS);
+        pageDTO.setPageDTO(userDTOS.size(),page,size);
+        return pageDTO;
+    }
+
+    //将多个User转换为多个UserDTO
+    private List<UserDTO> usersToDTOS(List<User> users) {
+        List<UserDTO> userDTOS = new ArrayList();
+        for (User user : users) {
+            UserDTO userDTO = userToDTO(user);
+            userDTOS.add(userDTO);
+        }
+        return userDTOS;
     }
 }

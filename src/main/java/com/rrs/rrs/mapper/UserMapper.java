@@ -47,7 +47,7 @@ public interface UserMapper {
     Integer userCountBySearchName(@Param(value = "search") String search);
 
     //模糊查询用户姓名包涵某字段的用户并进行分页处理
-    @Select("select * from user_table where user_name regexp #{name}")
+    @Select("select * from user_table where user_name=#{name}")
     List<User> listSearchByName( @Param(value = "name") String name);
 
     //模糊查询用户姓名包涵某字段的用户并进行分页处理

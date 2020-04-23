@@ -20,19 +20,19 @@
                     搜索
                 </div>
                 <div class="panel-body">
-                    <form role="form" class="form-inline">
+                    <form role="form" class="form-inline" action="/admin_search_user_name" method="post">
                         <div class="form-group">
                             <label for="name">用户姓名</label>
-                            <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="请输入名称">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">开始搜索</button>
                         </div>
                     </form>
-                    <form role="form" class="form-inline">
+                    <form role="form" class="form-inline" action="/admin_search_user_phone" method="post">
                         <div class="form-group">
-                            <label for="name">注册号码</label>
-                            <input type="text" class="form-control" id="name" placeholder="请输入号码">
+                            <label for="phone">注册号码</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入号码">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">开始搜索</button>

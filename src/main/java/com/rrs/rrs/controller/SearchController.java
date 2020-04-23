@@ -1,8 +1,10 @@
 package com.rrs.rrs.controller;
 
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.model.Seat;
+import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.FoodService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.SeatService;
@@ -13,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class SearchController {
@@ -76,6 +80,31 @@ public class SearchController {
         return "manage";
     }
 
+
+    //管理员根据姓名查用户
+    @PostMapping("/admin_search_user_name")
+    public String searchUserByName(Model model,
+                                     @RequestParam(value ="name",required = false)String name,
+                                   @RequestParam(name="page",defaultValue = "1")Integer page,
+                                    @RequestParam(name="size",defaultValue = "5")Integer size){
+        PageDTO pageDTO=userService.findByName(name,page,size);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","customer");
+        return "manage";
+    }
+
+    //管理员根据联系号码查用户
+    @PostMapping("/admin_search_user_phone")
+    public String searchUserByPhone(Model model,
+                                   @RequestParam(value ="phone",required = false)String phone,
+                                   @RequestParam(name="page",defaultValue = "1")Integer page,
+                                   @RequestParam(name="size",defaultValue = "5")Integer size){
+        PageDTO pageDTO=userService.findByPhone(phone,page,size);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","customer");
+        return "manage";
+    }
+
     //用户根据时间查询座位
     @GetMapping("/seat/find")
     public String searchSeat(Model model,
@@ -90,4 +119,6 @@ public class SearchController {
         model.addAttribute("nav","food");
         return "seat-find";
     }
+
+
 }
