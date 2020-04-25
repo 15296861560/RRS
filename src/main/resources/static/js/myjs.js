@@ -8,8 +8,6 @@ function checkout() {
     var confirmPassword = $("#confirmPassword").val();
     var checkbox = $("#checkbox");
 
-
-
     if (userName == "")
     {
         $("#userName").focus();
@@ -69,8 +67,22 @@ function checkout() {
         });
         return false;
     };
+    var code;
+    $.ajax({
+        type: "POST",
+        url: "/register/phone/binding",
+        async: false,//将ajax改为同步执行
+        contentType: 'application/json',
+        data: JSON.stringify({//将json对象转换成字符串
+            "phone": phone,
+            "verifyCode": verifyCode
+        }),
+        success: function (response) {
+            code= response.code;
+        }
+    });
 
-    var code=check();
+
     if (code!=200) {
         if (code==1002) {
             Swal.fire({
@@ -127,7 +139,7 @@ function check(){
     var code;
     $.ajax({
         type: "POST",
-        url: "/profile/phone/binding",
+        url: "/register/phone/binding",
         async: false,//将ajax改为同步执行
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
@@ -139,7 +151,6 @@ function check(){
         }
     });
 
-    debugger;
 
     if (code==200) {
         Swal.fire({
@@ -204,7 +215,7 @@ function confirmPhone() {
 }
 
 //检查验证码
-function changePasswor(){
+function changePassword(){
     var password=document.getElementById("password").value;
     var confirmPassword=document.getElementById("confirmPassword").value;
     var code;
@@ -222,7 +233,6 @@ function changePasswor(){
                 code= response.code;
             }
         });
-debugger;
 
         if (code==200) {
             Swal.fire({

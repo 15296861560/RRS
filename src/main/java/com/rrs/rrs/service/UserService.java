@@ -124,15 +124,21 @@ public class UserService {
     //验证
     public Object verify(HttpServletRequest request, String phone, String verifyCode) {
         //获取存在session的验证信息
-        JSONObject verify=(JSONObject)request.getSession().getAttribute("verify");
-        String phone2=verify.getString("phone");
-        String verifyCode2=verify.getString("verifyCode");
-        //进行验证
-        if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){
-            // 验证成功
-            return ResultDTO.okOf();
+        try {
+            JSONObject verify=(JSONObject)request.getSession().getAttribute("verify");
+            String phone2=verify.getString("phone");
+            String verifyCode2=verify.getString("verifyCode");
+            //进行验证
+            if (phone.equals(phone2)&&verifyCode.equals(verifyCode2)){
+                // 验证成功
+                return ResultDTO.okOf();
+            }
+            else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
+        }catch (Exception e){
+            return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
         }
-        else return ResultDTO.errorOf(CustomizeErrorCode.VERIFYCODE_VERIFY_FAIL);
+
+
     }
 
     //修改登录密码

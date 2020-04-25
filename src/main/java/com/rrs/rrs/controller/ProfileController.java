@@ -132,18 +132,7 @@ public class ProfileController {
         return "changePhone";
     }
 
-    //重新绑定手机号码
-    @ResponseBody
-    @RequestMapping(value = "/profile/phone/binding",method = RequestMethod.POST)
-    public Object binding(@RequestBody JSONObject dataJson,
-                         HttpServletRequest request){
-        ResultDTO result=(ResultDTO)userService.getVerify(dataJson, request);
-        if (result.getCode()==200){//验证成功进行绑定
-            userService.bindingPhone(dataJson, request);
-        }
 
-        return result;
-    }
 
 
 
