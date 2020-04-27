@@ -45,6 +45,7 @@ public class UserService {
         user.setGmtCreate(System.currentTimeMillis());
         user.setGmtModified(System.currentTimeMillis());
         user.setToken(token);
+        user.setCode("pt");
         userMapper.createUser(user);
        return "success";
 
@@ -196,5 +197,9 @@ public class UserService {
             userDTOS.add(userDTO);
         }
         return userDTOS;
+    }
+
+    public void createOrUpdate(User user) {
+        userMapper.createUser(user);
     }
 }

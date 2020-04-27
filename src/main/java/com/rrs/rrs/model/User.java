@@ -11,4 +11,5 @@ public class User {
     private String token;//身份标识
     private String password;//用户密码
     private String phone;//手机号码
+    private String code;//第三方id
 }

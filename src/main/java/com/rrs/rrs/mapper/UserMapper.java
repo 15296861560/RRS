@@ -17,8 +17,8 @@ public interface UserMapper {
     User findByPhone(@Param("phone") String phone);
 
     //创建用户
-    @Insert("insert into user_table(user_name,gmt_create,gmt_modified,token,password,phone) " +
-            "values(#{userName},#{gmtCreate},#{gmtModified},#{token},#{password},#{phone})")
+    @Insert("insert into user_table(user_name,gmt_create,gmt_modified,token,password,phone,code) " +
+            "values(#{userName},#{gmtCreate},#{gmtModified},#{token},#{password},#{phone},#{code})")
     void createUser(User user);
 
     //根据token查询用户
