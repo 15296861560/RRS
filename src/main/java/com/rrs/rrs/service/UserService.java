@@ -200,6 +200,13 @@ public class UserService {
     }
 
     public void createOrUpdate(User user) {
-        userMapper.createUser(user);
+        User dbUser=userMapper.findByCode(user.getCode());
+        if (dbUser==null){//该用户未注册
+            userMapper.createUser(user);
+        }else {//用户已注册
+            dbUser.setCode(user.getCode());
+            dbUser.setGmtModified(user.getGmtModified());
+            userMapper.update(dbUser);
+        }
     }
 }

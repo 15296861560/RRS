@@ -35,7 +35,7 @@ public interface UserMapper {
 
     //更新用户数据
     @Update("update user_table set user_name=#{userName},gmt_modified=#{gmtModified}," +
-            "password=#{password},phone=#{phone} where user_id=#{userId}")
+            "password=#{password},phone=#{phone},code=#{code} where user_id=#{userId}")
     void update(User user);
 
     //根据id删除用户
@@ -54,5 +54,9 @@ public interface UserMapper {
     @Select("select * from user_table where user_name regexp #{search} limit #{offset},#{size}")
     List<User> listBySearch(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size, @Param(value = "search") String search);
 
+
+    //根据编码查询用户
+    @Select("select * from user_table where code=#{code}")
+    User findByCode(@Param("code") String code);
 
 }
