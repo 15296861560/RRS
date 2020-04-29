@@ -36,7 +36,8 @@ public class AuthorizeController {
     @Autowired
     private UserService userService;
     @GetMapping("/github/callback")
-    public String callback(@RequestParam(name="code")String code,
+    public String callback(HttpServletRequest request,
+                           @RequestParam(name="code")String code,
                            @RequestParam(name="state")String state ,
                                HttpServletResponse response){
 
@@ -60,7 +61,8 @@ public class AuthorizeController {
 //            user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
 
-
+            //将用户存到session
+            request.getSession().setAttribute("user",userService.findByCode(user.getCode()));
             //将token写入cookie
             response.addCookie(new Cookie("token",token));
             //自动注册登录成功进入菜单页面

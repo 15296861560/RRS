@@ -63,7 +63,7 @@ public class FoodController {
         return "food";
     }
 
-    private void FoodPage(Model model, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "size", defaultValue = "9") Integer size, @RequestParam(name = "search", required = false) String search, @RequestParam(name = "attribute", defaultValue = "name") String attribute) {
+    public void FoodPage(Model model, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "size", defaultValue = "9") Integer size, @RequestParam(name = "search", required = false) String search, @RequestParam(name = "attribute", defaultValue = "name") String attribute) {
         PageDTO pageDTO = new PageDTO();
         if ("name".equals(attribute) && (search == null||search=="")) pageDTO = foodService.listByStatus(page, size, "GOOD");//默认情况下
         else if ("name".equals(attribute)) pageDTO = foodService.listByName(page, size, search);

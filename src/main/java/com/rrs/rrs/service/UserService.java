@@ -71,6 +71,9 @@ public class UserService {
 
     public User findByPhone(String phone) {return userMapper.findByPhone(phone);}
 
+    public User findByCode(String code) {return userMapper.findByCode(code);}
+
+
 
     //删除用户
 
