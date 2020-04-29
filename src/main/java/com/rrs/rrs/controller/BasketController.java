@@ -31,9 +31,7 @@ public class BasketController {
             return "redirect:/noLogin";
         }
 
-        PageDTO<BasketDetailDTO> pageDTO=basketService.listBasketDetail(1,9,user.getUserId());//获取购物车细节信息
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("nav","basket");
+        Shopocart(model, user);
         return "shopcart";
     }
 
@@ -94,6 +92,28 @@ public class BasketController {
         response.addCookie(seatIdCookie);
 
             return ResultDTO.okOf();
+    }
+
+
+    //删除某种已选菜品
+    @GetMapping("/basket/deleteFood")
+//    @RequestMapping("/basket/deleteFood")
+    public String deleteFood(Model model,
+                         HttpServletRequest request){
+        String basketDetailId = request.getParameter("basketDetailId");
+        Long id=Long.parseLong(basketDetailId);
+        //删除某种已选菜品
+        basketService.deleteBasketDetail(id);
+
+        User user=(User)request.getSession().getAttribute("user");
+        Shopocart(model, user);
+        return "shopcart";
+    }
+
+    private void Shopocart(Model model, User user) {
+        PageDTO<BasketDetailDTO> pageDTO = basketService.listBasketDetail(1, 9, user.getUserId());//获取购物车细节信息
+        model.addAttribute("pageDTO", pageDTO);
+        model.addAttribute("nav", "basket");
     }
 
 }

@@ -33,3 +33,36 @@ function settle(e) {
 }
 
 
+function deleteFood(e) {
+    Swal.fire({
+        title: '您确定吗?',
+        text: "您即将删除该菜品!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+    }).then((result) => {
+        if (result.value) {
+
+        var basketDetailId=e.getAttribute("data-id");
+
+        // 2秒后自动刷新页面
+        setTimeout(function(){window.location.href="/basket/deleteFood/?basketDetailId="+basketDetailId;},2000);
+
+        Swal.fire(
+            '已删除',
+            '该菜品已移除.',
+            'success'
+        );
+
+
+
+
+
+    }
+})
+
+}
+
+

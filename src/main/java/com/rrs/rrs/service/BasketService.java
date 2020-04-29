@@ -242,4 +242,9 @@ public class BasketService {
         });
         return sortList;
     }
+
+    //删除购物车上的某种食物
+    public void deleteBasketDetail(Long basketDetailId) {
+        basketDetailMapper.deleteBasketDetailById(basketDetailId);
+    }
 }

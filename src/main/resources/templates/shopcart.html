@@ -99,7 +99,7 @@
               <span class="sum" th:text="${basketDetailDTO.price}"></span>
             </li>
             <li class="th th-op">
-              <span class="dele-btn">删除</span>
+              <a class="dele-btn btn-danger" th:data-id="${basketDetailDTO.basketDetailId}"  onclick="deleteFood(this)">删除</a>
             </li>
           </ul>
 
