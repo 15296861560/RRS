@@ -86,6 +86,7 @@ public class OrderService {
             }else {
                 orderDTO.setLocation(seat.getLocation());
             }
+            orderDTO.setPhone(user.getPhone());//添加联系号码
             orderDTO.setOrderStatus(OrderStatusEnum.valueOf(order.getOrderStatus()).getMessage());//将订单状态转成中文
             orderDTOS.add(orderDTO);
         }
