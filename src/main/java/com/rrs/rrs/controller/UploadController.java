@@ -91,11 +91,11 @@ public class UploadController {
                              @RequestParam(value ="column",required = false)String column){
         String location=row+"排"+column+"列";
         Seat seat=seatService.findSeatByLocation(location);
-        if (seat==null)//如果这个位置的座位不存在才能创建座位
+        if (seat==null)//如果这个位置的餐台不存在才能创建餐台
         {
-            seatService.createSeat(location);//创建某个位置的座位
+            seatService.createSeat(location);//创建某个位置的餐台
         }else {
-            //上传座位出错
+            //上传餐台出错
         }
         PageDTO pageDTO=seatService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);

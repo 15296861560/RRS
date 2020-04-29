@@ -32,7 +32,7 @@
                     </span>菜单管理</a>
             <a href="/manage/seat" th:class="${section.equals('seat')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon  glyphicon-print" aria-hidden="true">
-                    </span>座位管理</a>
+                    </span>餐台管理</a>
             <a href="/manage/customer" th:class="${section.equals('customer')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true">
                     </span>用户管理</a>
@@ -55,7 +55,7 @@
         <div th:if="${section=='menu'}">
         <div th:insert="~{manage/menu::menu}"></div>
         </div>
-        <!--座位管理-->
+        <!--餐台管理-->
         <div th:if="${section=='seat'}">
             <div th:insert="~{manage/seat::seat}"></div>
         </div>

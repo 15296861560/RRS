@@ -37,7 +37,7 @@ public class PayController {
         AlipayVo vo = new AlipayVo();
         //这里模拟了一个订单的id
         vo.setOut_trade_no(UUID.randomUUID().toString().replace("-", ""));
-        vo.setTotal_amount("0.01");
+        vo.setTotal_amount("1.11");
         vo.setSubject("测试付款商品A");
         //这个是固定的，沙箱默认就用这个参数
         vo.setProduct_code("FAST_INSTANT_TRADE_PAY");
@@ -64,7 +64,7 @@ public class PayController {
         String[] out_trade_nos = parameterMap.get("out_trade_no");
         String uuid = out_trade_nos[0];
 //        orderService.updateOrderInfo(uuid);
-        return "redirect:/good/toPayFor";
+        return "redirect:/food";
     }
 
     @RequestMapping("notifyUrl")
@@ -76,7 +76,7 @@ public class PayController {
                 System.out.println(s + ":" + strings[i]);
             }
         }
-        return "redirect:/good/toPayFor";
+        return "redirect:/manage";
     }
 }
 

@@ -99,7 +99,7 @@ public class ManageController {
     }
 
 
-    //座位管理
+    //餐台管理
     @GetMapping("/manage/seat")
     public String manage_seat(Model model,
                               @RequestParam(name="page",defaultValue = "1")Integer page,
@@ -114,16 +114,16 @@ public class ManageController {
     }
 
 
-    //对座位进行相应操作
+    //对餐台进行相应操作
     @GetMapping("/manage/seat/{action}")
     public String seatAction(Model model,
                          HttpServletRequest request,
                          @RequestParam(name="seatId")Integer seatId,
                          @PathVariable(name = "action")String action){
 
-        if (action.equals("delete")) seatService.deleteSeat(seatId);//删除指定座位
-        if (action.equals("toEmpty"))seatService.changeSeatStatus(seatId,"空");//将座位状态变为空
-        if (action.equals("toOrder"))seatService.changeSeatStatus(seatId,"有人");//将座位状态变为有人
+        if (action.equals("delete")) seatService.deleteSeat(seatId);//删除指定餐台
+        if (action.equals("toEmpty"))seatService.changeSeatStatus(seatId,"空");//将餐台状态变为空
+        if (action.equals("toOrder"))seatService.changeSeatStatus(seatId,"有人");//将餐台状态变为有人
 
         PageDTO pageDTO=seatService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);

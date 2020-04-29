@@ -16,7 +16,7 @@ debugger;
 
                 Swal.fire({
                     icon: 'success',
-                    title: '编号为'+seatId+'的位置预约成功！',
+                    title: '编号为'+seatId+'的餐台预约成功！',
                     text:'请于30分钟内点好菜品',
                 });
             } else {

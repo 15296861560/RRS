@@ -47,7 +47,7 @@ public class BasketController {
         String orderTime=null;
         //通过request获取Cookie
         Cookie[] cookies = request.getCookies();
-        //从Cookie中获取预约座位和预约时间
+        //从Cookie中获取预约餐台和预约时间
         if (cookies!=null&&cookies.length!=0)//cookie不为null时
             for (Cookie cookie:cookies) {
                 if (cookie.getName().equals("seatId")) {
@@ -58,7 +58,7 @@ public class BasketController {
                 }
             }
 
-            if (seatId==null||orderTime==null){//检查是否已经预约过座位
+            if (seatId==null||orderTime==null){//检查是否已经预约过餐台
                 return ResultDTO.errorOf(CustomizeErrorCode.FAIL_TO_ORDER);
             }
 
@@ -67,7 +67,7 @@ public class BasketController {
         boolean flag=basketService.settle(userId,orderTime,seatId);//进行结算创建订单
 
         if (flag){//结算成功
-            //清除存在cookie中的座位信息
+            //清除存在cookie中的餐台信息
             Cookie seatIdCookie = new Cookie("seatId", null);
             seatIdCookie.setMaxAge(0);
             Cookie orderTimeCookie = new Cookie("orderTime",null);
@@ -80,7 +80,7 @@ public class BasketController {
         else return ResultDTO.errorOf(CustomizeErrorCode.FAIL_TO_ORDER);
     }
 
-    //预约座位
+    //预约餐台
     @ResponseBody
     @RequestMapping(value = "/toOrderSeat",method = RequestMethod.POST)
     public Object toOrderSeat(@RequestBody JSONObject dataJson,
@@ -89,7 +89,7 @@ public class BasketController {
         String seatId=dataJson.getString("seatId");
         String orderTime=dataJson.getString("orderTime");
 
-        //将预约座位的信息存入在Cookie中，30分钟后过期
+        //将预约餐台的信息存入在Cookie中，30分钟后过期
         Cookie seatIdCookie = new Cookie("seatId", seatId);
         seatIdCookie.setMaxAge(60*30);
         Cookie orderTimeCookie = new Cookie("orderTime",orderTime);

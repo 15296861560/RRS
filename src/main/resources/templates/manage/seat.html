@@ -8,7 +8,7 @@
             <ol class="breadcrumb">
                 <li class="active">管理中心
                 </li>
-                <li class="active">座位管理
+                <li class="active">餐台管理
                 </li>
             </ol>
 
@@ -43,15 +43,15 @@
                     </form>
                 </div>
                 </div>
-                <!--添加座位-->
+                <!--添加餐台-->
                 <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse2">
-                    添加座位
+                    添加餐台
                 </div>
                 <div id="collapse2" class="collapse" data-parent="#accordion">
                 <div class="panel-body">
                     <form role="form" class="form-inline" action="/uploadSeat" method="post">
                         <div class="form-group">
-                            <label >座位位置</label>
+                            <label >餐台位置</label>
                             <div class="form-group">
                                 <select class="form-control" id="row" name="row">
                                     <div th:each="i:${#numbers.sequence(1, 100)}">
@@ -90,9 +90,9 @@
                 <table class="table table-striped ">
                     <thead>
                     <tr>
-                        <th>座位编号</th>
-                        <th>座位位置</th>
-                        <th>座位状态</th>
+                        <th>餐台编号</th>
+                        <th>餐台位置</th>
+                        <th>餐台状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>

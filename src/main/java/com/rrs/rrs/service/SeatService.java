@@ -14,7 +14,7 @@ public class SeatService {
     @Autowired
     private SeatMapper seatMapper;
 
-    //寻找座位
+    //寻找餐台
     public Seat findSeatById(Integer id){
         return seatMapper.findById(id);
     }
@@ -24,7 +24,7 @@ public class SeatService {
 
     public PageDTO findSeatByLocation(String location,int page,int size){
         PageDTO<Seat> pageDTO=new PageDTO();
-        //根据具体位置查座位
+        //根据具体位置查餐台
         Seat seat=seatMapper.findByLocation(location);
         List<Seat> seats = new ArrayList();
         seats.add(seat);
@@ -34,12 +34,12 @@ public class SeatService {
     }
 
 
-    //改变座位状态
+    //改变餐台状态
     public void changeSeatStatus(Integer seatId,String seatStatus){
         seatMapper.changeSeatStatus(seatId,seatStatus);
     }
 
-    //添加新座位
+    //添加新餐台
     public void createSeat(String location){
         Seat seat=new Seat();
         seat.setLocation(location);
@@ -49,7 +49,7 @@ public class SeatService {
 
 
 
-    //查询所有座位并进行分页处理
+    //查询所有餐台并进行分页处理
     public PageDTO list(Integer page, Integer size) {
 
         PageDTO<Seat> pageDTO=new PageDTO();
@@ -64,12 +64,12 @@ public class SeatService {
     }
 
 
-    //删除座位
+    //删除餐台
     public void deleteSeat(Integer seatId) {
         seatMapper.deleteSeat(seatId);
     }
 
-    //根据状态查找座位并进行分页
+    //根据状态查找餐台并进行分页
     public PageDTO listSearchStatus(int page, int size, String status) {
         PageDTO<Seat> pageDTO=new PageDTO();
         Integer totalCount;

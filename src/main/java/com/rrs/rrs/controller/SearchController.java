@@ -58,7 +58,7 @@ public class SearchController {
         return "manage";
     }
 
-    //管理员根据位置查座位
+    //管理员根据位置查餐台
     @PostMapping("/admin_search_seat_location")
     public String searchSeatLocation(Model model,
                              @RequestParam(value ="location",required = false)String location,
@@ -71,7 +71,7 @@ public class SearchController {
         model.addAttribute("section","seat");
         return "manage";
     }
-    //管理员根据状态查座位
+    //管理员根据状态查餐台
     @PostMapping("/admin_search_seat_status")
     public String searchSeatStatus(Model model,
                                      @RequestParam(value ="status",required = false)String status){
@@ -108,7 +108,7 @@ public class SearchController {
         return "manage";
     }
 
-    //用户根据时间查询座位
+    //用户根据时间查询餐台
     @GetMapping("/seat/find")
     public String searchSeat(Model model,
                                    @RequestParam(value ="datetime",required = false)String datetime,
