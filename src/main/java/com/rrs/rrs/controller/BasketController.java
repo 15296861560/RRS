@@ -87,15 +87,11 @@ public class BasketController {
                          HttpServletRequest request, HttpServletResponse response){
         //从json中获取信息并将其转为对应类型
         String seatId=dataJson.getString("seatId");
-        String orderTime=dataJson.getString("orderTime");
 
         //将预约餐台的信息存入在Cookie中，30分钟后过期
         Cookie seatIdCookie = new Cookie("seatId", seatId);
         seatIdCookie.setMaxAge(60*30);
-        Cookie orderTimeCookie = new Cookie("orderTime",orderTime);
-        orderTimeCookie.setMaxAge(60*30);
         response.addCookie(seatIdCookie);
-        response.addCookie(orderTimeCookie);
 
             return ResultDTO.okOf();
     }

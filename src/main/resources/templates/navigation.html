@@ -26,7 +26,7 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
                 <!--查询餐位-->
-                <form class="navbar-form navbar-left" action="/seat/find" method="get">
+                <form class="navbar-form navbar-left" action="/findSeat" method="get">
                     <div class="form-group">
                         <input type="text" class="form-control" th:placeholder="${datetime==null?'预订时间':datetime}"   id="datetime" name="datetime"/>
                     </div>

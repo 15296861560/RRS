@@ -58,6 +58,7 @@
                         <th>预订人</th>
                         <th>联系号码</th>
                         <th>预订餐台</th>
+                        <th>预订时间</th>
                         <th>总价格</th>
                         <th>订单内容</th>
                         <th>状态</th>
@@ -70,6 +71,7 @@
                         <td><span th:text="${orderDTO.userName}"></span></td>
                         <td><span th:text="${orderDTO.phone}"></span></td>
                         <td><span th:text="${orderDTO.location}"></span></td>
+                        <td><span th:text="${orderDTO.orderTime}"></span></td>
                         <td><span th:text="${orderDTO.amount}"></span>元</td>
                         <td><span th:text="${orderDTO.content}"></span></td>
                         <td><span th:text="${orderDTO.orderStatus}"></span></td>

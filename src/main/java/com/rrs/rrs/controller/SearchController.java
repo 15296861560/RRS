@@ -9,6 +9,7 @@ import com.rrs.rrs.service.FoodService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.SeatService;
 import com.rrs.rrs.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -109,13 +112,28 @@ public class SearchController {
     }
 
     //用户根据时间查询餐台
-    @GetMapping("/seat/find")
+    @GetMapping("/findSeat")
     public String searchSeat(Model model,
                                    @RequestParam(value ="datetime",required = false)String datetime,
                              @RequestParam(name="page",defaultValue = "1")Integer page,
-                             @RequestParam(name="size",defaultValue = "5")Integer size){
+                             @RequestParam(name="size",defaultValue = "5")Integer size,
+                             HttpServletResponse response){
 
-        System.out.println(datetime);
+
+        //如果未选择预约时间
+        if (datetime==null||datetime.length()==0){
+            model.addAttribute("tip","请先选择预约时间,再查询餐位！");
+            model.addAttribute("src","/food");
+            return "tip";
+        }
+
+        //用空格和-分隔datetime
+        String[] dates = StringUtils.split(datetime, " |\\-");
+
+        //将预约时间的信息存入在Cookie中，30分钟后过期
+        Cookie orderTimeCookie = new Cookie("orderTime",dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+dates[3]);
+        orderTimeCookie.setMaxAge(60*30);
+        response.addCookie(orderTimeCookie);
         PageDTO pageDTO=seatService.listSearchStatus(page,size,"空");
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("datetime",datetime);

@@ -1,14 +1,11 @@
 function toOrderSeat(e) {
     var seatId=e.getAttribute("data-id");
-    var orderTime=$("#datetime").val();
-debugger;
     $.ajax({
         type: "POST",
         url: "/toOrderSeat",
         contentType: 'application/json',
         data: JSON.stringify({//将json对象转换成字符串
             "seatId": seatId,
-            "orderTime":orderTime,
             "action": "order"
         }),
         success: function (response) {
