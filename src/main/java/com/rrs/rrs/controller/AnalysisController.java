@@ -36,10 +36,15 @@ public class AnalysisController {
             rankData=basketService.getFoodRankData(10);
             model.addAttribute("section","food");
         }
-        if (action.equals("user")) {//点餐最多客户
+        else if (action.equals("user")) {//点餐最多客户
             rankData=orderService.getUserRankData(10);
             model.addAttribute("section","user");
         }
+        else {//菜品类目统计
+            rankData=foodService.getCategoryData();
+            model.addAttribute("section","category");
+        }
+
 
         List nameList= (List) rankData.get(0);
         List qtyList=(List) rankData.get(1);

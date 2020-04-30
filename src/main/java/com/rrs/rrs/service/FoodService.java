@@ -12,9 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -163,6 +161,52 @@ public class FoodService {
     }
 
 
+    //菜品类目统计
+    public List getCategoryData() {
+        //获取所有的菜品信息
+        List<Food> analysisList=foodMapper.selectAll();
+
+        HashMap<String,Integer> analysisMap=new HashMap();
+        //将所有菜品类别当作主键加入analysisMap
+        for (FoodTypeEnum type:FoodTypeEnum.values()) {
+            analysisMap.put(type.getType(),0);
+        }
+        //统计各种菜品类别的数量
+        String foodType;
+        for (Food food:analysisList) {
+            foodType=food.getType();
+            if (analysisMap.containsKey(food.getType())){//如果analysisMap中有该类型的食物，计数加1
+                analysisMap.replace(foodType,analysisMap.get(foodType)+1);
+            }else {//有什么意外情况都加到其它类里
+                foodType="E";
+                analysisMap.replace(foodType,analysisMap.get(foodType)+1);
+            }
+        }
+
+        //对统计数据进行排序
+        List<HashMap.Entry<String,Integer> > sortList = new ArrayList<HashMap.Entry<String,Integer> >(analysisMap.entrySet());
+        Collections.sort(sortList, new Comparator<HashMap.Entry<String,Integer> >() {
+
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<String,Integer> o1, HashMap.Entry<String,Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        //将类型和数量分离
+        List typeList=new ArrayList();
+        List qtyList=new ArrayList();
+        for (HashMap.Entry<String,Integer> item:sortList) {
+            String type=FoodTypeEnum.valueOf(item.getKey()).getMessage();//将类型转成中文
+            typeList.add(type);
+            qtyList.add(item.getValue());
+        }
+        List resultList=new ArrayList();
+        resultList.add(typeList);
+        resultList.add(qtyList);
 
 
+        return resultList;
+    }
 }

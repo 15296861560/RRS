@@ -46,6 +46,11 @@
         <div th:if="${section=='user'}">
             <div th:insert="~{analysis/userRank::userRank}"></div>
         </div>
+        <!--菜品类目统计-->
+        <div th:if="${section=='category'}">
+            <div th:insert="~{analysis/categoryStatistics::categoryStatistics}"></div>
+        </div>
+
 
     </div>
 </div>
