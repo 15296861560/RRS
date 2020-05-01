@@ -60,11 +60,10 @@
                         <!--座位图片-->
                         <div class="media-heading">
                             <a th:href="@{'/seat/'+${seatDTO.seatId}}">
-                                <!--<img class="media-object" th:src="${seatDTO.foodUrl}" height="120" width="165">-->
-                                <img class="media-object" src="#" height="120" width="165">
+                                <img class="media-object" th:src="${seatDTO.seatUrl}" height="120" width="165">
                             </a>
                         </div>
-                        <div class="media-body">
+                        <div class="media-body ">
 
                             <span class="text-gray-small">
                         座位编号：<span th:text="${seatDTO.seatId}" style="color: red"></span><br>
@@ -73,7 +72,8 @@
                     </span>
 
                             <form role="form" class="form-inline">
-                                <br><button type="button" class="btn btn-info" onclick="toOrder(this)" th:data-id="${seatDTO.seatId}">预订</button>
+                                <button type="button" class="btn btn-info" onclick="toOrderSeat(this)"
+                                        th:data-id="${seatDTO.seatId}" th:data-datetime="${datetime}" th:data-datetime2="${datetime2}">预订</button>
                             </form>
 
 

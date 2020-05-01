@@ -1,5 +1,8 @@
 function toOrderSeat(e) {
     var seatId=e.getAttribute("data-id");
+    var datetime=e.getAttribute("data-datetime");
+    var datetime2=e.getAttribute("data-datetime2");
+    debugger;
     $.ajax({
         type: "POST",
         url: "/toOrderSeat",
@@ -13,8 +16,8 @@ function toOrderSeat(e) {
 
                 Swal.fire({
                     icon: 'success',
-                    title: '编号为'+seatId+'的餐台预约成功！',
-                    text:'请于30分钟内点好菜品',
+                    title: datetime+' '+datetime2+'的编号为'+seatId+'的餐台预约成功！',
+                    text:'请于30分钟内点好菜品，并在指定时间段进行用餐哦',
                 });
             } else {
                 Swal.fire({
