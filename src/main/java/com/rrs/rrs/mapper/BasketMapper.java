@@ -18,6 +18,10 @@ public interface BasketMapper {
     @Update("update basket_table set basket_status=#{basketStatus} where basket_id=#{basketId}")
     void changeBasketStatus(@Param("basketId") Long basketId, @Param("basketStatus") String basketStatus);
 
+    //更改购物车修改时间
+    @Update("update basket_table set gmt_modified=#{gmtModified} where basket_id=#{basketId}")
+    void changeBasketGmtModified(@Param("basketId") Long basketId, @Param("gmtModified") Long gmtModified);
+
     @Insert("insert into basket_table(gmt_create,gmt_modified,user_id,basket_status,payment)values(#{gmtCreate},#{gmtModified},#{userId},#{basketStatus},#{payment})")
     void createBasket(Basket basket);
 

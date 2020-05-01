@@ -32,8 +32,7 @@
                 <span th:if="${userDTO.phone==null}"><a href="/profile/phone">点击绑定</a></span>
                 <span th:if="${userDTO.phone!=null}" th:text="${userDTO.phone}"></span>  <a class="navbar-right m-r-30" href="/profile/confirmPhone/changePhone">点击修改</a></li>
             <li class="list-group-item"><b>登录密码：</b><span>建议您定期更换密码，设置一个包含字母，符号或数字中至少两项且长度超过6位的密码。</span> <a class="navbar-right m-r-30" href="/profile/confirmPhone/changePassword">点击修改</a></li>
-
-            <!--<li class="list-group-item"><a href="/profile/history">下单历史：</a><span th:text="${userDTO.history}"></span><br></li>-->
+            <li class="list-group-item"><b><a href="/profile/history">下单历史：</a></b><span th:text="${userDTO.userName}"></span></li>
         </ul>
 
     </div>

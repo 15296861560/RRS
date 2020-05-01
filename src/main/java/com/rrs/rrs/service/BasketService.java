@@ -151,6 +151,7 @@ public class BasketService {
            orderMapper.createOrder(order);
 
            basketMapper.changeBasketStatus(basketId,"false");//更改购物车状态
+           basketMapper.changeBasketGmtModified(basketId,System.currentTimeMillis());//更改购物车状态
 
            return true;
        }else {
