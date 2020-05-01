@@ -66,27 +66,35 @@ public class SearchController {
     }
 
     //管理员根据位置查餐台
-    @PostMapping("/admin_search_seat_location")
-    public String searchSeatLocation(Model model,
-                             @RequestParam(value ="location",required = false)String location,
-                                     @RequestParam(name="page",defaultValue = "1")Integer page,
-                                     @RequestParam(name="size",defaultValue = "5")Integer size){
-
-        PageDTO pageDTO=seatService.findSeatByLocation(location,page,size);
-
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","seat");
-        return "manage";
-    }
-    //管理员根据状态查餐台
-    @PostMapping("/admin_search_seat_status")
+//    @PostMapping("/admin_search_seat_location")
+//    public String searchSeatLocation(Model model,
+//                             @RequestParam(value ="location",required = false)String location,
+//                                     @RequestParam(name="page",defaultValue = "1")Integer page,
+//                                     @RequestParam(name="size",defaultValue = "5")Integer size){
+//
+//        PageDTO pageDTO=seatService.findSeatByLocation(location,page,size);
+//
+//        model.addAttribute("pageDTO",pageDTO);
+//        model.addAttribute("section","seat");
+//        return "manage";
+//    }
+    //管理员根据时间和状态查餐台
+    @PostMapping("/admin_search_seat")
     public String searchSeatStatus(Model model,
-                                     @RequestParam(value ="status",required = false)String status){
+                                     @RequestParam(value ="status",required = false)String status,
+                                   @RequestParam(value ="datetime",required = false)String datetime,
+                                   @RequestParam(value ="datetime2",required = false)String datetime2){
 
+        //用-分隔datetime
+        String[] dates = StringUtils.split(datetime, "-");
+        String orderTime=dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+datetime2;
 
-        PageDTO pageDTO=seatService.listSearchStatus(1,5,status);
+        PageDTO pageDTO=seatService.listSearch(1,5,status,orderTime);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","seat");
+        model.addAttribute("datetime",datetime);
+        model.addAttribute("datetime2",datetime2);
+        model.addAttribute("action","search");
         return "manage";
     }
 
@@ -158,7 +166,6 @@ public class SearchController {
         Cookie orderTimeCookie = new Cookie("orderTime",orderTime);
         orderTimeCookie.setMaxAge(60*30);
         response.addCookie(orderTimeCookie);
-//        PageDTO pageDTO=seatService.listSearchStatus(page,size,"空");
         PageDTO pageDTO=seatService.searchSeatByTime(page,size,orderTime);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("datetime",datetime);

@@ -122,8 +122,6 @@ public class ManageController {
                          @PathVariable(name = "action")String action){
 
         if (action.equals("delete")) seatService.deleteSeat(seatId);//删除指定餐台
-        if (action.equals("toEmpty"))seatService.changeSeatStatus(seatId,"空");//将餐台状态变为空
-        if (action.equals("toOrder"))seatService.changeSeatStatus(seatId,"有人");//将餐台状态变为有人
 
         PageDTO pageDTO=seatService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);

@@ -2,6 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+
+<script>
+    $(function() {
+        $("#datetime").datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+        });
+    });
+</script>
+
 <div th:fragment="seat">
 
         <div class="col-sm-10">
@@ -20,18 +30,20 @@
                 <div id="collapse1" class="collapse" data-parent="#accordion">
 
                 <div class="panel-body">
-                    <form role="form" class="form-inline" action="/admin_search_seat_location" method="post">
+
+                    <form role="form" class="form-inline" action="/admin_search_seat" method="post">
                         <div class="form-group">
-                            <label for="location">位置搜索</label>
-                            <input type="text" class="form-control" id="location" name="location" placeholder="请输入位置">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">开始搜索</button>
-                        </div>
-                    </form>
-                    <form role="form" class="form-inline" action="/admin_search_seat_status" method="post">
-                        <div class="form-group">
-                            <label for="status">状态搜索</label>
+                            <label for="datetime">时间</label>
+                            <input type="text" class="form-control" th:placeholder="${datetime==null?'预订日期':datetime}" th:value="${datetime==null?'':datetime}"  id="datetime" name="datetime"/>
+                            <select class="form-control" id="datetime2" name="datetime2" data="xxxx">
+                                <option th:if="${datetime2!=null}" th:text="${datetime2}"></option>
+                                <option>07:00-10:00</option>
+                                <option>10:30-12:30</option>
+                                <option>13:00-15:00</option>
+                                <option>17:00-19:00</option>
+                                <option>20:00-22:00</option>
+                            </select>
+                            <label for="status">状态</label>
                             <select class="form-control" id="status" name="status">
                                 <option>空</option>
                                 <option>有人</option>
@@ -92,20 +104,22 @@
                     <tr>
                         <th>餐台编号</th>
                         <th>餐台位置</th>
-                        <th>餐台状态</th>
+                        <th>餐台视图</th>
+                        <!--<th>餐台状态</th>-->
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="seat:${pageDTO.getDataDTOS()}">
-                        <td><span th:text="${seat.seatId}"></span></td>
-                        <td><span th:text="${seat.location}"></span></td>
-                        <td><span th:text="${seat.seatStatus}"></span></td>
+                    <tr th:each="seatDTO:${pageDTO.getDataDTOS()}">
+                        <td><span th:text="${seatDTO.seatId}"></span></td>
+                        <td><span th:text="${seatDTO.location}"></span></td>
+                        <td>
+                            <img th:src="${seatDTO.seatUrl}" class="img-thumbnail" style="height: 30px;" />
+                        </td>
+                        <!--<td><span th:text="${seatDTO.seatStatus}"></span></td>-->
                         <td>
                             <div class="btn-group">
-                                <a th:href="@{/manage/seat/toEmpty/(seatId=${seat.seatId})}" class="btn btn-success">置空</a>
-                                <a th:href="@{/manage/seat/toOrder/(seatId=${seat.seatId})}" class="btn btn-info">预订</a>
-                                <a th:href="@{/manage/seat/delete/(seatId=${seat.seatId})}" class="btn btn-danger">删除</a>
+                                <a th:href="@{/manage/seat/delete/(seatId=${seatDTO.seatId})}" class="btn btn-danger">删除</a>
                             </div>
 
                         </td>
