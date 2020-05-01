@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -118,7 +122,7 @@ public class SearchController {
                                    @RequestParam(value ="datetime2",required = false)String datetime2,
                              @RequestParam(name="page",defaultValue = "1")Integer page,
                              @RequestParam(name="size",defaultValue = "9")Integer size,
-                             HttpServletResponse response){
+                             HttpServletResponse response) throws ParseException {
 
 
         //如果未选择预约日期
@@ -128,7 +132,26 @@ public class SearchController {
             return "tip";
         }
 
-        //用空格和-分隔datetime
+        //获取当前时间
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Long nowTime= System.currentTimeMillis();
+
+        //将用户选择时间转成long类型
+        String[] temDates = StringUtils.split(datetime2, "-");
+        Date date1 = formatter.parse(datetime+" "+temDates[1]);
+        long sTime=date1.getTime();
+
+        //如果选择了过期时间
+        if (sTime<nowTime){
+            model.addAttribute("tip","您选择了过期时间，请重新选择预约时间！");
+            model.addAttribute("src","/food");
+            return "tip";
+        }
+
+
+
+
+        //用-分隔datetime
         String[] dates = StringUtils.split(datetime, "-");
         String orderTime=dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+datetime2;
         //将预约时间的信息存入在Cookie中，30分钟后过期
@@ -141,9 +164,9 @@ public class SearchController {
         model.addAttribute("datetime",datetime);
         model.addAttribute("datetime2",datetime2);
         model.addAttribute("nav","food");
-//        return "seat-find";
         return "findSeat";
     }
+
 
 
 }

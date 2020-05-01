@@ -28,9 +28,10 @@
                 <!--查询餐位-->
                 <form class="navbar-form navbar-left" action="/findSeat" method="get">
                     <div class="form-group">
-                        <input type="text" class="form-control" th:placeholder="${datetime==null?'预订日期':datetime}"   id="datetime" name="datetime"/>
-                        <select class="form-control" id="datetime2" name="datetime2">
-                        <option>8:00-10:00</option>
+                        <input type="text" class="form-control" th:placeholder="${datetime==null?'预订日期':datetime}" th:value="${datetime==null?'':datetime}"  id="datetime" name="datetime"/>
+                        <select class="form-control" id="datetime2" name="datetime2" data="xxxx">
+                        <option th:if="${datetime2!=null}" th:text="${datetime2}"></option>
+                        <option>08:00-10:00</option>
                         <option>10:00-12:00</option>
                         <option>12:00-14:00</option>
                         <option>17:00-19:00</option>
@@ -44,7 +45,7 @@
                     $(function() {
                         $("#datetime").datetimepicker({
                             format: 'YYYY-MM-DD',
-                            locale: moment.locale('zh-cn')
+                            locale: moment.locale('zh-cn'),
                         });
                     });
                 </script>

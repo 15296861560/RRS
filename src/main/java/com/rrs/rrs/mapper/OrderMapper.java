@@ -56,4 +56,8 @@ public interface OrderMapper {
     @Select("select * from order_table where user_id=#{Id} and order_status regexp #{status}")
     List<Order> listSearchByUserId(DataQueryDTO dataQueryDTO);
 
+    //根据位置id获取订单
+    @Select("select * from order_table where seat_id=#{seatId}")
+    List<Order> getOrdersBySeat(@Param(value = "seatId")Integer seatId);
+
 }
