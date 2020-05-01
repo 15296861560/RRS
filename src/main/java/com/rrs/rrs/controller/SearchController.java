@@ -79,21 +79,24 @@ public class SearchController {
 //        return "manage";
 //    }
     //管理员根据时间和状态查餐台
-    @PostMapping("/admin_search_seat")
+    @GetMapping("/admin_search_seat")
     public String searchSeatStatus(Model model,
                                      @RequestParam(value ="status",required = false)String status,
                                    @RequestParam(value ="datetime",required = false)String datetime,
-                                   @RequestParam(value ="datetime2",required = false)String datetime2){
+                                   @RequestParam(value ="datetime2",required = false)String datetime2,
+                                   @RequestParam(name="page",defaultValue = "1")Integer page,
+                                   @RequestParam(name="size",defaultValue = "5")Integer size){
 
         //用-分隔datetime
         String[] dates = StringUtils.split(datetime, "-");
         String orderTime=dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+datetime2;
 
-        PageDTO pageDTO=seatService.listSearch(1,5,status,orderTime);
+        PageDTO pageDTO=seatService.listSearch(page,size,status,orderTime);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","seat");
         model.addAttribute("datetime",datetime);
         model.addAttribute("datetime2",datetime2);
+        model.addAttribute("status",status);
         model.addAttribute("action","search");
         return "manage";
     }

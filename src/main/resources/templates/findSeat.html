@@ -25,9 +25,7 @@
 
 
 
-    <!--
-        座位展示
-    -->
+    <!--座位展示-->
     <div class="container">
         <div class="row">
             <!--中间-->
@@ -68,31 +66,31 @@
 
     <!--分页-->
     <ul class="pagination" style="float: right;">
-        <li th:if="${pageDTO.showFirst}">
-            <a th:href="@{/findSeat/(page=1,datetime=${datetime},datetime2=${datetime2})}" aria-label="First">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
+    <li th:if="${pageDTO.showFirst}">
+        <a th:href="@{/findSeat/(page=1,datetime=${datetime},datetime2=${datetime2})}" aria-label="First">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
 
-        <li th:if="${pageDTO.showPre}">
-            <a th:href="@{/findSeat/(page=${pageDTO.currentPage - 1},datetime=${datetime},datetime2=${datetime2})}" aria-label="Pre">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-        </li>
-        <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/findSeat/(page=${page},datetime=${datetime},datetime2=${datetime2})}" th:text="${page}" ></a></li>
+    <li th:if="${pageDTO.showPre}">
+        <a th:href="@{/findSeat/(page=${pageDTO.currentPage - 1},datetime=${datetime},datetime2=${datetime2})}" aria-label="Pre">
+            <span aria-hidden="true">&lt;</span>
+        </a>
+    </li>
+    <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/findSeat/(page=${page},datetime=${datetime},datetime2=${datetime2})}" th:text="${page}" ></a></li>
 
-        <li th:if="${pageDTO.showNext}">
-            <a th:href="@{/findSeat/(page=${pageDTO.currentPage+1},datetime=${datetime},datetime2=${datetime2})}" aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-        </li>
-        <li th:if="${pageDTO.showEnd}">
-            <a th:href="@{/findSeat/(page=${pageDTO.totalPage},datetime=${datetime},datetime2=${datetime2})}" aria-label="End">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
+    <li th:if="${pageDTO.showNext}">
+        <a th:href="@{/findSeat/(page=${pageDTO.currentPage+1},datetime=${datetime},datetime2=${datetime2})}" aria-label="Next">
+            <span aria-hidden="true">&gt;</span>
+        </a>
+    </li>
+    <li th:if="${pageDTO.showEnd}">
+        <a th:href="@{/findSeat/(page=${pageDTO.totalPage},datetime=${datetime},datetime2=${datetime2})}" aria-label="End">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
 
-        </li>
-    </ul>
+    </li>
+</ul>
 
         </div>
 <!--页尾-->

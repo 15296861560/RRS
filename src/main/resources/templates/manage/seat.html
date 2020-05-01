@@ -31,7 +31,7 @@
 
                 <div class="panel-body">
 
-                    <form role="form" class="form-inline" action="/admin_search_seat" method="post">
+                    <form role="form" class="form-inline" action="/admin_search_seat" method="get">
                         <div class="form-group">
                             <label for="datetime">时间</label>
                             <input type="text" class="form-control" th:placeholder="${datetime==null?'预订日期':datetime}" th:value="${datetime==null?'':datetime}"  id="datetime" name="datetime"/>
@@ -95,9 +95,7 @@
 
 
 
-            <!--
-                列表展示
-            -->
+            <!-- 列表展示 -->
             <div class="table-responsive">
                 <table class="table table-striped ">
                     <thead>
@@ -129,8 +127,8 @@
                 </table>
             </div>
 
-            <!--分页-->
-            <ul class="pagination" style="float: right;">
+            <!--查询所有座位时的分页-->
+            <ul th:if="${action==null}" class="pagination" style="float: right;">
                 <li th:if="${pageDTO.showFirst}">
                     <a th:href="@{/manage/seat/(page=1,search=${search})}" aria-label="First">
                         <span aria-hidden="true">&laquo;</span>
@@ -151,6 +149,34 @@
                 </li>
                 <li th:if="${pageDTO.showEnd}">
                     <a th:href="@{/manage/seat/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+
+                </li>
+            </ul>
+
+            <!--进行搜索时的分页-->
+            <ul th:if="${action!=null}" class="pagination" style="float: right;">
+                <li th:if="${pageDTO.showFirst}">
+                    <a th:href="@{/admin_search_seat/(page=1,datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li th:if="${pageDTO.showPre}">
+                    <a th:href="@{/admin_search_seat/(page=${pageDTO.currentPage - 1},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="Pre">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/admin_search_seat/(page=${page},datetime=${datetime},datetime2=${datetime2},status=${status})}" th:text="${page}" ></a></li>
+
+                <li th:if="${pageDTO.showNext}">
+                    <a th:href="@{/admin_search_seat/(page=${pageDTO.currentPage+1},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${pageDTO.showEnd}">
+                    <a th:href="@{/admin_search_seat/(page=${pageDTO.totalPage},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="End">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
 
