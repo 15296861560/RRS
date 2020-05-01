@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>预约餐位</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/manage.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/seat.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<body>
+
+<!--导航栏-->
+<div th:insert="~{navigation::nav}"></div>
+
+
+<div class="container-fluid main">
+
+    <div class="bgWhile" th:insert="~{main-nav::main-nav}"></div>
+
+
+            <div id="accordion" class="panel panel-default ">
+                <!--搜索-->
+                <div class="panel-heading" >
+                    搜索
+                </div>
+                <div class="panel-body">
+                    <form role="form" class="form-inline" action="/admin_search_seat_location" method="post">
+                        <div class="form-group">
+                            <label for="location">位置搜索</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="请输入位置">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">开始搜索</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+    <!--
+        座位展示
+    -->
+    <div class="container">
+        <div class="row">
+            <!--中间-->
+            <div class="col-xs-10 col-md-10 col-sm-10">
+
+
+                <!--显示菜品列表-->
+                <div class="container-fluid">
+                    <div class="col-xs-4 col-md-4 col-sm-4 pad-20"  th:each="seatDTO:${pageDTO.getDataDTOS()}">
+                        <!--座位图片-->
+                        <div class="media-heading">
+                            <a th:href="@{'/seat/'+${seatDTO.seatId}}">
+                                <!--<img class="media-object" th:src="${seatDTO.foodUrl}" height="120" width="165">-->
+                                <img class="media-object" src="#" height="120" width="165">
+                            </a>
+                        </div>
+                        <div class="media-body">
+
+                            <span class="text-gray-small">
+                        座位编号：<span th:text="${seatDTO.seatId}" style="color: red"></span><br>
+                        座位位置:<span th:text="${seatDTO.location}"></span><br>
+                        座位状态:<span th:text="${'空'}"></span><br>
+                    </span>
+
+                            <form role="form" class="form-inline">
+                                <br><button type="button" class="btn btn-info" onclick="toOrder(this)" th:data-id="${seatDTO.seatId}">预订</button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+    </div>
+    </div>
+
+    <!--分页-->
+    <ul class="pagination" style="float: right;">
+        <li th:if="${pageDTO.showFirst}">
+            <a th:href="@{/findSeat/(page=1,datetime=${datetime},datetime2=${datetime2})}" aria-label="First">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li th:if="${pageDTO.showPre}">
+            <a th:href="@{/findSeat/(page=${pageDTO.currentPage - 1},datetime=${datetime},datetime2=${datetime2})}" aria-label="Pre">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+        <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/findSeat/(page=${page},datetime=${datetime},datetime2=${datetime2})}" th:text="${page}" ></a></li>
+
+        <li th:if="${pageDTO.showNext}">
+            <a th:href="@{/findSeat/(page=${pageDTO.currentPage+1},datetime=${datetime},datetime2=${datetime2})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+        <li th:if="${pageDTO.showEnd}">
+            <a th:href="@{/findSeat/(page=${pageDTO.totalPage},datetime=${datetime},datetime2=${datetime2})}" aria-label="End">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+
+        </li>
+    </ul>
+
+        </div>
+<!--页尾-->
+<div th:insert="~{footer::foot}"></div>
+</body>
+</html>

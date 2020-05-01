@@ -1,7 +1,9 @@
 package com.rrs.rrs.service;
 
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.mapper.OrderMapper;
 import com.rrs.rrs.mapper.SeatMapper;
+import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.Seat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.List;
 public class SeatService {
     @Autowired
     private SeatMapper seatMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     //寻找餐台
     public Seat findSeatById(Integer id){
@@ -43,7 +47,7 @@ public class SeatService {
     public void createSeat(String location){
         Seat seat=new Seat();
         seat.setLocation(location);
-        seat.setSeatStatus("空");
+//        seat.setSeatStatus("空");
         seatMapper.createSeat(seat);
     }
 
@@ -80,4 +84,37 @@ public class SeatService {
         pageDTO.setDataDTOS(seats);
         return pageDTO;
     }
+
+    //根据时间查询餐台
+    public PageDTO searchSeatByTime(int page, int size, String orderTime) {
+        PageDTO<Seat> pageDTO=new PageDTO();
+        List<Order> orders1= orderMapper.getOrdersByStatus("APPLYING");//申请中的订单
+        List<Order> orders2= orderMapper.getOrdersByStatus("APPLY_OK");//已接受的订单
+        //申请中和已接受的订单
+        List<Order> orders=new ArrayList();
+        orders.addAll(orders1);
+        orders.addAll(orders2);
+
+        Integer offset=size*(page-1);//偏移量
+        //获取所有的座位
+        List<Seat> seats=seatMapper.selectAll();
+
+        //如果订单中这一时间的某一座位已被预订则从座位列表中删除
+        for (Order order:orders) {
+            if (order.getOrderTime().equals(orderTime)){//时间相同
+                seats.remove(seatMapper.findById(order.getSeatId()));//删除座位
+            }
+        }
+        pageDTO.setPageDTO(seats.size(),page,size);
+
+        //截取当前页的座位信息(分页)
+        List<Seat> pageSeat=new ArrayList();
+        for(int i = (page-1)*size; i < page*size&&i<seats.size(); i++){
+            pageSeat.add(seats.get(i));
+        }
+
+        pageDTO.setDataDTOS(pageSeat);
+        return pageDTO;
+    }
+
 }

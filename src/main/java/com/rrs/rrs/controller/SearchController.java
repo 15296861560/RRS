@@ -115,12 +115,13 @@ public class SearchController {
     @GetMapping("/findSeat")
     public String searchSeat(Model model,
                                    @RequestParam(value ="datetime",required = false)String datetime,
+                                   @RequestParam(value ="datetime2",required = false)String datetime2,
                              @RequestParam(name="page",defaultValue = "1")Integer page,
-                             @RequestParam(name="size",defaultValue = "5")Integer size,
+                             @RequestParam(name="size",defaultValue = "9")Integer size,
                              HttpServletResponse response){
 
 
-        //如果未选择预约时间
+        //如果未选择预约日期
         if (datetime==null||datetime.length()==0){
             model.addAttribute("tip","请先选择预约时间,再查询餐位！");
             model.addAttribute("src","/food");
@@ -128,17 +129,20 @@ public class SearchController {
         }
 
         //用空格和-分隔datetime
-        String[] dates = StringUtils.split(datetime, " |\\-");
-
+        String[] dates = StringUtils.split(datetime, "-");
+        String orderTime=dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+datetime2;
         //将预约时间的信息存入在Cookie中，30分钟后过期
-        Cookie orderTimeCookie = new Cookie("orderTime",dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+dates[3]);
+        Cookie orderTimeCookie = new Cookie("orderTime",orderTime);
         orderTimeCookie.setMaxAge(60*30);
         response.addCookie(orderTimeCookie);
-        PageDTO pageDTO=seatService.listSearchStatus(page,size,"空");
+//        PageDTO pageDTO=seatService.listSearchStatus(page,size,"空");
+        PageDTO pageDTO=seatService.searchSeatByTime(page,size,orderTime);
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("datetime",datetime);
+        model.addAttribute("datetime2",datetime2);
         model.addAttribute("nav","food");
-        return "seat-find";
+//        return "seat-find";
+        return "findSeat";
     }
 
 
