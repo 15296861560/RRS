@@ -15,8 +15,8 @@ public interface FoodMapper {
     Food findById(@Param("id") Long id);
 
     //添加新食物
-    @Insert("insert into menu_table(food_id,food_name,price,food_url,type,status) " +
-            "values(#{foodId},#{foodName},#{price},#{foodUrl},#{type},#{status})")
+    @Insert("insert into menu_table(food_id,food_name,price,food_url,type,status,gmt_create) " +
+            "values(#{foodId},#{foodName},#{price},#{foodUrl},#{type},#{status},#{gmtCreate})")
     void createFood(Food food);
 
     //查询菜单并将查询内容加入list中

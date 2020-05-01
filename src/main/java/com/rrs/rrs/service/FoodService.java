@@ -40,6 +40,7 @@ public class FoodService {
         food.setType(type);
         food.setPrice(price);
         food.setFoodUrl(foodUrl);
+        food.setGmtCreate(System.currentTimeMillis());
         if (status.equals("上架"))status=FoodStatusEnum.GOOD.getStatus();
         if (status.equals("下架"))status=FoodStatusEnum.STOCKING.getStatus();
         food.setStatus(status);
