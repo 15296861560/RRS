@@ -14,20 +14,20 @@
 
 <div th:fragment="seat">
 
-        <div class="col-sm-10">
-            <ol class="breadcrumb">
-                <li class="active">管理中心
-                </li>
-                <li class="active">餐台管理
-                </li>
-            </ol>
+    <div class="col-sm-10">
+        <ol class="breadcrumb">
+            <li class="active">管理中心
+            </li>
+            <li class="active">餐台管理
+            </li>
+        </ol>
 
-            <div id="accordion" class="panel panel-default ">
-                <!--搜索-->
-                <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse1" >
-                    搜索
-                </div>
-                <div id="collapse1" class="collapse" data-parent="#accordion">
+        <div id="accordion" class="panel panel-default ">
+            <!--搜索-->
+            <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse1" >
+                搜索
+            </div>
+            <div id="collapse1" class="collapse" data-parent="#accordion">
 
                 <div class="panel-body">
 
@@ -54,136 +54,138 @@
                         </div>
                     </form>
                 </div>
-                </div>
-                <!--添加餐台-->
-                <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse2">
-                    添加餐台
-                </div>
-                <div id="collapse2" class="collapse" data-parent="#accordion">
+            </div>
+            <!--添加餐台-->
+            <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse2">
+                添加餐台
+            </div>
+            <div id="collapse2" class="collapse" data-parent="#accordion">
                 <div class="panel-body">
-                    <form role="form" class="form-inline" action="/uploadSeat" method="post">
+                    <form role="form" class="form-inline" action="/uploadSeat" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label >餐台位置</label>
-                            <div class="form-group">
-                                <select class="form-control" id="row" name="row">
-                                    <div th:each="i:${#numbers.sequence(1, 100)}">
-                                        <option th:text="${i}"></option>
-                                    </div>
-                                </select>
-                                <label for="row">排</label>
-                            </div>
+                            <select class="form-control" id="row" name="row">
+                                <div th:each="i:${#numbers.sequence(1, 100)}">
+                                    <option th:text="${i}"></option>
+                                </div>
+                            </select>
+                            <label for="row">排</label>
+                        </div>
 
-                            <div class="form-group">
+                        <div class="form-group">
                             <select class="form-control" id="column" name="column">
                                 <div th:each="i:${#numbers.sequence(1, 100)}">
                                     <option th:text="${i}"></option>
                                 </div>
                             </select>
-                                <label for="column">列</label>
-                            </div>
+                            <label for="column">列</label>
                         </div>
-
+                        <br>
+                        <div class="form-group">
+                            <label >座位视图</label>
+                            <input type="file" class="form-control" name="seat_pic">
+                        </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">添加</button>
                         </div>
                     </form>
                 </div>
-                </div>
             </div>
-
-
-
-
-
-            <!-- 列表展示 -->
-            <div class="table-responsive">
-                <table class="table table-striped ">
-                    <thead>
-                    <tr>
-                        <th>餐台编号</th>
-                        <th>餐台位置</th>
-                        <th>餐台视图</th>
-                        <!--<th>餐台状态</th>-->
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="seatDTO:${pageDTO.getDataDTOS()}">
-                        <td><span th:text="${seatDTO.seatId}"></span></td>
-                        <td><span th:text="${seatDTO.location}"></span></td>
-                        <td>
-                            <img th:src="${seatDTO.seatUrl}" class="img-thumbnail" style="height: 30px;" />
-                        </td>
-                        <!--<td><span th:text="${seatDTO.seatStatus}"></span></td>-->
-                        <td>
-                            <div class="btn-group">
-                                <a th:href="@{/manage/seat/delete/(seatId=${seatDTO.seatId})}" class="btn btn-danger">删除</a>
-                            </div>
-
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-            <!--查询所有座位时的分页-->
-            <ul th:if="${action==null}" class="pagination" style="float: right;">
-                <li th:if="${pageDTO.showFirst}">
-                    <a th:href="@{/manage/seat/(page=1,search=${search})}" aria-label="First">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-
-                <li th:if="${pageDTO.showPre}">
-                    <a th:href="@{/manage/seat/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
-                </li>
-                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/manage/seat/(page=${page},search=${search})}" th:text="${page}" ></a></li>
-
-                <li th:if="${pageDTO.showNext}">
-                    <a th:href="@{/manage/seat/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
-                        <span aria-hidden="true">&gt;</span>
-                    </a>
-                </li>
-                <li th:if="${pageDTO.showEnd}">
-                    <a th:href="@{/manage/seat/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-
-                </li>
-            </ul>
-
-            <!--进行搜索时的分页-->
-            <ul th:if="${action!=null}" class="pagination" style="float: right;">
-                <li th:if="${pageDTO.showFirst}">
-                    <a th:href="@{/admin_search_seat/(page=1,datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="First">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-
-                <li th:if="${pageDTO.showPre}">
-                    <a th:href="@{/admin_search_seat/(page=${pageDTO.currentPage - 1},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="Pre">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
-                </li>
-                <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/admin_search_seat/(page=${page},datetime=${datetime},datetime2=${datetime2},status=${status})}" th:text="${page}" ></a></li>
-
-                <li th:if="${pageDTO.showNext}">
-                    <a th:href="@{/admin_search_seat/(page=${pageDTO.currentPage+1},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="Next">
-                        <span aria-hidden="true">&gt;</span>
-                    </a>
-                </li>
-                <li th:if="${pageDTO.showEnd}">
-                    <a th:href="@{/admin_search_seat/(page=${pageDTO.totalPage},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="End">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-
-                </li>
-            </ul>
-
         </div>
+
+
+
+
+
+        <!-- 列表展示 -->
+        <div class="table-responsive">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th>餐台编号</th>
+                    <th>餐台位置</th>
+                    <th>餐台视图</th>
+                    <!--<th>餐台状态</th>-->
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="seatDTO:${pageDTO.getDataDTOS()}">
+                    <td><span th:text="${seatDTO.seatId}"></span></td>
+                    <td><span th:text="${seatDTO.location}"></span></td>
+                    <td>
+                        <img th:src="${seatDTO.seatUrl}" class="img-thumbnail" style="height: 30px;" />
+                    </td>
+                    <!--<td><span th:text="${seatDTO.seatStatus}"></span></td>-->
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{/manage/seat/delete/(seatId=${seatDTO.seatId})}" class="btn btn-danger">删除</a>
+                        </div>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!--查询所有座位时的分页-->
+        <ul th:if="${action==null}" class="pagination" style="float: right;">
+            <li th:if="${pageDTO.showFirst}">
+                <a th:href="@{/manage/seat/(page=1,search=${search})}" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li th:if="${pageDTO.showPre}">
+                <a th:href="@{/manage/seat/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+            <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/manage/seat/(page=${page},search=${search})}" th:text="${page}" ></a></li>
+
+            <li th:if="${pageDTO.showNext}">
+                <a th:href="@{/manage/seat/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:if="${pageDTO.showEnd}">
+                <a th:href="@{/manage/seat/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+
+            </li>
+        </ul>
+
+        <!--进行搜索时的分页-->
+        <ul th:if="${action!=null}" class="pagination" style="float: right;">
+            <li th:if="${pageDTO.showFirst}">
+                <a th:href="@{/admin_search_seat/(page=1,datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li th:if="${pageDTO.showPre}">
+                <a th:href="@{/admin_search_seat/(page=${pageDTO.currentPage - 1},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="Pre">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+            <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/admin_search_seat/(page=${page},datetime=${datetime},datetime2=${datetime2},status=${status})}" th:text="${page}" ></a></li>
+
+            <li th:if="${pageDTO.showNext}">
+                <a th:href="@{/admin_search_seat/(page=${pageDTO.currentPage+1},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:if="${pageDTO.showEnd}">
+                <a th:href="@{/admin_search_seat/(page=${pageDTO.totalPage},datetime=${datetime},datetime2=${datetime2},status=${status})}" aria-label="End">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+
+            </li>
+        </ul>
+
+    </div>
 
 </div>
 </body>

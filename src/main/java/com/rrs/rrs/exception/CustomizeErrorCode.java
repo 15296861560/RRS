@@ -10,7 +10,9 @@ public enum  CustomizeErrorCode {
     FAIL_TO_SETTLE(1006,"结算失败！"),
     FOOD_NOT_FOUND(2001,"您找的菜品不存在，请换一个试试吧!"),
     FOOD_UPLOAD_FAIL(2002,"菜品上传失败!"),
-    FILE_UPLOAD_FAIL(2002,"文件上传失败!"),
+    FILE_UPLOAD_FAIL(2003,"文件上传失败!"),
+    SEAT_UPLOAD_FAIL(2004,"座位上传失败!"),
+    SEAT_DUPLICATE_UPLOAD(2005,"座位重复上传!"),
     VERIFYCODE_SEND_FAIL(3001,"验证码发送失败，请重新尝试!"),
     VERIFYCODE_VERIFY_FAIL(3002,"验证失败，请重新尝试!"),
     UNKNOWN_ERROR(4001,"未知错误!");

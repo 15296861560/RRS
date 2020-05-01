@@ -47,10 +47,10 @@ public class SeatService {
     }
 
     //添加新餐台
-    public void createSeat(String location){
+    public void createSeat(String location,String seatUrl){
         Seat seat=new Seat();
         seat.setLocation(location);
-//        seat.setSeatStatus("空");
+        seat.setSeatUrl(seatUrl);
         seatMapper.createSeat(seat);
     }
 

@@ -17,7 +17,7 @@ public interface SeatMapper {
     void changeSeatStatus(@Param("seatId")Integer seatId,@Param("seatStatus") String seatStatus);
 
     //创建餐台
-    @Insert("insert into seat_table(location,seat_status)values(#{location},#{seatStatus})")
+    @Insert("insert into seat_table(location,seat_url)values(#{location},#{seatUrl})")
     void createSeat(Seat seat);
 
     //查询所有餐台

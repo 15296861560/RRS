@@ -41,7 +41,7 @@ public class UploadController {
         FileDTO fileDTO=uploadFile(food_pic);
 
 
-        //上传出错
+        //上传图片出错
         if (fileDTO.getSuccess()==0){
             model.addAttribute("errorMessage", CustomizeErrorCode.FOOD_UPLOAD_FAIL.getMessage());
             model.addAttribute("errorCode", CustomizeErrorCode.FOOD_UPLOAD_FAIL.getCode());
@@ -73,7 +73,7 @@ public class UploadController {
             fileDTO.setSuccess(1);
             fileDTO.setUrl(fileName);
             return fileDTO;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             FileDTO fileDTO = new FileDTO();
             fileDTO.setSuccess(0);
@@ -88,14 +88,32 @@ public class UploadController {
     @PostMapping("/uploadSeat")
     public String uploadSeat(Model model,
                              @RequestParam(value ="row",required = false)String row,
-                             @RequestParam(value ="column",required = false)String column){
+                             @RequestParam(value ="column",required = false)String column,
+                             @RequestParam(value ="seat_pic",required = false) MultipartFile seat_pic){
+
+        //调用上传函数，并将上传结果存入fileDTO中
+        FileDTO fileDTO=uploadFile(seat_pic);
+
+
+        //上传图片出错
+        if (fileDTO.getSuccess()==0){
+            model.addAttribute("errorMessage", CustomizeErrorCode.SEAT_UPLOAD_FAIL.getMessage());
+            model.addAttribute("errorCode", CustomizeErrorCode.SEAT_UPLOAD_FAIL.getCode());
+            return "error";
+        }
+
+
+
         String location=row+"排"+column+"列";
         Seat seat=seatService.findSeatByLocation(location);
         if (seat==null)//如果这个位置的餐台不存在才能创建餐台
         {
-            seatService.createSeat(location);//创建某个位置的餐台
+            seatService.createSeat(location,fileDTO.getUrl());//创建某个位置的餐台
         }else {
             //上传餐台出错
+            model.addAttribute("errorMessage", CustomizeErrorCode.SEAT_DUPLICATE_UPLOAD.getMessage());
+            model.addAttribute("errorCode", CustomizeErrorCode.SEAT_DUPLICATE_UPLOAD.getCode());
+            return "error";
         }
         PageDTO pageDTO=seatService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);
