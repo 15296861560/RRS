@@ -1,14 +1,13 @@
 package com.rrs.rrs.service;
 
 
-import com.rrs.rrs.dto.DataQueryDTO;
-import com.rrs.rrs.dto.OrderDTO;
-import com.rrs.rrs.dto.PageDTO;
-import com.rrs.rrs.dto.QueryDTO;
+import com.rrs.rrs.dto.*;
 import com.rrs.rrs.enums.OrderStatusEnum;
+import com.rrs.rrs.mapper.BasketMapper;
 import com.rrs.rrs.mapper.OrderMapper;
 import com.rrs.rrs.mapper.SeatMapper;
 import com.rrs.rrs.mapper.UserMapper;
+import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.model.User;
@@ -27,6 +26,8 @@ public class OrderService {
     private UserMapper userMapper;
     @Autowired
     private SeatMapper seatMapper;
+    @Autowired
+    private BasketMapper basketMapper;
 
 
 
@@ -41,6 +42,11 @@ public class OrderService {
         return orders;
     }
 
+    //根据用户id查找订单
+    public List<Order> findOrderByUserId(Long userId) {
+        List<Order>  orders= orderMapper.selectByUserId(userId);
+        return orders;
+    }
 
     /**
     * @Description:  将分页处理后的数据存入PageDTO中
@@ -230,4 +236,40 @@ public class OrderService {
 
 
     }
+
+    public List<HistoryDTO> getHistoryDTOS(Long userId) {
+        //获取该用户的历史订单
+        List<Order> Orders=findOrderByUserId(userId);
+        //创建历史记录
+        List<HistoryDTO> historyDTOS=new ArrayList();
+        for (Order order:Orders){//循环将Order转换为historyDTO并将其加入列表中
+            HistoryDTO historyDTO = new HistoryDTO();
+            historyDTO.setOrderTime(order.getOrderTime());//获取预约时间
+            historyDTO.setAmount(order.getAmount());//获取订单总额
+            historyDTO.setContent(order.getContent());//获取订单内容
+
+            //获取订单状态
+            for (OrderStatusEnum orderStatusEnum:OrderStatusEnum.values()) {
+                if(orderStatusEnum.getStatus().equals(order.getOrderStatus()))
+                    historyDTO.setOrderStatus(orderStatusEnum.getMessage());
+            }
+
+            Basket basket =basketMapper.findById(order.getBasketId());
+            if (basket!=null){
+                historyDTO.setBasketId(order.getBasketId());//获取订单详情id
+                historyDTO.setBuyTime(basket.getGmtModified());//获取下单时间
+            }else {
+                historyDTO.setBasketId(null);//获取订单详情id
+                historyDTO.setBuyTime(null);//获取下单时间
+            }
+
+
+
+            historyDTOS.add(historyDTO);
+        }
+        return historyDTOS;
+    }
+
+
+
 }

@@ -139,6 +139,7 @@ public class BasketService {
            order.setAmount(basket.getPayment());
            order.setOrderTime(orderTime);
            order.setOrderStatus("APPLYING");
+           order.setBasketId(basketId);
            List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basketId);
            //添加订单内容
            String content="";
@@ -247,5 +248,10 @@ public class BasketService {
     //删除购物车上的某种食物
     public void deleteBasketDetail(Long basketDetailId) {
         basketDetailMapper.deleteBasketDetailById(basketDetailId);
+    }
+
+    //根据id查购物车
+    public Basket findById(Long basketId){
+        return basketMapper.findById(basketId);
     }
 }

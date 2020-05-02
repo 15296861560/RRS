@@ -12,8 +12,8 @@ import java.util.List;
 public interface OrderMapper {
 
     //创建订单
-    @Insert("insert into order_table(user_id,seat_id,order_time,content,amount,order_status) " +
-            "values(#{userId},#{seatId},#{orderTime},#{content},#{amount},#{orderStatus})")
+    @Insert("insert into order_table(user_id,seat_id,order_time,content,amount,order_status,basket_id) " +
+            "values(#{userId},#{seatId},#{orderTime},#{content},#{amount},#{orderStatus},#{basketId})")
     void createOrder(Order order);
 
     //根据订单号查找订单

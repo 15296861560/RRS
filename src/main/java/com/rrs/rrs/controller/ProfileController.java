@@ -1,11 +1,17 @@
 package com.rrs.rrs.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.rrs.rrs.dto.HistoryDTO;
 import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.dto.UserDTO;
+import com.rrs.rrs.enums.OrderStatusEnum;
 import com.rrs.rrs.exception.CustomizeErrorCode;
+import com.rrs.rrs.model.Basket;
+import com.rrs.rrs.model.Food;
+import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.provider.ZhenziProvider;
+import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -24,6 +32,8 @@ public class ProfileController {
     OrderService orderService;
     @Autowired
     ZhenziProvider zhenziProvider;
+    @Autowired
+    BasketService basketService;
 
 
     @GetMapping("/profile")
@@ -43,36 +53,23 @@ public class ProfileController {
     }
 
 
+    //下单历史
+    @GetMapping("/profile/history")
+    public String displayHistory(Model model,
+                                 HttpServletRequest httpServletRequest){
+        //获取登录用户
+        User user=(User)httpServletRequest.getSession().getAttribute("user");
+        Long userId=user.getUserId();
+        //获取历史记录
+        List<HistoryDTO> historyDTOS = orderService.getHistoryDTOS(userId);
 
-//    @GetMapping("/profile/history")
-//    public String displayHistory(Model model,
-//                                 HttpServletRequest httpServletRequest){
-//        User user=(User)httpServletRequest.getSession().getAttribute("user");
-//        Long userId=user.getUserId();
-//        List<Order> Orders=OrderService.listByUserId(userId);
-//        List<HistoryDTO> historyDTOS=new ArrayList();
-//        for (Order Order:Orders){//循环将Order转换为historyDTO并将其加入列表中
-//            HistoryDTO historyDTO = new HistoryDTO();
-//            historyDTO.setId(Order.getId());
-//            historyDTO.setFoodId(Order.getFoodId());
-//            Food food=OrderService.findFoodById(Order.getFoodId());
-//            historyDTO.setFoodNumber(Food.getNumber());
-//            historyDTO.setFoodName(Food.getName());
-//            historyDTO.setFoodCover(Food.getCover());
-//            historyDTO.setGmtCreate(Order.getGmtCreate());
-//            historyDTO.setGmtModified(Order.getGmtModified());
-//            for (OrderStatusEnum orderStatusEnum:OrderStatusEnum.values()) {
-//                if(OrderStatusEnum.getStatus().equals(Order.getStatus()))
-//                    historyDTO.setStatus(OrderStatusEnum.getMessage());
-//            }
-//            historyDTOS.add(historyDTO);
-//        }
-//
-//
-//        model.addAttribute("historyDTOS",historyDTOS);
-//
-//        return "history";
-//    }
+
+        model.addAttribute("historyDTOS",historyDTOS);
+        model.addAttribute("nav","profile");
+
+        return "history";
+    }
+
 
     //撤销订单
     @GetMapping("/profile/apply/{OrderId}")
