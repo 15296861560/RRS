@@ -2,6 +2,7 @@ package com.rrs.rrs.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.HistoryDTO;
+import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.enums.OrderStatusEnum;
@@ -56,15 +57,17 @@ public class ProfileController {
     //下单历史
     @GetMapping("/profile/history")
     public String displayHistory(Model model,
-                                 HttpServletRequest httpServletRequest){
+                                 HttpServletRequest httpServletRequest,
+                                 @RequestParam(name="page",defaultValue = "1")Integer page,
+                                 @RequestParam(name="size",defaultValue = "5")Integer size){
         //获取登录用户
         User user=(User)httpServletRequest.getSession().getAttribute("user");
         Long userId=user.getUserId();
         //获取历史记录
-        List<HistoryDTO> historyDTOS = orderService.getHistoryDTOS(userId);
+        PageDTO pageDTO=orderService.getPageHistoryDTOS(page,size,userId);
 
 
-        model.addAttribute("historyDTOS",historyDTOS);
+        model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("nav","profile");
 
         return "history";

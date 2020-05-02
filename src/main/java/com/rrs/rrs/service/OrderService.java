@@ -237,7 +237,30 @@ public class OrderService {
 
     }
 
-    public List<HistoryDTO> getHistoryDTOS(Long userId) {
+
+    //获取历史记录并进行分页
+    public PageDTO getPageHistoryDTOS(int page, int size,Long userId){
+        PageDTO<HistoryDTO> pageDTO=new PageDTO();
+
+        //获取历史记录
+        List<HistoryDTO> historyDTOS =getHistoryDTOS(userId);
+
+        //分页后基本信息
+        pageDTO.setPageDTO(historyDTOS.size(),page,size);
+
+        //当前页信息
+        List<HistoryDTO> pageHistoryDTOS = new ArrayList();
+        for (int i = (page - 1) * size; i < page * size && i < historyDTOS.size(); i++) {
+            pageHistoryDTOS.add(historyDTOS.get(i));
+        }
+        pageDTO.setDataDTOS(pageHistoryDTOS);
+
+        return pageDTO;
+
+    }
+
+
+    private List<HistoryDTO> getHistoryDTOS(Long userId) {
         //获取该用户的历史订单
         List<Order> Orders=findOrderByUserId(userId);
         //创建历史记录

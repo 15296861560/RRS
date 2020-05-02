@@ -40,8 +40,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--<tr th:each="historyDTO:${pageDTO.getDataDTOS()}">-->
-                <tr th:each="historyDTO:${historyDTOS}">
+                <tr th:each="historyDTO:${pageDTO.getDataDTOS()}">
+                <!--<tr th:each="historyDTO:${historyDTOS}">-->
                     <td><span th:text="${#dates.format(historyDTO.buyTime,'yyyy-MM-dd HH:mm')}"></span></td>
                     <td><span th:text="${historyDTO.amount}"></span>元</td>
                     <td><span th:text="${historyDTO.orderTime}"></span></td>
@@ -59,6 +59,34 @@
                 </tbody>
             </table>
         </div>
+
+        <!--分页-->
+        <ul class="pagination" style="float: right;">
+            <li th:if="${pageDTO.showFirst}">
+                <a th:href="@{/profile/history}" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li th:if="${pageDTO.showPre}">
+                <a th:href="@{/profile/history/(page=${pageDTO.currentPage - 1},search=${search})}" aria-label="Pre">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+            <li th:each=" page: ${pageDTO.pages}" th:class="${pageDTO.currentPage==page}?'active':''"><a th:href="@{/profile/history/(page=${page},search=${search})}" th:text="${page}" ></a></li>
+
+            <li th:if="${pageDTO.showNext}">
+                <a th:href="@{/profile/history/(page=${pageDTO.currentPage+1},search=${search})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:if="${pageDTO.showEnd}">
+                <a th:href="@{/profile/history/(page=${pageDTO.totalPage},search=${search})}" aria-label="End">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+
+            </li>
+        </ul>
 
     </div>
     </div>
