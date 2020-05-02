@@ -112,7 +112,6 @@ public class OrderService {
     public void orderApplyOK(Long orderId) {
         Order order=orderMapper.findById(orderId);
         changeOrderStatus(orderId, OrderStatusEnum.APPLY_OK.getStatus());//将订单状态变为预订成功
-        seatMapper.changeSeatStatus(order.getSeatId(),"有人");//将预定的位置变为有人
 
     }
 
@@ -120,7 +119,6 @@ public class OrderService {
     public void orderFinish(Long orderId) {
         Order order=orderMapper.findById(orderId);
         changeOrderStatus(orderId,OrderStatusEnum.FINISH.getStatus());//将订单状态变为已完成
-        seatMapper.changeSeatStatus(order.getSeatId(),"空");//将预定的位置变为空
 
     }
 
@@ -303,6 +301,7 @@ public class OrderService {
     public String getHistory(Long userId) {
         //获取该用户的历史订单
         List<Order> orders=findOrderByUserId(userId);
+        if (orders==null||orders.size()==0)return "您暂无下单历史";
         Order order=orders.get(0);
         Seat seat=seatMapper.findById(order.getSeatId());
         String history="预约了 "+order.getOrderTime()+" 的 "+seat.getLocation()+" 点了 "+order.getContent().substring(0,20)+"......";
