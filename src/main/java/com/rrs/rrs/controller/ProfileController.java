@@ -46,6 +46,7 @@ public class ProfileController {
         }
         user=userService.findById(user.getUserId());//更新user信息
         UserDTO userDTO=userService.userToDTO(user);
+        userDTO.setHistory(orderService.getHistory(user.getUserId()));
 
         model.addAttribute("userDTO",userDTO);
         model.addAttribute("nav","profile");

@@ -260,16 +260,21 @@ public class OrderService {
     }
 
 
+    //获取指定用户下单历史
     private List<HistoryDTO> getHistoryDTOS(Long userId) {
         //获取该用户的历史订单
-        List<Order> Orders=findOrderByUserId(userId);
+        List<Order> orders=findOrderByUserId(userId);
         //创建历史记录
         List<HistoryDTO> historyDTOS=new ArrayList();
-        for (Order order:Orders){//循环将Order转换为historyDTO并将其加入列表中
+        for (Order order:orders){//循环将Order转换为historyDTO并将其加入列表中
             HistoryDTO historyDTO = new HistoryDTO();
             historyDTO.setOrderTime(order.getOrderTime());//获取预约时间
             historyDTO.setAmount(order.getAmount());//获取订单总额
             historyDTO.setContent(order.getContent());//获取订单内容
+
+            //获取餐台位置
+            Seat seat=seatMapper.findById(order.getSeatId());
+            historyDTO.setLocation(seat.getLocation());
 
             //获取订单状态
             for (OrderStatusEnum orderStatusEnum:OrderStatusEnum.values()) {
@@ -294,5 +299,13 @@ public class OrderService {
     }
 
 
-
+    //获取初略下单历史
+    public String getHistory(Long userId) {
+        //获取该用户的历史订单
+        List<Order> orders=findOrderByUserId(userId);
+        Order order=orders.get(0);
+        Seat seat=seatMapper.findById(order.getSeatId());
+        String history="预约了 "+order.getOrderTime()+" 的 "+seat.getLocation()+" 点了 "+order.getContent().substring(0,20)+"......";
+        return history;
+    }
 }

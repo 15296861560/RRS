@@ -9,4 +9,5 @@ public class UserDTO {
     private Long gmtCreate;//注册时间
     private Long gmtModified;//修改资料时间
     private String phone;//手机号码
+    private String history;//初略下单历史
 }

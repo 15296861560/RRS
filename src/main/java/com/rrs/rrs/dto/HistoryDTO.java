@@ -9,5 +9,6 @@ public class HistoryDTO {
     private String orderTime;//预约时间
     private String content;//订单内容
     private String orderStatus;//订单状态
+    private String location;//预订餐台
     private Long basketId;//订单详情id
 }

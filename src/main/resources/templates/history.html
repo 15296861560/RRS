@@ -34,6 +34,7 @@
                     <th>下单时间</th>
                     <th>订单总额</th>
                     <th>预约时间</th>
+                    <th>餐台位置</th>
                     <th>订单内容</th>
                     <th>订单状态</th>
                     <th>操作</th>
@@ -45,11 +46,12 @@
                     <td><span th:text="${#dates.format(historyDTO.buyTime,'yyyy-MM-dd HH:mm')}"></span></td>
                     <td><span th:text="${historyDTO.amount}"></span>元</td>
                     <td><span th:text="${historyDTO.orderTime}"></span></td>
+                    <td><span th:text="${historyDTO.location}"></span></td>
                     <td><span th:text="${historyDTO.content}"></span></td>
                     <td><span th:text="${historyDTO.orderStatus}"></span></td>
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{/manage/order/finish/(orderId=${historyDTO.basketId})}" class="btn btn-info">查看详情</a>
+                            <a th:href="@{/profile/history/check/(basketId=${historyDTO.basketId})}" class="btn btn-info">查看详情</a>
 
                         </div>
 
