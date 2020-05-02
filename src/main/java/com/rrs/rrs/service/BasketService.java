@@ -111,17 +111,7 @@ public class BasketService {
         if (basket==null)return null;
         List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basket.getBasketId());//获取该用户所有的购物车细节
         //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
-        List<BasketDetailDTO> basketDetailDTOS=new ArrayList<>();
-        for (BasketDetail basketDetail:basketDetails) {
-            BasketDetailDTO basketDetailDTO=new BasketDetailDTO();
-            Food food=foodMapper.findById(basketDetail.getFoodId());
-            BeanUtils.copyProperties(basketDetail,basketDetailDTO);//把basketDetail的相同属性拷贝到BasketDetailDTO上面
-            BeanUtils.copyProperties(food,basketDetailDTO);//把food的相同属性拷贝到BasketDetailDTO上面
-            int qty=basketDetail.getQty();//数量
-            basketDetailDTO.setSubtotal(food.getPrice()*qty);//小计
-            basketDetailDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());//将类型转转换成中文
-            basketDetailDTOS.add(basketDetailDTO);
-        }
+        List<BasketDetailDTO> basketDetailDTOS = getBasketDetailDTOS(basketDetails);
 
         return basketDetailDTOS;
     }
@@ -253,5 +243,31 @@ public class BasketService {
     //根据id查购物车
     public Basket findById(Long basketId){
         return basketMapper.findById(basketId);
+    }
+
+    public List<BasketDetailDTO> getDetails(Long basketId) {
+
+        List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basketId);//获取该用户所有的购物车细节
+        //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
+        List<BasketDetailDTO> basketDetailDTOS = getBasketDetailDTOS(basketDetails);
+
+        return basketDetailDTOS;
+
+    }
+
+    private List<BasketDetailDTO> getBasketDetailDTOS(List<BasketDetail> basketDetails) {
+        //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
+        List<BasketDetailDTO> basketDetailDTOS = new ArrayList<>();
+        for (BasketDetail basketDetail : basketDetails) {
+            BasketDetailDTO basketDetailDTO = new BasketDetailDTO();
+            Food food = foodMapper.findById(basketDetail.getFoodId());
+            BeanUtils.copyProperties(basketDetail, basketDetailDTO);//把basketDetail的相同属性拷贝到BasketDetailDTO上面
+            BeanUtils.copyProperties(food, basketDetailDTO);//把food的相同属性拷贝到BasketDetailDTO上面
+            int qty = basketDetail.getQty();//数量
+            basketDetailDTO.setSubtotal(food.getPrice() * qty);//小计
+            basketDetailDTO.setType(FoodTypeEnum.valueOf(food.getType()).getMessage());//将类型转转换成中文
+            basketDetailDTOS.add(basketDetailDTO);
+        }
+        return basketDetailDTOS;
     }
 }

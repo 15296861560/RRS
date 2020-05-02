@@ -1,10 +1,7 @@
 package com.rrs.rrs.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rrs.rrs.dto.HistoryDTO;
-import com.rrs.rrs.dto.PageDTO;
-import com.rrs.rrs.dto.ResultDTO;
-import com.rrs.rrs.dto.UserDTO;
+import com.rrs.rrs.dto.*;
 import com.rrs.rrs.enums.OrderStatusEnum;
 import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.model.Basket;
@@ -72,6 +69,24 @@ public class ProfileController {
         model.addAttribute("nav","profile");
 
         return "history";
+    }
+
+    //订单详情
+    @GetMapping("/profile/history/details")
+    public String displayDetails(Model model,
+                                 HttpServletRequest httpServletRequest,
+                                 @RequestParam(name="basketId",required = false)Long basketId){
+
+
+
+        //获取订单详情
+        List<BasketDetailDTO> basketDetailDTOS=basketService.getDetails(basketId);
+
+
+        model.addAttribute("basketDetailDTOS",basketDetailDTOS);
+        model.addAttribute("nav","profile");
+
+        return "details";
     }
 
 
