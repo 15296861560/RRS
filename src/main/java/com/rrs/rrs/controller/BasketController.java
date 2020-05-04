@@ -36,7 +36,7 @@ public class BasketController {
     }
 
 
-    //下单结算
+    //下单预约
     @ResponseBody
     @RequestMapping(value = "/Settle",method = RequestMethod.POST)
     public Object settle(@RequestBody JSONObject dataJson,

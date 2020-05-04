@@ -16,11 +16,14 @@ function settle(e) {
             if (response.code == 200) {//预约成功
                 Swal.fire({
                     icon: 'success',
-                    title: '结算成功！',
-                    text: '祝您用餐愉快☺',
+                    title: '预约成功！',
+                    text: '请您在30分钟内支付订单☺',
                 });
                 // 3秒后自动刷新页面
-                var t = setTimeout(function(){window.location.reload();},3000);
+                // var t = setTimeout(function(){window.location.reload();},3000);
+                // 3秒后跳转到支付页面
+                var payUrl='/toPay';
+                var t = setTimeout(function(){window.location.href=payUrl;},3000);
             } else {
                 Swal.fire({
                     icon: 'error',

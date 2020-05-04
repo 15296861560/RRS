@@ -6,9 +6,14 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.rrs.rrs.config.AlipayConfig;
 import com.rrs.rrs.dto.AlipayVo;
+import com.rrs.rrs.model.Basket;
+import com.rrs.rrs.model.Order;
+import com.rrs.rrs.model.User;
+import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,18 +32,25 @@ public class PayController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    BasketService basketService;
 //    @Autowired
 //    private RedisServer redisServer;
 
     @GetMapping("/toPay")
     @ResponseBody
-    public String toPay(@RequestParam(value = "sumMoney",required = false)Double sumMoney,
-                        @RequestParam(value = "basketId",required = false)String basketId) throws Exception {
+    public String toPay(HttpServletRequest request) throws Exception {
+
+        //获取当前登录用户信息
+        User user=(User)request.getSession().getAttribute("user");//从session中获取登录用户信息
+
+        //获取已选菜单信息
+        Order order=orderService.findApplying(user);
+        //完善支付信息
         AlipayVo vo = new AlipayVo();
-        //这里模拟了一个订单的id
-        vo.setOut_trade_no(UUID.randomUUID().toString().replace("-", ""));
-        vo.setTotal_amount("1.11");
-        vo.setSubject("测试付款商品A");
+        vo.setOut_trade_no(order.getOrderId().toString());
+        vo.setTotal_amount(order.getAmount().toString());
+        vo.setSubject(order.getContent());
         //这个是固定的，沙箱默认就用这个参数
         vo.setProduct_code("FAST_INSTANT_TRADE_PAY");
         String json = JSON.toJSONString(vo);
@@ -58,16 +70,23 @@ public class PayController {
         return result;
     }
 
-    @RequestMapping("returnUrl")
-    public String returnUrl(HttpServletRequest request, HttpServletResponse response) {
+    @GetMapping("/returnUrl")
+    public String returnUrl(HttpServletRequest request, Model model) {
+
         Map<String, String[]> parameterMap = request.getParameterMap();
+        //获取订单号
         String[] out_trade_nos = parameterMap.get("out_trade_no");
-        String uuid = out_trade_nos[0];
-//        orderService.updateOrderInfo(uuid);
-        return "redirect:/food";
+        Long orderId = Long.parseLong(out_trade_nos[0]);
+        //将订单状态修改为预订成功的状态
+        orderService.orderApplyOK(orderId);
+        //获取订单信息
+        Order order=orderService.findOrderById(orderId);
+        model.addAttribute("tip","支付成功！请于"+order.getOrderTime()+"在"+order.getSeatId()+"号位置就餐");
+        model.addAttribute("src","/food");
+        return "tip";
     }
 
-    @RequestMapping("notifyUrl")
+    @GetMapping("/notifyUrl")
     public String notifyUrl(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         for (String s : parameterMap.keySet()) {
@@ -76,7 +95,7 @@ public class PayController {
                 System.out.println(s + ":" + strings[i]);
             }
         }
-        return "redirect:/manage";
+        return "redirect:/index";
     }
 }
 

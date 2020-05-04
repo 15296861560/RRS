@@ -41,6 +41,12 @@ public class OrderService {
         List<Order>  orders= orderMapper.selectByUserId(user.getUserId());
         return orders;
     }
+    //获取指定用户申请预约状态的订单
+    public Order findApplying(User user){
+        Order order=orderMapper.findApplying(user);
+        return order;
+
+    }
 
     //根据用户id查找订单
     public List<Order> findOrderByUserId(Long userId) {

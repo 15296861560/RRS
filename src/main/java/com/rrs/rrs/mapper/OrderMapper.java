@@ -2,6 +2,7 @@ package com.rrs.rrs.mapper;
 
 import com.rrs.rrs.dto.DataQueryDTO;
 import com.rrs.rrs.model.Order;
+import com.rrs.rrs.model.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
@@ -60,4 +61,7 @@ public interface OrderMapper {
     @Select("select * from order_table where seat_id=#{seatId}")
     List<Order> getOrdersBySeat(@Param(value = "seatId")Integer seatId);
 
+    //获取指定用户申请预约状态的订单
+    @Select("select * from order_table where order_status='APPLYING' and user_id=#{userId}")
+    Order findApplying(User user);
 }
