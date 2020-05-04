@@ -54,6 +54,11 @@ public class OrderService {
         return orders;
     }
 
+    //根据已选菜单id获取订单
+    public Order findOrderByBasketId(Long basketId) {
+        return orderMapper.findByBasketId(basketId);
+    }
+
     /**
     * @Description:  将分页处理后的数据存入PageDTO中
     * @Param: page:第几页
@@ -313,4 +318,6 @@ public class OrderService {
         String history="预约了 "+order.getOrderTime()+" 的 "+seat.getLocation()+" 点了 "+order.getContent().substring(0,20)+"......";
         return history;
     }
+
+
 }

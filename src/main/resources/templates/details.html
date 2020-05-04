@@ -47,9 +47,11 @@
             </div>
         </div>
 
-
     </div>
+    <div class="font-locatin">
+        <a th:if="${basketId!=null}" th:href="@{/toPayByBasketId/(basketId=${basketId})}" class="btn btn-info pay-btn">进行支付</a>
     </div>
+</div>
 
 
 <!--页尾-->

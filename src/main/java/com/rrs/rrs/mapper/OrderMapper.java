@@ -64,4 +64,8 @@ public interface OrderMapper {
     //获取指定用户申请预约状态的订单
     @Select("select * from order_table where order_status='APPLYING' and user_id=#{userId} limit 1 ")
     Order findApplying(User user);
+
+    ////根据已选菜单id获取订单
+    @Select("select * from order_table where basket_id=#{basketId} limit 1")
+    Order findByBasketId(@Param("basketId")Long basketId);
 }

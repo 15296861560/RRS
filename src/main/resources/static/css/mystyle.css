@@ -133,5 +133,11 @@ table td:hover {
     white-space: pre-wrap;
 }
 
+.pay-btn{
+    width: 80%;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
 
 

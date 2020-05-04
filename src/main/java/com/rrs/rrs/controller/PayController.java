@@ -34,8 +34,7 @@ public class PayController {
     private OrderService orderService;
     @Autowired
     BasketService basketService;
-//    @Autowired
-//    private RedisServer redisServer;
+
 
     @GetMapping("/toPay")
     @ResponseBody
@@ -47,6 +46,25 @@ public class PayController {
         //获取已选菜单信息
         Order order=orderService.findApplying(user);
         //完善支付信息
+        String result = Paying(order);
+
+        return result;
+    }
+
+    @GetMapping("/toPayByBasketId")
+    @ResponseBody
+    public String toPayByBasketId(HttpServletRequest request,@RequestParam(name="basketId")Long basketId) throws Exception {
+
+
+        //获取已选菜单信息
+        Order order=orderService.findOrderByBasketId(basketId);
+        String result = Paying(order);
+
+        return result;
+    }
+
+    private String Paying(Order order) {
+        //完善支付信息
         AlipayVo vo = new AlipayVo();
         vo.setOut_trade_no(order.getOrderId().toString());
         vo.setTotal_amount(order.getAmount().toString());
@@ -55,7 +73,7 @@ public class PayController {
         vo.setProduct_code("FAST_INSTANT_TRADE_PAY");
         String json = JSON.toJSONString(vo);
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, app_id,
-                AlipayConfig.merchant_private_key, "json",AlipayConfig.charset, AlipayConfig.alipay_public_key,AlipayConfig.sign_type);
+                AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         // 设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         alipayRequest.setReturnUrl(AlipayConfig.return_url);
@@ -66,7 +84,6 @@ public class PayController {
             result = alipayClient.pageExecute(alipayRequest).getBody();
         } catch (Exception e) {
         }
-
         return result;
     }
 

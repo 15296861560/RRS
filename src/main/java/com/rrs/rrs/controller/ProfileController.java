@@ -82,6 +82,12 @@ public class ProfileController {
         //获取订单详情
         List<BasketDetailDTO> basketDetailDTOS=basketService.getDetails(basketId);
 
+        //获取订单状态
+        Order order=orderService.findOrderByBasketId(basketId);
+        if (order.getOrderStatus().equals(OrderStatusEnum.APPLYING.getStatus()))//如果订单状态为申请预订
+        {
+            model.addAttribute("basketId",basketId);
+        }
 
         model.addAttribute("basketDetailDTOS",basketDetailDTOS);
         model.addAttribute("nav","profile");
