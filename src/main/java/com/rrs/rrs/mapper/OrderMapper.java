@@ -62,6 +62,6 @@ public interface OrderMapper {
     List<Order> getOrdersBySeat(@Param(value = "seatId")Integer seatId);
 
     //获取指定用户申请预约状态的订单
-    @Select("select * from order_table where order_status='APPLYING' and user_id=#{userId}")
+    @Select("select * from order_table where order_status='APPLYING' and user_id=#{userId} limit 1 ")
     Order findApplying(User user);
 }
