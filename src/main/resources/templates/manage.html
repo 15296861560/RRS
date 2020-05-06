@@ -27,19 +27,23 @@
             <a href="/manage" th:class="${section.equals('order')?'list-group-item active':'list-group-item'}">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="true">
                     </span>订单管理</a>
+            <div th:if="${session.admin.getLevel()>2}">
             <a href="/manage/menu" th:class="${section.equals('menu')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-book" aria-hidden="true">
                     </span>菜单管理</a>
             <a href="/manage/seat" th:class="${section.equals('seat')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon  glyphicon-print" aria-hidden="true">
                     </span>餐台管理</a>
+            </div>
+            <div th:if="${session.admin.getLevel()>3}">
             <a href="/manage/customer" th:class="${section.equals('customer')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true">
                     </span>用户管理</a>
+            </div>
             <a href="/manage/tradition" th:class="${section.equals('tradition')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-book" aria-hidden="true">
                     </span>传统下单</a>
-            <div th:if="${session.admin.getLevel()>0}">
+            <div th:if="${session.admin.getLevel()==10}">
                 <a href="/manage/admin" th:class="${section.equals('admin')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true">
                     </span>管理员管理</a>
@@ -64,7 +68,7 @@
             <div th:insert="~{manage/customer::customer}"></div>
         </div>
         <!--管理员管理-->
-        <div th:if="${section=='admin'}">
+        <div th:if="${section=='admin'&&session.admin.getLevel()==10}">
             <div th:insert="~{manage/admin::admin}"></div>
         </div>
 
