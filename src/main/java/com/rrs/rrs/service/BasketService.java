@@ -7,10 +7,7 @@ import com.rrs.rrs.mapper.BasketDetailMapper;
 import com.rrs.rrs.mapper.BasketMapper;
 import com.rrs.rrs.mapper.FoodMapper;
 import com.rrs.rrs.mapper.OrderMapper;
-import com.rrs.rrs.model.Basket;
-import com.rrs.rrs.model.BasketDetail;
-import com.rrs.rrs.model.Food;
-import com.rrs.rrs.model.Order;
+import com.rrs.rrs.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -212,17 +209,15 @@ public class BasketService {
         }
 
         //统计各个菜品被购买的次数
-        HashMap<Long, Integer> analysisMap = new HashMap();
-        for (BasketDetail basketDetail : analysisList) {
-            Long foodId = basketDetail.getFoodId();
-            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该食物的id，计数加数量
-                analysisMap.replace(foodId, analysisMap.get(foodId) + basketDetail.getQty());
-            } else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
-                analysisMap.put(foodId, 1);
-            }
-        }
+        HashMap<Long, Integer> analysisMap = getAnalysisMap(analysisList);
 
         //对统计数据进行排序
+        List<Map.Entry<Long, Integer>> sortList = getSortList(analysisMap);
+        return sortList;
+    }
+
+    //对统计数据进行排序
+    private List<Map.Entry<Long, Integer>> getSortList(HashMap<Long, Integer> analysisMap) {
         List<HashMap.Entry<Long, Integer>> sortList = new ArrayList<HashMap.Entry<Long, Integer>>(analysisMap.entrySet());
         Collections.sort(sortList, new Comparator<HashMap.Entry<Long, Integer>>() {
 
@@ -233,6 +228,53 @@ public class BasketService {
             }
         });
         return sortList;
+    }
+
+    //统计各个菜品被购买的次数
+    private HashMap<Long, Integer> getAnalysisMap(ArrayList<BasketDetail> analysisList) {
+        HashMap<Long, Integer> analysisMap = new HashMap();
+        for (BasketDetail basketDetail : analysisList) {
+            Long foodId = basketDetail.getFoodId();
+            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该食物的id，计数加数量
+                analysisMap.replace(foodId, analysisMap.get(foodId) + basketDetail.getQty());
+            } else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
+                analysisMap.put(foodId, 1);
+            }
+        }
+        return analysisMap;
+    }
+
+    //获取用户可能喜欢的菜品
+    public List getLikeFood(User user) {
+        //获取用户的所有历史购物车
+        ArrayList<Basket> basketList =basketMapper.findBasketsByUserId(user.getUserId());
+
+
+        //获取用户所有下单细节
+        ArrayList<BasketDetail> basketDetailList=new ArrayList();
+        for (Basket basket: basketList) {
+            basketDetailList.addAll( basketDetailMapper.findByBasketId(basket.getBasketId()));
+        }
+
+        //统计各个菜品被用户购买的次数
+        HashMap<Long, Integer> analysisMap = getAnalysisMap(basketDetailList);
+
+        //对统计数据进行排序
+        List<Map.Entry<Long, Integer>> sortList = getSortList(analysisMap);
+
+        //获取排名前5条数据
+        if (sortList.size() > 5) {//判断list长度
+            sortList = sortList.subList(0, 5);//取前l条数据
+        }
+
+        //将结果转为菜品
+        List<Food> foodList=new ArrayList();
+        for (Map.Entry<Long,Integer> item:sortList) {
+            foodList.add(foodMapper.findById(item.getKey()));
+        }
+
+
+        return foodList;
     }
 
     //删除购物车上的某种食物

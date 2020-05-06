@@ -41,9 +41,12 @@ public class FoodController {
                        @RequestParam(name="page",defaultValue = "1")Integer page,
                        @RequestParam(name="size",defaultValue = "9")Integer size,
                        @RequestParam(name="search",required = false)String search,//查询内容
-                       @RequestParam(name="attribute",defaultValue = "name")String attribute){
+                       @RequestParam(name="attribute",defaultValue = "name")String attribute,
+                       HttpServletRequest request){
+        //获取登录用户
+        User user=(User)request.getSession().getAttribute("user");
 
-        FoodPage(model, page, size, search, attribute);
+        FoodPage(model, page, size, search, attribute,user);
         return "food";
     }
 
@@ -56,14 +59,15 @@ public class FoodController {
                        @RequestParam(name="attribute",defaultValue = "name")String attribute,
                             HttpServletRequest request){
 
-        FoodPage(model, page, size, search, attribute);
         Admin admin= (Admin) request.getSession().getAttribute("admin");
         User user=userService.findByPhone(admin.getPhone());
         request.getSession().setAttribute("user",user);
+
+        FoodPage(model, page, size, search, attribute,user);
         return "food";
     }
 
-    public void FoodPage(Model model, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "size", defaultValue = "9") Integer size, @RequestParam(name = "search", required = false) String search, @RequestParam(name = "attribute", defaultValue = "name") String attribute) {
+    public void FoodPage(Model model, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "size", defaultValue = "9") Integer size, @RequestParam(name = "search", required = false) String search, @RequestParam(name = "attribute", defaultValue = "name") String attribute,User user) {
         PageDTO pageDTO = new PageDTO();
         if ("name".equals(attribute) && (search == null||search=="")) pageDTO = foodService.listByStatus(page, size, "GOOD");//默认情况下
         else if ("name".equals(attribute)) pageDTO = foodService.listByName(page, size, search);
@@ -75,6 +79,17 @@ public class FoodController {
         //获取销售为前5的菜品
         List foodList=basketService.getPopularFood(5);
         model.addAttribute("popularFood",foodList);
+
+
+        if (user!=null)
+        {
+            //获取用户可能喜欢的菜品
+            List likeList=basketService.getLikeFood(user);
+            model.addAttribute("likeFood",likeList);
+        }
+
+
+
 
         model.addAttribute("pageDTO", pageDTO);
         model.addAttribute("foodTypeS", list);//食物所有类型的枚举

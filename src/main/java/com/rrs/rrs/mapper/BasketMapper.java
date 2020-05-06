@@ -11,8 +11,13 @@ public interface BasketMapper {
     @Select("select * from basket_table where basket_id=#{basketId}")
     Basket findById(@Param("basketId") Long basketId);
 
+    //获取某用户当前正在使用的购物车
     @Select("select * from basket_table where user_id=#{userId} and basket_status='true'")
     Basket findByUserId(@Param("userId") Long userId);
+
+    //获取某用户的历史购物车
+    @Select("select * from basket_table where user_id=#{userId}")
+    ArrayList<Basket> findBasketsByUserId(@Param("userId") Long userId);
 
     //更改购物车状态
     @Update("update basket_table set basket_status=#{basketStatus} where basket_id=#{basketId}")
