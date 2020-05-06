@@ -26,7 +26,7 @@ function settle(e) {
                 Swal.fire({
                     icon: 'error',
                     title: '结算失败！',
-                    text: '请检查是否已经预约过位置！',
+                    text: '请检查是否已经预约过位置或者选好菜品！',
                 });
             }
         }

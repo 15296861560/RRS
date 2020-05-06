@@ -116,7 +116,8 @@ public class BasketService {
     //订单结算
     public boolean settle(Long userId,String orderTime,Integer seatId) {
        Basket basket= basketMapper.findByUserId(userId);
-       Long basketId=basket.getBasketId();
+       if (basket==null) return false;
+        Long basketId=basket.getBasketId();
        if (basket.getUserId().equals(userId)){//是本人进行结算则进行结算操作
 
            //创建订单
