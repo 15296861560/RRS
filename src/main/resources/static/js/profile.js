@@ -19,8 +19,6 @@ function settle(e) {
                     title: '预约成功！',
                     text: '请您在30分钟内支付订单☺',
                 });
-                // 3秒后自动刷新页面
-                // var t = setTimeout(function(){window.location.reload();},3000);
                 // 3秒后跳转到支付页面
                 var payUrl='/toPay';
                 var t = setTimeout(function(){window.location.href=payUrl;},3000);
@@ -58,11 +56,35 @@ function deleteFood(e) {
             '该菜品已移除.',
             'success'
         );
+    }
+})
+
+}
 
 
 
+function deleteOrder(e) {
+    Swal.fire({
+        title: '您确定吗?',
+        text: "您即将删除该订单!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+    }).then((result) => {
+        if (result.value) {
 
+        var basketId=e.getAttribute("data-id");
 
+        // 1秒调用删除操作
+        setTimeout(function(){window.location.href="/profile/deleteOrder/?basketId="+basketId;},1000);
+
+        Swal.fire(
+            '已删除',
+            '该订单已删除.',
+            'success'
+        );
     }
 })
 

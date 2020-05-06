@@ -97,7 +97,6 @@ public class BasketController {
 
     //删除某种已选菜品
     @GetMapping("/basket/deleteFood")
-//    @RequestMapping("/basket/deleteFood")
     public String deleteFood(Model model,
                          HttpServletRequest request){
         String basketDetailId = request.getParameter("basketDetailId");

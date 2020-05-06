@@ -95,6 +95,18 @@ public class ProfileController {
         return "details";
     }
 
+    //删除订单
+    @GetMapping("/profile/deleteOrder")
+    public String deleteFood(Model model,
+                             @RequestParam(name="basketId",required = false)Long basketId){
+        Order order=orderService.findOrderByBasketId(basketId);
+        //删除订单
+        orderService.deleteOrder(order.getOrderId());
+        model.addAttribute("tip","删除订单成功");
+        model.addAttribute("src","/profile/history");
+        return "tip";
+    }
+
 
     //撤销订单
     @GetMapping("/profile/apply/{OrderId}")

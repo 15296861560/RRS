@@ -9,6 +9,7 @@
     <script src="/js/jquery-3.4.1.min.js" ></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
     <script src="/js/profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 </head>
 <body>
@@ -50,6 +51,7 @@
     </div>
     <div class="font-locatin">
         <a th:if="${basketId!=null}" th:href="@{/toPayByBasketId/(basketId=${basketId})}" class="btn btn-info pay-btn">进行支付</a>
+        <button th:if="${basketId!=null}" onclick="deleteOrder(this)"  th:data-id="${basketId}" class="btn btn-danger pay-btn">删除</button>
     </div>
 </div>
 
