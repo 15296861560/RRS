@@ -215,8 +215,8 @@ public class BasketService {
         HashMap<Long, Integer> analysisMap = new HashMap();
         for (BasketDetail basketDetail : analysisList) {
             Long foodId = basketDetail.getFoodId();
-            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该食物的id，计数加1
-                analysisMap.replace(foodId, analysisMap.get(foodId) + 1);
+            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该食物的id，计数加数量
+                analysisMap.replace(foodId, analysisMap.get(foodId) + basketDetail.getQty());
             } else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
                 analysisMap.put(foodId, 1);
             }
