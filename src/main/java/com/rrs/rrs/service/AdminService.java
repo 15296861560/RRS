@@ -22,7 +22,8 @@ public class AdminService {
     public boolean confirm(String id,String password){
         Admin admin=findById(id);
         if (admin==null)return false;
-        if (admin.getPassword().equals(password))return true;
+        String newPassword=DigestUtils.md5DigestAsHex(password.getBytes());
+        if (admin.getPassword().equals(newPassword))return true;
         else return false;
     }
 
