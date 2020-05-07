@@ -153,12 +153,11 @@ public class BasketService {
 
     //获取排名前l的最受欢迎菜品（名称和销售数量）
     public List getFoodRankData(int l) {
+        //获取销售菜品的销售情况，按降序排列
         List<Map.Entry<Long, Integer>> sortList = getFoodSellSortList();
 
         //获取排名前l条数据
-        if (sortList.size() > l) {//判断list长度
-            sortList = sortList.subList(0, l);//取前l条数据
-        }
+        sortList = getTopRank(sortList, l);
 
         //将foodId和数量分离
         List foodList=new ArrayList();
@@ -180,9 +179,7 @@ public class BasketService {
         List<Map.Entry<Long, Integer>> sortList = getFoodSellSortList();
 
         //获取排名前l条数据
-        if (sortList.size() > l) {//判断list长度
-            sortList = sortList.subList(0, l);//取前l条数据
-        }
+        sortList = getTopRank(sortList, l);
         //将id转成food
         List foodList=new ArrayList();
 
@@ -250,7 +247,6 @@ public class BasketService {
         //获取用户的所有历史购物车
         ArrayList<Basket> basketList =basketMapper.findBasketsByUserId(user.getUserId());
 
-
         //获取用户所有下单细节
         ArrayList<BasketDetail> basketDetailList=new ArrayList();
         for (Basket basket: basketList) {
@@ -261,21 +257,78 @@ public class BasketService {
         HashMap<Long, Integer> analysisMap = getAnalysisMap(basketDetailList);
 
         //对统计数据进行排序
-        List<Map.Entry<Long, Integer>> sortList = getSortList(analysisMap);
+        List<Map.Entry<Long, Integer>> sortList1 = getSortList(analysisMap);
 
-        //获取排名前5条数据
-        if (sortList.size() > 5) {//判断list长度
-            sortList = sortList.subList(0, 5);//取前l条数据
+        //获取排名前10条数据
+        sortList1 = getTopRank(sortList1, 10);
+
+        //获取前10菜品被购买总数
+        int userBuySum=0;
+        for (Map.Entry<Long,Integer> item:sortList1) {
+            userBuySum=userBuySum+item.getValue();
         }
+
+        //新建一个likeMap统计目前各个菜品得分
+        HashMap<Long, Double> likeMap = new HashMap();
+        for (Map.Entry<Long,Integer> item:sortList1) {
+            double temScore=item.getValue()*0.6/userBuySum;
+            likeMap.put(item.getKey(), temScore);
+        }
+
+        //获取销售菜品的销售情况，按降序排列
+        List<Map.Entry<Long, Integer>> sortList2 = getFoodSellSortList();
+        //获取排名前10条数据
+        sortList2 = getTopRank(sortList2, 10);
+
+        //获取前10菜品销售额
+        int foodSellSum=0;
+        for (Map.Entry<Long,Integer> item:sortList2) {
+            foodSellSum=foodSellSum+item.getValue();
+        }
+
+        //重新计算各个菜品得分
+        for (Map.Entry<Long,Integer> item:sortList2) {
+            Long foodId=item.getKey();
+            double temScore=item.getValue()*0.4/foodSellSum;
+            if (likeMap.containsKey(foodId)) {//如果之前统计数据里有相同的食物，则分数相加
+                likeMap.replace(foodId,likeMap.get(foodId)+temScore);
+            }else {//否则直接加入
+                likeMap.put(foodId, temScore);
+            }
+        }
+
+        //对数据进行排序
+        List<HashMap.Entry<Long, Double>> sortLikeList = new ArrayList<HashMap.Entry<Long, Double>>(likeMap.entrySet());
+        Collections.sort(sortLikeList, new Comparator<HashMap.Entry<Long, Double>>() {
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<Long, Double> o1, HashMap.Entry<Long, Double> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+
+        //获取分数前5数据
+        if (sortLikeList.size() > 5) {//判断list长度
+            sortLikeList = sortLikeList.subList(0, 5);//取前5条数据
+        }
+
 
         //将结果转为菜品
         List<Food> foodList=new ArrayList();
-        for (Map.Entry<Long,Integer> item:sortList) {
+        for (Map.Entry<Long,Double> item:sortLikeList) {
             foodList.add(foodMapper.findById(item.getKey()));
         }
 
 
         return foodList;
+    }
+
+    private List<Map.Entry<Long, Integer>> getTopRank(List<Map.Entry<Long, Integer>> sortList1, int i) {
+        if (sortList1.size() > i) {//判断list长度
+            sortList1 = sortList1.subList(0, i);//取前l条数据
+        }
+        return sortList1;
     }
 
     //删除购物车上的某种食物
