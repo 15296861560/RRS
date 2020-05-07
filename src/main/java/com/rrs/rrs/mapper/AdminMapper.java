@@ -22,4 +22,10 @@ public interface AdminMapper {
 
     @Update("update admin_table set level=#{level} where admin_id=#{adminId}")
     void changeLevel(Admin admin);
+
+
+    //创建用户
+    @Insert("insert into admin_table(admin_id,admin_name,level,password,phone) " +
+            "values(#{adminId},#{adminName},#{level},#{password},#{phone})")
+    void createAdmin(Admin admin);
 }

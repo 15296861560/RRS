@@ -1,11 +1,15 @@
 package com.rrs.rrs.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.ResultDTO;
+import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.mapper.AdminMapper;
 import com.rrs.rrs.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,5 +67,26 @@ public class AdminService {
             admin.setLevel(curLevel-1);
         }
         adminMapper.changeLevel(admin);
+    }
+
+    //添加新管理员
+    public Object addAmin(String adminId,String adminName,String phone) {
+        try {
+            if (adminId.length()==0||adminName.length()==0||phone.length()==0)return ResultDTO.errorOf(CustomizeErrorCode.ADD_ADMIN_FAIL);
+
+            Admin admin=new Admin();
+            admin.setAdminId(adminId);
+            admin.setAdminName(adminName);
+            admin.setPhone(phone);
+            admin.setLevel(1);//初始权限为1
+            //默认密码为111111，对默认密码进行加密
+            String password= DigestUtils.md5DigestAsHex("111111".getBytes());
+            admin.setPassword(password);
+            adminMapper.createAdmin(admin);
+                return ResultDTO.okOf();
+        }catch (Exception e){
+            return ResultDTO.errorOf(CustomizeErrorCode.ADD_ADMIN_FAIL);
+        }
+
     }
 }

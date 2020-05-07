@@ -1,6 +1,7 @@
 package com.rrs.rrs.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.enums.OrderStatusEnum;
@@ -8,9 +9,7 @@ import com.rrs.rrs.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -199,9 +198,16 @@ public class ManageController {
     }
 
 
-
-
-
+    //添加新管理员
+    @ResponseBody
+    @RequestMapping(value = "/manage/addAdmin",method = RequestMethod.POST)
+    public Object addAdmin(@RequestBody JSONObject dataJson,
+                         HttpServletRequest request){
+        String adminId=dataJson.getString("adminId");
+        String adminName=dataJson.getString("adminName");
+        String phone=dataJson.getString("phone");
+        return adminService.addAmin(adminId,adminName,phone);
+    }
 
 
 }

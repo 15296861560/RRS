@@ -13,6 +13,7 @@ public enum  CustomizeErrorCode {
     FILE_UPLOAD_FAIL(2003,"文件上传失败!"),
     SEAT_UPLOAD_FAIL(2004,"座位上传失败!"),
     SEAT_DUPLICATE_UPLOAD(2005,"座位重复上传!"),
+    ADD_ADMIN_FAIL(2006,"添加管理员失败!"),
     VERIFYCODE_SEND_FAIL(3001,"验证码发送失败，请重新尝试!"),
     VERIFYCODE_VERIFY_FAIL(3002,"验证失败，请重新尝试!"),
     UNKNOWN_ERROR(4001,"未知错误!");

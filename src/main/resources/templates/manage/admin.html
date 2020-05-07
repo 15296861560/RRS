@@ -15,10 +15,11 @@
                 </li>
             </ol>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div id="accordion" class="panel panel-default ">
+                <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse1">
                     搜索
                 </div>
+                <div id="collapse1" class="collapse" data-parent="#accordion">
                 <div class="panel-body">
                     <form role="form" class="form-inline">
                         <div class="form-group">
@@ -38,13 +39,41 @@
                         </div>
                     </form>
                 </div>
+                </div>
+
+                <div class="collapsed card-link panel-heading" data-toggle="collapse" href="#collapse2">
+                    添加管理员
+                </div>
+                <div id="collapse2" class="collapse" data-parent="#accordion">
+                    <div class="panel-body">
+                            <div class="form-group">
+                                <label for="admin_id">管理员账号</label>
+                                <input type="text" class="form-control" id="admin_id" name="admin_id"  placeholder="请输入管理员账号">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin_name">管理员姓名</label>
+                                <input type="text" class="form-control" id="admin_name" name="admin_name"  placeholder="请输入管理员姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">联系号码</label>
+                                <input type="text" class="form-control" id="phone" name="phone"  placeholder="请输入管理员联系号码">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-default" onclick="addAdmin()">添加新管理员</button>
+                            </div>
+                    </div>
+                </div>
             </div>
+
+
+
             <!--列表展示-->
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>管理员ID</th>
+                        <th>管理员账号</th>
                         <th>管理员姓名</th>
                         <th>管理员权限</th>
                         <th>联系号码</th>
