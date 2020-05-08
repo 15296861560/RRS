@@ -49,20 +49,17 @@ public class UploadController {
         }
 
 
+        String foodType=null;
         for(FoodTypeEnum foodTypeEnum:FoodTypeEnum.values()){
             if (food_type.equals(foodTypeEnum.getMessage()))
-                food_type=foodTypeEnum.getType();
+                foodType=foodTypeEnum.getType();
         }
 
-            foodService.createFood(food_name,food_type,price,food_status,fileDTO.getUrl());
+            foodService.createFood(food_name,foodType,price,food_status,fileDTO.getUrl());
 
-        model.addAttribute("fileDTO",fileDTO.getMessage());
-        PageDTO pageDTO=foodService.list(1,5);
-        model.addAttribute("foodTypeS", FoodTypeEnum.values());
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","menu");
-
-        return "manage";
+        model.addAttribute("tip",food_type+"类型的菜品"+food_name+"上传成功");
+        model.addAttribute("src","/manage/menu");
+        return "tip";
     }
 
     //将图片存储到UCloud上的对象存储里
@@ -115,10 +112,10 @@ public class UploadController {
             model.addAttribute("errorCode", CustomizeErrorCode.SEAT_DUPLICATE_UPLOAD.getCode());
             return "error";
         }
-        PageDTO pageDTO=seatService.list(1,5);
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","seat");
-        return "manage";
+
+        model.addAttribute("tip","位置为"+location+"的餐台上传成功");
+        model.addAttribute("src","/manage/seat");
+        return "tip";
 
     }
 
