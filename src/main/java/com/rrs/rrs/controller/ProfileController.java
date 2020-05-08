@@ -130,7 +130,10 @@ public class ProfileController {
     //去修改登录密码页面
     @GetMapping("/profile/changePassword")
     public String toChangePassword(Model model,
+                                   @RequestParam(name="phone",required = false)String phone,
                                HttpServletRequest request){
+
+        model.addAttribute("phone",phone);
         return "changePassword";
     }
 
@@ -140,7 +143,8 @@ public class ProfileController {
     public Object changePassword(@RequestBody JSONObject dataJson,
                                  HttpServletRequest request){
         String password=dataJson.getString("password");
-        User user=(User)request.getSession().getAttribute("user");
+        String phone=dataJson.getString("phone");
+        User user=userService.findByPhone(phone);
         return userService.changePassword(password,user);
     }
 

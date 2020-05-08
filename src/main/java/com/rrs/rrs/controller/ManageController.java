@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.enums.OrderStatusEnum;
+import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -155,7 +156,12 @@ public class ManageController {
                              @PathVariable(name = "action")String action){
 
         if (action.equals("delete")) userService.deleteById(userId);//删除指定用户
-        if (action.equals("reset"))userService.changePhone(userId);//重置密码
+        if (action.equals("reset")){
+            model.addAttribute("nextUrl","/profile/changePassword");
+            User user=userService.findById(userId);
+            model.addAttribute("user",user);
+            return "confirmPhone";
+        }
 
         PageDTO pageDTO=userService.list(1,5);
         model.addAttribute("pageDTO",pageDTO);

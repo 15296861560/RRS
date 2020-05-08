@@ -208,18 +208,20 @@ function confirmPhone() {
             title: '验证成功！',
             text: '即将跳转到修改页面！',
         });
-        // 3秒后跳转到修改手机号码页面
-        var t = setTimeout(function(){window.location.href=nextUrl;},3000);
+        // 3秒后跳转到修改页面
+        var t = setTimeout(function(){window.location.href=nextUrl+"/?phone="+phone;},3000);
     }
 
 }
 
-//检查验证码
+//修改密码
 function changePassword(){
     var password=document.getElementById("password").value;
     var confirmPassword=document.getElementById("confirmPassword").value;
+    var phone=document.getElementById("phone").value;
     var code;
 
+    debugger;
     if(password==confirmPassword){//如果密码与确认密码相同
         $.ajax({
             type: "POST",
@@ -228,6 +230,7 @@ function changePassword(){
             contentType: 'application/json',
             data: JSON.stringify({//将json对象转换成字符串
                 "password": password,
+                "phone": phone
             }),
             success: function (response) {
                 code= response.code;
