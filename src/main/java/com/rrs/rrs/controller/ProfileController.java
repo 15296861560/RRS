@@ -170,6 +170,11 @@ public class ProfileController {
         return "changePhone";
     }
 
+    //跳转到绑定手机号码页面
+    @GetMapping("/profile/phone")
+    public String bindingPhone(){
+        return "phone";
+    }
 
 
 
