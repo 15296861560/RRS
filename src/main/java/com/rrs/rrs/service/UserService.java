@@ -76,9 +76,13 @@ public class UserService {
 
 
     //删除用户
-
-    public void deleteById(Long userId) {
-        userMapper.deleteById(userId);
+    public Object deleteById(Long userId) {
+        try {
+            userMapper.deleteById(userId);
+            return ResultDTO.okOf();
+        }catch (Exception e){
+            return ResultDTO.errorOf(CustomizeErrorCode.DELETE_FAIL);
+        }
     }
 
 

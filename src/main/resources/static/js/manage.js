@@ -1,7 +1,42 @@
 function delete_user(e) {
     var userId=e.getAttribute("data-id");
-    window.location.href="/manageUser/delete/"+userId;
+    $.ajax({
+        type: "POST",
+        url: "/manage/customer/delete",
+        async: false,//将ajax改为同步执行
+        contentType: 'application/json',
+        data: JSON.stringify({//将json对象转换成字符串
+            "userId": userId
+        }),
+        success: function (response) {
+            if (response.code == 200) {//添加新管理员成功
+                Swal.fire({
+                    icon: 'success',
+                    title: '删除用户成功！',
+                    text: '2秒后将自动重新加载页面页面！',
+                });
+
+            }else if (response.code == 2007){
+                Swal.fire({
+                    icon: 'error',
+                    title: '删除用户失败！',
+                    text: '权限不足！',
+                });
+
+            } else {//删除用户失败
+                Swal.fire({
+                    icon: 'error',
+                    title: '删除用户失败！',
+                });
+
+            }
+            // 2秒后重新加载页面页面
+            var t = setTimeout(function(){window.location.href='/manage/customer';},2000);
+        }
+    });
 }
+
+
 
 function agree(e) {
     var orderId=e.getAttribute("data-id");

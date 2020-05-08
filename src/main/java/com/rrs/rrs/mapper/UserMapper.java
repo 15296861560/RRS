@@ -39,7 +39,7 @@ public interface UserMapper {
     void update(User user);
 
     //根据id删除用户
-    @Delete("delete from user_table where id=#{userId}")
+    @Delete("delete from user_table where user_id=#{userId}")
     void deleteById(@Param(value = "userId") Long userId);
 
     //模糊查询用户姓名包涵某字段的用户数量

@@ -3,8 +3,11 @@ package com.rrs.rrs.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.PageDTO;
+import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
 import com.rrs.rrs.enums.OrderStatusEnum;
+import com.rrs.rrs.exception.CustomizeErrorCode;
+import com.rrs.rrs.model.Admin;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,26 +151,32 @@ public class ManageController {
         return "manage";
     }
 
-    //对用户进行相应操作
-    @GetMapping("/manage/customer/{action}")
+    //帮助用户重置密码
+    @GetMapping("/manage/customer/reset")
     public String customerAction(Model model,
                              HttpServletRequest request,
-                             @RequestParam(name="userId")Long userId,
-                             @PathVariable(name = "action")String action){
+                             @RequestParam(name="userId")Long userId){
 
-        if (action.equals("delete")) userService.deleteById(userId);//删除指定用户
-        if (action.equals("reset")){
             model.addAttribute("nextUrl","/profile/changePassword");
             User user=userService.findById(userId);
             model.addAttribute("user",user);
             return "confirmPhone";
+
+    }
+
+    //删除用户
+    @ResponseBody
+    @RequestMapping(value = "/manage/customer/delete",method = RequestMethod.POST)
+    public Object deleteUser(@RequestBody JSONObject dataJson,
+                           HttpServletRequest request){
+        String userId=dataJson.getString("userId");
+        Admin admin= (Admin) request.getSession().getAttribute("admin");
+        if (admin.getLevel()<8)//权限小于8级提示权限不足不能删除用户
+        {
+            return  ResultDTO.errorOf(CustomizeErrorCode.NEED_MORE_LEVEL);
+        }else {
+            return userService.deleteById(Long.parseLong(userId));
         }
-
-        PageDTO pageDTO=userService.list(1,5);
-        model.addAttribute("pageDTO",pageDTO);
-        model.addAttribute("section","customer");
-        return "manage";
-
     }
 
 

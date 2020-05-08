@@ -14,6 +14,8 @@ public enum  CustomizeErrorCode {
     SEAT_UPLOAD_FAIL(2004,"座位上传失败!"),
     SEAT_DUPLICATE_UPLOAD(2005,"座位重复上传!"),
     ADD_ADMIN_FAIL(2006,"添加管理员失败!"),
+    NEED_MORE_LEVEL(2007,"权限不足!"),
+    DELETE_FAIL(2008,"删除失败!"),
     VERIFYCODE_SEND_FAIL(3001,"验证码发送失败，请重新尝试!"),
     VERIFYCODE_VERIFY_FAIL(3002,"验证失败，请重新尝试!"),
     UNKNOWN_ERROR(4001,"未知错误!");
