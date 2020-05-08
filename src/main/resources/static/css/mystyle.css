@@ -119,7 +119,6 @@ table{
 }
 
 table td{
-
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
@@ -128,15 +127,23 @@ table td{
 }
 
 table td:hover {
-
     overflow: auto;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
+    white-space: normal;
 }
 
 .pay-btn{
     width: 80%;
     margin-bottom: 30px;
     margin-top: 30px;
+}
+
+.w100{
+    width: 100px;
+}
+
+.w300{
+    width: 300px;
 }
 
 
