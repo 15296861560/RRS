@@ -35,19 +35,23 @@ public class AuthorizeController {
 
     @Autowired
     private UserService userService;
+
     @GetMapping("/github/callback")
     public String callback(HttpServletRequest request,
                            @RequestParam(name="code")String code,
                            @RequestParam(name="state")String state ,
                                HttpServletResponse response){
 
+        //构建系统在第三方登记的信息
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
-        String accessToken = githubProvider.getAccessToken(accessTokenDTO);//通过provider获取token
+        //通过provider获取token
+        String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        //通过获取到的token获取用户信息
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser!=null&&githubUser.getId()!=null){
             //加载用户数据
@@ -55,10 +59,10 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setUserName(githubUser.getName());
-            user.setCode("github"+String.valueOf(githubUser.getId()));
+            user.setCode("github"+githubUser.getId());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(System.currentTimeMillis());
-//            user.setAvatarUrl(githubUser.getAvatarUrl());
+            // user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
 
             //将用户存到session

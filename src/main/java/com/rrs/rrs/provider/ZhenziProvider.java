@@ -20,7 +20,6 @@ public class ZhenziProvider {
     private String apiUrl;
 
     public Boolean sendVerifyCode(HttpServletRequest request, String phone) throws Exception {
-//        String phone = request.getParameter("phone");
         JSONObject json = null;
         //生成6位验证码
         String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
@@ -29,10 +28,9 @@ public class ZhenziProvider {
         //短信模板
         String messageModel="您的验证码是"+verifyCode+"，5分钟内有效！";
         String result = client.send(phone, messageModel);
-        //String result = "{\"code\":0}";//client.send(phone, "您的验证码为:" + verifyCode + "，该码有效期为5分钟，该码只能使用一次!");
         json = JSONObject.parseObject(result);
         if (json.getIntValue("code") != 0) {//发送短信失败
-//            发送短信失败情况
+        //  发送短信失败情况
             System.out.println(json.getIntValue("data"));
             return false;
         }
@@ -46,8 +44,6 @@ public class ZhenziProvider {
         session.setAttribute("verify", json);
         //发送验证码成功
         return true;
-
-
 
         }
 

@@ -39,7 +39,7 @@ public class UCloudProvider {
         try {
             // Bucket相关API的授权器
             ObjectAuthorization objectAuthorizer = new UfileObjectLocalAuthorization(publicKey, privateKey);
-            // 对象操作需要ObjectConfig来配置您的地区和域名后缀
+            // 对象操作需要ObjectConfig来配置地区和域名后缀
             ObjectConfig config = new ObjectConfig("cn-bj", "ufileos.com");
             PutObjectResultBean response = UfileClient.object(objectAuthorizer, config)
                     .putObject(fileStream, mimeType)
