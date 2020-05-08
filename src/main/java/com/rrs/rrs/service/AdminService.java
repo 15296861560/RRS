@@ -1,23 +1,27 @@
 package com.rrs.rrs.service;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.mapper.AdminMapper;
+import com.rrs.rrs.mapper.UserMapper;
 import com.rrs.rrs.model.Admin;
+import com.rrs.rrs.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AdminService {
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     public boolean confirm(String id,String password){
         Admin admin=findById(id);
@@ -71,10 +75,12 @@ public class AdminService {
     }
 
     //添加新管理员
+    @Transactional//自动为整个方法体加上一个事务
     public Object addAmin(String adminId,String adminName,String phone) {
         try {
             if (adminId.length()==0||adminName.length()==0||phone.length()==0)return ResultDTO.errorOf(CustomizeErrorCode.ADD_ADMIN_FAIL);
 
+            //添加新管理员
             Admin admin=new Admin();
             admin.setAdminId(adminId);
             admin.setAdminName(adminName);
@@ -84,6 +90,17 @@ public class AdminService {
             String password= DigestUtils.md5DigestAsHex("111111".getBytes());
             admin.setPassword(password);
             adminMapper.createAdmin(admin);
+            //为管理员创建用户账号
+            User user=new User();
+            user.setPassword(password);
+            user.setPhone(phone);
+            user.setUserName(adminName);
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(System.currentTimeMillis());
+            String token=UUID.randomUUID().toString();
+            user.setToken(token);
+            user.setCode("pt"+token);
+            userMapper.createUser(user);
                 return ResultDTO.okOf();
         }catch (Exception e){
             return ResultDTO.errorOf(CustomizeErrorCode.ADD_ADMIN_FAIL);

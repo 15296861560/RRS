@@ -45,7 +45,7 @@ public class UserService {
         user.setGmtCreate(System.currentTimeMillis());
         user.setGmtModified(System.currentTimeMillis());
         user.setToken(token);
-        user.setCode("pt");
+        user.setCode("pt"+token);
         userMapper.createUser(user);
        return "success";
 
