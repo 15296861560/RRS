@@ -90,16 +90,15 @@ public class AdminService {
             String password= DigestUtils.md5DigestAsHex("111111".getBytes());
             admin.setPassword(password);
             adminMapper.createAdmin(admin);
-            //为管理员创建用户账号
+            //为管理员创建用户账号,不设置密码，该账号只能从管理端登录
             User user=new User();
-            user.setPassword(password);
             user.setPhone(phone);
             user.setUserName(adminName);
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(System.currentTimeMillis());
             String token=UUID.randomUUID().toString();
             user.setToken(token);
-            user.setCode("pt"+token);
+            user.setCode("admin"+token);
             userMapper.createUser(user);
                 return ResultDTO.okOf();
         }catch (Exception e){
