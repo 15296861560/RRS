@@ -26,7 +26,7 @@ public class ZhenziProvider {
         //发送短信
         ZhenziSmsClient client = new ZhenziSmsClient(apiUrl, appId, appSecret);
         //短信模板
-        String messageModel="您的验证码是"+verifyCode+"，5分钟内有效！";
+        String messageModel="中小型餐台预订系统向您请求验证，您的验证码是"+verifyCode+"，5分钟内有效！";
         String result = client.send(phone, messageModel);
         json = JSONObject.parseObject(result);
         if (json.getIntValue("code") != 0) {//发送短信失败
