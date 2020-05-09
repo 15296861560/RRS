@@ -16,7 +16,7 @@ function toOrderSeat(e) {
 
                 Swal.fire({
                     icon: 'success',
-                    title: datetime+' '+datetime2+'的编号为'+seatId+'的餐台预约成功！',
+                    title: datetime+' '+datetime2+'的ID为'+seatId+'的餐台预约成功！',
                     text:'请于30分钟内点好菜品，并在指定时间段进行用餐哦',
                 });
             } else {

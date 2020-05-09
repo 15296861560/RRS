@@ -229,7 +229,7 @@ public class OrderService {
                 }
 
 
-        }else {//根据订单编号查订单
+        }else {//根据订单ID查订单
             try {
                 Order order=orderMapper.findById(Long.parseLong(name));
                 orderSum.add(order);
