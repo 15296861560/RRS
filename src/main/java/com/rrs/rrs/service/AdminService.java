@@ -50,8 +50,13 @@ public class AdminService {
     }
 
     //删除指定管理员
+    @Transactional
     public void deleteById(String adminId) {
-        adminMapper.deleteById(adminId);
+        Admin admin=adminMapper.findById(adminId);
+        User user=userMapper.findByPhone(admin.getPhone());
+        userMapper.deleteById(user.getUserId());
+        adminMapper.deleteById(adminId);//删除对应的用户身份
+
     }
 
     //提升权限
