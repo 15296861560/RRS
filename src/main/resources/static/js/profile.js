@@ -48,7 +48,7 @@ function deleteFood(e) {
 
         var basketDetailId=e.getAttribute("data-id");
 
-        // 2秒后自动刷新页面
+        // 2秒后执行删除操作
         setTimeout(function(){window.location.href="/basket/deleteFood/?basketDetailId="+basketDetailId;},2000);
 
         Swal.fire(

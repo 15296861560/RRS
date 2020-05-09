@@ -46,23 +46,14 @@ public class ManageController {
         return "manage";
     }
 
-    //对订单进行管理
+    //对订单状态进行管理
     @GetMapping("/manage/order/{action}")
     public String orderAction(Model model,
                              HttpServletRequest request,
                              @RequestParam(name="orderId")Long orderId,
                              @PathVariable(name = "action")String action){
 
-        if (action.equals("delete")) {
-            Admin admin= (Admin) request.getSession().getAttribute("admin");
-            if (admin.getLevel()<5){
-                model.addAttribute("errorMessage", CustomizeErrorCode.NEED_MORE_LEVEL.getMessage());
-                model.addAttribute("errorCode", CustomizeErrorCode.NEED_MORE_LEVEL.getCode());
-                return "error";
-            }else {
-                orderService.deleteOrder(orderId);//删除指定订单
-            }
-        }
+
         if (action.equals("agree"))orderService.orderApplyOK(orderId);//将订单状态变为预订成功
         if (action.equals("finish"))orderService.orderFinish(orderId);//将订单状态变为已完成
 
@@ -74,7 +65,27 @@ public class ManageController {
 
     }
 
-    //菜单管理
+    //删除订单
+    @ResponseBody
+    @RequestMapping(value = "/manage/deleteOrder",method = RequestMethod.POST)
+    public Object deleteOrder(@RequestBody JSONObject dataJson,
+                             HttpServletRequest request) {
+            Long orderId = Long.parseLong(dataJson.getString("orderId"));
+            Admin admin= (Admin) request.getSession().getAttribute("admin");
+            if (admin.getLevel()<5){
+                return ResultDTO.errorOf(CustomizeErrorCode.NEED_MORE_LEVEL);
+            }else {
+                try{
+                    orderService.deleteOrder(orderId);//删除指定订单
+                    return ResultDTO.okOf();
+                }catch (Exception e){
+                    return ResultDTO.errorOf(CustomizeErrorCode.DELETE_FAIL);
+                }
+            }
+    }
+
+
+        //菜单管理
     @GetMapping("/manage/menu")
     public String manage_menu(Model model,
                          @RequestParam(name="page",defaultValue = "1")Integer page,

@@ -93,3 +93,51 @@ function addAdmin() {
     });
 }
 
+function deleteOrder(e) {
+    Swal.fire({
+        title: '您确定吗?',
+        text: "您即将删除该订单!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+    }).then((result) => {
+        if (result.value) {
+
+        var orderId=e.getAttribute("data-id");
+
+        //请求删除订单
+        $.ajax({
+            type: "POST",
+            url: "/manage/deleteOrder",
+            async: false,//将ajax改为同步执行
+            contentType: 'application/json',
+            data: JSON.stringify({//将json对象转换成字符串
+                "orderId": orderId,
+            }),
+            success: function (response) {
+                if (response.code == 200) {//添加新管理员成功
+                    Swal.fire(
+                        '已删除',
+                        '该订单已移除.',
+                        'success'
+                    );
+                    // 2秒后重新加载页面页面
+                    var t = setTimeout(function(){window.location.href='/manage';},2000);
+                } else {//添加新管理员失败
+                    Swal.fire({
+                        icon: 'error',
+                        title: '删除订单失败！',
+                        text: '权限不足！',
+                    });
+
+                }
+            }
+        });
+
+
+    }
+})
+
+}

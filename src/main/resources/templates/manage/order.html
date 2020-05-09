@@ -77,7 +77,8 @@
                             <div class="btn-group">
                                 <a th:href="@{/manage/order/agree/(orderId=${orderDTO.orderId})}" class="btn btn-success">同意</a>
                                 <a th:href="@{/manage/order/finish/(orderId=${orderDTO.orderId})}" class="btn btn-info">完成</a>
-                                <a th:href="@{/manage/order/delete/(orderId=${orderDTO.orderId})}" class="btn btn-danger">删除</a>
+                                <!--<a th:href="@{/manage/order/delete/(orderId=${orderDTO.orderId})}" class="btn btn-danger">删除</a>-->
+                                <button th:data-id="${orderDTO.orderId}" onclick="deleteOrder(this) " class="btn btn-danger">删除</button>
                             </div>
 
                         </td>
