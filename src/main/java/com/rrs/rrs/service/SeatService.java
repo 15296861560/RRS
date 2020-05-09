@@ -88,27 +88,27 @@ public class SeatService {
 
 
         List<Seat> seats=new ArrayList();
-        if (status.equals("空")){//查询选定时间为空的座位
-            //获取所有的座位
+        if (status.equals("空")){//查询选定时间为空的餐台
+            //获取所有的餐台
             seats=seatMapper.selectAll();
-            //如果订单中这一时间的某一座位已被预订则从座位列表中删除
+            //如果订单中这一时间的某一餐台已被预订则从餐台列表中删除
             for (Order order:orders) {
                 if (order.getOrderTime().equals(orderTime)){//时间相同
-                    seats.remove(seatMapper.findById(order.getSeatId()));//删除座位
+                    seats.remove(seatMapper.findById(order.getSeatId()));//删除餐台
                 }
             }
-        }else {//查询选定时间被预订的座位
-            //如果订单中这一时间的某一座位已被预订则从将该座位加入seats
+        }else {//查询选定时间被预订的餐台
+            //如果订单中这一时间的某一餐台已被预订则从将该餐台加入seats
             for (Order order:orders) {
                 if (order.getOrderTime().equals(orderTime)){//时间相同
-                    seats.add(seatMapper.findById(order.getSeatId()));//加入座位
+                    seats.add(seatMapper.findById(order.getSeatId()));//加入餐台
                 }
             }
         }
 
         pageDTO.setPageDTO(seats.size(),page,size);
 
-        //截取当前页的座位信息(分页)
+        //截取当前页的餐台信息(分页)
         List<Seat> pageSeat = getPageSeats(page, size, seats);
 
         pageDTO.setDataDTOS(pageSeat);
@@ -133,25 +133,25 @@ public class SeatService {
         List<Order> orders = getOrders();
 
         Integer offset=size*(page-1);//偏移量
-        //获取所有的座位
+        //获取所有的餐台
         List<Seat> seats=seatMapper.selectAll();
 
-        //如果订单中这一时间的某一座位已被预订则从座位列表中删除
+        //如果订单中这一时间的某一餐台已被预订则从餐台列表中删除
         for (Order order:orders) {
             if (order.getOrderTime().equals(orderTime)){//时间相同
-                seats.remove(seatMapper.findById(order.getSeatId()));//删除座位
+                seats.remove(seatMapper.findById(order.getSeatId()));//删除餐台
             }
         }
         pageDTO.setPageDTO(seats.size(),page,size);
 
-        //截取当前页的座位信息(分页)
+        //截取当前页的餐台信息(分页)
         List<Seat> pageSeat = getPageSeats(page, size, seats);
 
         pageDTO.setDataDTOS(pageSeat);
         return pageDTO;
     }
 
-    //截取当前页的座位信息(分页)
+    //截取当前页的餐台信息(分页)
     private List<Seat> getPageSeats(int page, int size, List<Seat> seats) {
         List<Seat> pageSeat = new ArrayList();
         for (int i = (page - 1) * size; i < page * size && i < seats.size(); i++) {

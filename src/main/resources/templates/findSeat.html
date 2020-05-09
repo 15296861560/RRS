@@ -25,7 +25,7 @@
 
 
 
-    <!--座位展示-->
+    <!--餐台展示-->
     <div class="container">
         <div class="row">
             <!--中间-->
@@ -35,7 +35,7 @@
                 <!--显示菜品列表-->
                 <div class="container-fluid">
                     <div class="col-xs-4 col-md-4 col-sm-4 pad-20"  th:each="seatDTO:${pageDTO.getDataDTOS()}">
-                        <!--座位图片-->
+                        <!--餐台图片-->
                         <div class="media-heading">
                             <!--<a th:href="@{'/seat/'+${seatDTO.seatId}}">-->
                                 <img class="media-object" th:src="${seatDTO.seatUrl}" height="120" width="165">
@@ -65,7 +65,7 @@
                 <p class="help-block">
                     小提示:<br>
                     1.图中红色圈圈圈起的餐台表示实际餐台位置<br>
-                    2.每张餐台只有6个座位，如果用餐人数大于6人请分多次下单.
+                    2.每张餐台只有6个餐台，如果用餐人数大于6人请分多次下单.
                 </p>
             </div>
 

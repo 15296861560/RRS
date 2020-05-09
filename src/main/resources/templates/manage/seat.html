@@ -82,7 +82,7 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <label >座位视图</label>
+                            <label >餐台视图</label>
                             <input type="file" class="form-control" name="seat_pic">
                         </div>
                         <div class="form-group">
@@ -129,7 +129,7 @@
             </table>
         </div>
 
-        <!--查询所有座位时的分页-->
+        <!--查询所有餐台时的分页-->
         <ul th:if="${action==null}" class="pagination" style="float: right;">
             <li th:if="${pageDTO.showFirst}">
                 <a th:href="@{/manage/seat/(page=1,search=${search})}" aria-label="First">
