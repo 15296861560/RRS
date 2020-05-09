@@ -20,7 +20,7 @@ public class FoodService {
     @Autowired
     private FoodMapper foodMapper;
 
-    //寻找食物
+    //寻找菜品
     public Food findFoodById(Long id){
         return foodMapper.findById(id);
     }
@@ -33,7 +33,7 @@ public class FoodService {
         foodMapper.changeFoodStatus(food);
     }
 
-    //添加新食物
+    //添加新菜品
     public void createFood(String foodName, String type, Double price, String status,String foodUrl){
         Food food=new Food();
         food.setFoodName(foodName);
@@ -47,15 +47,15 @@ public class FoodService {
         foodMapper.createFood(food);
     }
 
-    //查询所有食物并将其转为foodDTO存入list里
+    //查询所有菜品并将其转为foodDTO存入list里
     public List<FoodDTO> listByFoodId(Integer status) {
-        List<Food> foods=foodMapper.selectAll();//所有食物
+        List<Food> foods=foodMapper.selectAll();//所有菜品
         return ToDTOS(foods);
 
     }
 
 
-    //将所有食物查询出来并进行分页处理
+    //将所有菜品查询出来并进行分页处理
     public PageDTO list(Integer page, Integer size) {
 
         PageDTO<FoodDTO> pageDTO=new PageDTO();
@@ -70,7 +70,7 @@ public class FoodService {
         return pageDTO;
     }
 
-    //将所有上架食物查询出来并进行分页处理
+    //将所有上架菜品查询出来并进行分页处理
     public PageDTO listByStatus(Integer page, Integer size,String status) {
 
         PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部",status,"全部");
@@ -78,13 +78,13 @@ public class FoodService {
         return pageDTO;
     }
 
-    //根据名称搜索上架食物并进行分页处理
+    //根据名称搜索上架菜品并进行分页处理
     public PageDTO listByName(Integer page, Integer size, String search) {
         PageDTO<FoodDTO> pageDTO=listSearch(page,size,search,"GOOD","全部");
         return pageDTO;
     }
 
-    //根据类型搜索上架食物并进行分页处理
+    //根据类型搜索上架菜品并进行分页处理
     public PageDTO listByType(Integer page, Integer size, String search) {
         PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部","GOOD",search);
         return pageDTO;
@@ -118,7 +118,7 @@ public class FoodService {
     }
 
 
-    //根据条件对食物进行查询和分页
+    //根据条件对菜品进行查询和分页
     public PageDTO listSearch(int page, int size,String name,String status,String type) {
         PageDTO<FoodDTO> pageDTO=new PageDTO();
         Integer offset=size*(page-1);//偏移量
@@ -129,12 +129,12 @@ public class FoodService {
         if (name.equals("全部"))name="^";
         else name=stringToRegex(name);
 
-        //对食物状态进行转换
+        //对菜品状态进行转换
         if (status.equals("上架"))status=FoodStatusEnum.GOOD.getStatus();
         else if (status.equals("下架"))status=FoodStatusEnum.STOCKING.getStatus();
         else status="^";
 
-        //对食物类型进行转换
+        //对菜品类型进行转换
         for (FoodTypeEnum footType:FoodTypeEnum.values()) {
             if (type.equals(footType.getMessage())){
                 type=footType.getType();
@@ -156,7 +156,7 @@ public class FoodService {
         return pageDTO;
     }
 
-    //删除指定食物
+    //删除指定菜品
     public void deleteFood(Long foodId) {
         foodMapper.deleteFood(foodId);
     }
@@ -176,7 +176,7 @@ public class FoodService {
         String foodType;
         for (Food food:analysisList) {
             foodType=food.getType();
-            if (analysisMap.containsKey(food.getType())){//如果analysisMap中有该类型的食物，计数加1
+            if (analysisMap.containsKey(food.getType())){//如果analysisMap中有该类型的菜品，计数加1
                 analysisMap.replace(foodType,analysisMap.get(foodType)+1);
             }else {//有什么意外情况都加到其它类里
                 foodType="E";

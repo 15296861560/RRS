@@ -36,7 +36,7 @@ public class SearchController {
     @Autowired
     UserService userService;
 
-    //管理员查食物
+    //管理员查菜品
     @PostMapping("/admin_search_food")
     public String searchFood(Model model,
                            @RequestParam(value ="name",required = false,defaultValue = "全部")String name,

@@ -73,7 +73,7 @@ public class FoodController {
         else if ("name".equals(attribute)) pageDTO = foodService.listByName(page, size, search);
         else if ("type".equals(attribute)) pageDTO = foodService.listByType(page, size, search);
 
-        //将食物类别再分类
+        //将菜品类别再分类
         List list = FoodTypeEnum.valueOf("E").listByClassify();
 
         //获取销售为前5的菜品
@@ -92,7 +92,7 @@ public class FoodController {
 
 
         model.addAttribute("pageDTO", pageDTO);
-        model.addAttribute("foodTypeS", list);//食物所有类型的枚举
+        model.addAttribute("foodTypeS", list);//菜品所有类型的枚举
         model.addAttribute("attribute", attribute);//查询和显示方式，名字或类别
         model.addAttribute("search", search);
         model.addAttribute("nav", "food");
@@ -118,7 +118,7 @@ public class FoodController {
     @RequestMapping(value = "/toOrder",method = RequestMethod.POST)
     public Object toOrder(@RequestBody JSONObject dataJson,
                          HttpServletRequest request){
-        Long foodId=Long.parseLong(dataJson.getString("foodId"));//从json中获取食物id并将其转为Long类型
+        Long foodId=Long.parseLong(dataJson.getString("foodId"));//从json中获取菜品id并将其转为Long类型
         Integer number=Integer.parseInt(dataJson.getString("number"));//从json中获取数量并将其转换为Integ类型
         User user=(User)request.getSession().getAttribute("user");//从session中获取登录用户信息
 

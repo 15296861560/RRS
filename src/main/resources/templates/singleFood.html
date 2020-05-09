@@ -27,7 +27,7 @@
     <div th:insert="~{main-nav::main-nav}"></div>
 
     <div class="media col-xs-12 col-md-12">
-        <!--食物图片-->
+        <!--菜品图片-->
         <div class="media-left col-xs-6 col-md-6">
             <a th:href="@{'/food/'+${foodDTO.foodId}}">
                 <img class="media-object" th:src="${foodDTO.foodUrl}" height="240" width="330">
@@ -38,8 +38,8 @@
             <h3 class="media-heading" th:text="${foodDTO.foodName}"></h3>
 
             <ul class="list-group">
-                <li class="list-group-item" ><b>食物价格：</b><span th:text="${foodDTO.price+'元'}" style="color: red"></span></li>
-                <li class="list-group-item"><b>食物类型：</b><span th:text="${foodDTO.type}"></span></li>
+                <li class="list-group-item" ><b>菜品价格：</b><span th:text="${foodDTO.price+'元'}" style="color: red"></span></li>
+                <li class="list-group-item"><b>菜品类型：</b><span th:text="${foodDTO.type}"></span></li>
 
             </ul>
 

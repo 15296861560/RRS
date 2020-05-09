@@ -27,7 +27,7 @@ public interface BasketDetailMapper {
     @Select("select * from basket_detail_table where basket_id=#{basketId}")
     List<BasketDetail> findByBasketId(@Param("basketId") Long basketId);
 
-    //重新修改某个食物的数量
+    //重新修改某个菜品的数量
     @Update("update basket_detail_table set qty=#{qty} where basket_detail_id=#{basketDetailId}")
     void changeBasketDetailQty(BasketDetail basketDetail);
 

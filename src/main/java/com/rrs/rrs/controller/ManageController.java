@@ -101,16 +101,16 @@ public class ManageController {
     }
 
 
-    //对食物进行相应操作
+    //对菜品进行相应操作
     @GetMapping("/manage/menu/{action}")
     public String deleteFood(Model model,
                         HttpServletRequest request,
                         @RequestParam(name="foodId")Long foodId,
                              @PathVariable(name = "action")String action){
 
-        if (action.equals("delete")) foodService.deleteFood(foodId);//删除指定食物
-        if (action.equals("toUp"))foodService.changeFoodStatus(foodId,"GOOD");//改变食物状态为上架
-        if (action.equals("toDown"))foodService.changeFoodStatus(foodId,"STOCKING");//改变食物状态为下架
+        if (action.equals("delete")) foodService.deleteFood(foodId);//删除指定菜品
+        if (action.equals("toUp"))foodService.changeFoodStatus(foodId,"GOOD");//改变菜品状态为上架
+        if (action.equals("toDown"))foodService.changeFoodStatus(foodId,"STOCKING");//改变菜品状态为下架
 
         PageDTO pageDTO=foodService.list(1,5);
         model.addAttribute("foodTypeS", FoodTypeEnum.values());

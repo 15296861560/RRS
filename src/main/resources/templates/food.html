@@ -97,7 +97,7 @@
         <!--显示菜品列表-->
         <div class="container-fluid">
             <div class="col-xs-6 col-md-4 pad-20"  th:each="foodDTO:${pageDTO.getDataDTOS()}">
-                <!--食物图片-->
+                <!--菜品图片-->
                 <div class="media-heading">
                     <a th:href="@{'/food/'+${foodDTO.foodId}}">
                         <img class="media-object" th:src="${foodDTO.foodUrl}" height="120" width="165">
@@ -108,8 +108,8 @@
                         <a th:href="@{'/food/'+${foodDTO.foodId}}" th:text="${foodDTO.foodName}"></a>
                     </h3>
                     <span class="text-gray-small">
-                        食物价格：<span th:text="${foodDTO.price+'元'}" style="color: red"></span><br>
-                        食物类型:<span th:text="${foodDTO.type}"></span><br>
+                        菜品价格：<span th:text="${foodDTO.price+'元'}" style="color: red"></span><br>
+                        菜品类型:<span th:text="${foodDTO.type}"></span><br>
                     </span>
 
                     <form role="form" class="form-inline">

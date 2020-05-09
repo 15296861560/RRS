@@ -47,7 +47,7 @@ public class BasketService {
         basketDetail.setFoodId(foodId);
         basketDetail.setQty(number);
         basketDetail.setBasketId(basket.getBasketId());
-        //将食物加入basketDetai表里
+        //将菜品加入basketDetai表里
         List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basket.getBasketId());
         if (basketDetails.isEmpty()){//如果该购物车的basketDetail没有数据的话直接加入新数据
             basketDetailMapper.createBasketDetail(basketDetail);
@@ -55,14 +55,14 @@ public class BasketService {
             boolean flag=true;
             Long temId=0l;
             for (BasketDetail bd:basketDetails) {
-                if (bd.getFoodId().equals(foodId)){//如果有相同食物
-                    flag=false;//flag改为为false，表示有相同食物
-                    temId=bd.getBasketDetailId();//获取这个食物的basketDetailId
+                if (bd.getFoodId().equals(foodId)){//如果有相同菜品
+                    flag=false;//flag改为为false，表示有相同菜品
+                    temId=bd.getBasketDetailId();//获取这个菜品的basketDetailId
                 }
             }
-            if (flag){//没有相同食物直接加入
+            if (flag){//没有相同菜品直接加入
                 basketDetailMapper.createBasketDetail(basketDetail);
-            }else {//有相同食物进行合并
+            }else {//有相同菜品进行合并
                 BasketDetail newBasketDetail1=basketDetailMapper.findById(temId);
                 int qty=newBasketDetail1.getQty()+number;//数量相加
                 newBasketDetail1.setQty(qty);
@@ -70,7 +70,7 @@ public class BasketService {
             }
 
         }
-        //某种食物加入订单后
+        //某种菜品加入订单后
         Food food=foodMapper.findById(foodId);
         //修改支付金额
         double payment=basket.getPayment()+food.getPrice()*number;
@@ -107,7 +107,7 @@ public class BasketService {
         //判断该用户是否创建过购物车
         if (basket==null)return null;
         List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basket.getBasketId());//获取该用户所有的购物车细节
-        //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
+        //将购物车细节里的菜品信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
         List<BasketDetailDTO> basketDetailDTOS = getBasketDetailDTOS(basketDetails);
 
         return basketDetailDTOS;
@@ -233,9 +233,9 @@ public class BasketService {
         HashMap<Long, Integer> analysisMap = new HashMap();
         for (BasketDetail basketDetail : analysisList) {
             Long foodId = basketDetail.getFoodId();
-            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该食物的id，计数加数量
+            if (analysisMap.containsKey(foodId)) {//如果analysisMap中有该菜品的id，计数加数量
                 analysisMap.replace(foodId, analysisMap.get(foodId) + basketDetail.getQty());
-            } else {//果analysisMap中没有该食物的id，以该id为键1为值加入analysisMap中
+            } else {//果analysisMap中没有该菜品的id，以该id为键1为值加入analysisMap中
                 analysisMap.put(foodId, 1);
             }
         }
@@ -290,7 +290,7 @@ public class BasketService {
         for (Map.Entry<Long,Integer> item:sortList2) {
             Long foodId=item.getKey();
             double temScore=item.getValue()*0.4/foodSellSum;
-            if (likeMap.containsKey(foodId)) {//如果之前统计数据里有相同的食物，则分数相加
+            if (likeMap.containsKey(foodId)) {//如果之前统计数据里有相同的菜品，则分数相加
                 likeMap.replace(foodId,likeMap.get(foodId)+temScore);
             }else {//否则直接加入
                 likeMap.put(foodId, temScore);
@@ -331,7 +331,7 @@ public class BasketService {
         return sortList1;
     }
 
-    //删除购物车上的某种食物
+    //删除购物车上的某种菜品
     public void deleteBasketDetail(Long basketDetailId) {
         basketDetailMapper.deleteBasketDetailById(basketDetailId);
     }
@@ -344,7 +344,7 @@ public class BasketService {
     public List<BasketDetailDTO> getDetails(Long basketId) {
 
         List<BasketDetail> basketDetails=basketDetailMapper.findByBasketId(basketId);//获取该用户所有的购物车细节
-        //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
+        //将购物车细节里的菜品信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
         List<BasketDetailDTO> basketDetailDTOS = getBasketDetailDTOS(basketDetails);
 
         return basketDetailDTOS;
@@ -352,7 +352,7 @@ public class BasketService {
     }
 
     private List<BasketDetailDTO> getBasketDetailDTOS(List<BasketDetail> basketDetails) {
-        //将购物车细节里的食物信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
+        //将购物车细节里的菜品信息读取出来,相同信息copy到BasketDetailDTO里，并对数据进行相应处理
         List<BasketDetailDTO> basketDetailDTOS = new ArrayList<>();
         for (BasketDetail basketDetail : basketDetails) {
             BasketDetailDTO basketDetailDTO = new BasketDetailDTO();
