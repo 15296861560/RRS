@@ -37,6 +37,7 @@
                         <div class="form-group">
                             <label for="type">类型</label>
                             <select class="form-control" id="type" name="type">
+                                <option>全部</option>
                                 <div th:each="foodType:${foodTypeS}">
                                     <option th:text="${foodType.getMessage()}"></option>
                                 </div>
