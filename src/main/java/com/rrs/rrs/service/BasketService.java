@@ -246,46 +246,37 @@ public class BasketService {
     public List getLikeFood(User user) {
         //获取用户的所有历史购物车
         ArrayList<Basket> basketList =basketMapper.findBasketsByUserId(user.getUserId());
-
         //获取用户所有下单细节
         ArrayList<BasketDetail> basketDetailList=new ArrayList();
         for (Basket basket: basketList) {
             basketDetailList.addAll( basketDetailMapper.findByBasketId(basket.getBasketId()));
         }
-
         //统计各个菜品被用户购买的次数
         HashMap<Long, Integer> analysisMap = getAnalysisMap(basketDetailList);
-
         //对统计数据进行排序
         List<Map.Entry<Long, Integer>> sortList1 = getSortList(analysisMap);
-
         //获取排名前10条数据
         sortList1 = getTopRank(sortList1, 10);
-
         //获取前10菜品被购买总数
         int userBuySum=0;
         for (Map.Entry<Long,Integer> item:sortList1) {
             userBuySum=userBuySum+item.getValue();
         }
-
         //新建一个likeMap统计目前各个菜品得分
         HashMap<Long, Double> likeMap = new HashMap();
         for (Map.Entry<Long,Integer> item:sortList1) {
             double temScore=item.getValue()*0.6/userBuySum;
             likeMap.put(item.getKey(), temScore);
         }
-
         //获取销售菜品的销售情况，按降序排列
         List<Map.Entry<Long, Integer>> sortList2 = getFoodSellSortList();
         //获取排名前10条数据
         sortList2 = getTopRank(sortList2, 10);
-
         //获取前10菜品销售额
         int foodSellSum=0;
         for (Map.Entry<Long,Integer> item:sortList2) {
             foodSellSum=foodSellSum+item.getValue();
         }
-
         //重新计算各个菜品得分
         for (Map.Entry<Long,Integer> item:sortList2) {
             Long foodId=item.getKey();
@@ -296,7 +287,6 @@ public class BasketService {
                 likeMap.put(foodId, temScore);
             }
         }
-
         //对数据进行排序
         List<HashMap.Entry<Long, Double>> sortLikeList = new ArrayList<HashMap.Entry<Long, Double>>(likeMap.entrySet());
         Collections.sort(sortLikeList, new Comparator<HashMap.Entry<Long, Double>>() {
@@ -306,21 +296,15 @@ public class BasketService {
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
-
-
         //获取分数前5数据
         if (sortLikeList.size() > 5) {//判断list长度
             sortLikeList = sortLikeList.subList(0, 5);//取前5条数据
         }
-
-
         //将结果转为菜品
         List<Food> foodList=new ArrayList();
         for (Map.Entry<Long,Double> item:sortLikeList) {
             foodList.add(foodMapper.findById(item.getKey()));
         }
-
-
         return foodList;
     }
 

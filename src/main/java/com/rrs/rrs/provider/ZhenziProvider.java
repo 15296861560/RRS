@@ -44,7 +44,6 @@ public class ZhenziProvider {
         session.setAttribute("verify", json);
         //发送验证码成功
         return true;
-
         }
 
 }

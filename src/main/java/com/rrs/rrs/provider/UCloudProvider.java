@@ -35,7 +35,6 @@ public class UCloudProvider {
         }else {
             throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FAIL);
         }
-
         try {
             // Bucket相关API的授权器
             ObjectAuthorization objectAuthorizer = new UfileObjectLocalAuthorization(publicKey, privateKey);
@@ -45,17 +44,6 @@ public class UCloudProvider {
                     .putObject(fileStream, mimeType)
                     .nameAs(generateFileName)
                     .toBucket(bucketName)
-                    /**
-                     * 是否上传校验MD5, Default = true
-                     */
-                    //  .withVerifyMd5(false)
-                    /**
-                     * 指定progress callback的间隔, Default = 每秒回调
-                     */
-                    //  .withProgressConfig(ProgressConfig.callbackWithPercent(10))
-                    /**
-                     * 配置进度监听
-                     */
                     .setOnProgressListener((bytesWritten,contentLength)->{
                     })
                     .execute();
