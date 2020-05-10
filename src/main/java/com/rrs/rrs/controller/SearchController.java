@@ -3,6 +3,7 @@ package com.rrs.rrs.controller;
 import com.rrs.rrs.dto.PageDTO;
 import com.rrs.rrs.dto.UserDTO;
 import com.rrs.rrs.enums.FoodTypeEnum;
+import com.rrs.rrs.exception.CustomizeErrorCode;
 import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.FoodService;
@@ -73,6 +74,13 @@ public class SearchController {
                                     @RequestParam(value ="datetime2",required = false)String datetime2,
                                     @RequestParam(name="page",defaultValue = "1")Integer page,
                                     @RequestParam(name="size",defaultValue = "5")Integer size){
+
+
+        if (datetime==null||datetime.length()==0){
+            model.addAttribute("tip", "搜索失败，请输入预订日期！");
+            model.addAttribute("src","manage");
+            return "tip";
+        }
 
         //用-分隔datetime
         String[] dates = StringUtils.split(datetime, "-");
