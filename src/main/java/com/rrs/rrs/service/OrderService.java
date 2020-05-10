@@ -320,4 +320,47 @@ public class OrderService {
     }
 
 
+    //根据时间查订单
+    public PageDTO listSearchByTime(Integer page, Integer size, String orderTime, String status) {
+        PageDTO<OrderDTO> pageDTO=new PageDTO();
+
+        //根据状态获取订单
+        List<Order> orders;
+        if (status.equals("全部")){
+            //直接获取所有订单
+            orders = orderMapper.getAllOrder();
+        }else {
+            //先将状态进行转换
+            for (OrderStatusEnum orderStatus:OrderStatusEnum.values()) {
+                if (status.equals(orderStatus.getMessage())){
+                    status=orderStatus.getStatus();
+                    break;
+                }
+            }
+            orders =orderMapper.getOrdersByStatus(status);
+        }
+
+        //获取预约时间等于查询时间的订单
+        List<Order> orderByTimeList=new ArrayList<>();
+        for (Order order:orders) {
+            if (order.getOrderTime().equals(orderTime)){//时间相同
+                orderByTimeList.add(order);//加入订单
+            }
+        }
+
+
+
+
+        pageDTO.setPageDTO(orderByTimeList.size(),page,size);
+
+        //截取当前页的订单信息(分页)
+        List<Order> pageOrder = new ArrayList();
+        for (int i = (page - 1) * size; i < page * size && i < orderByTimeList.size(); i++) {
+            pageOrder.add(orderByTimeList.get(i));
+        }
+
+        pageDTO.setDataDTOS(ToDTOS(pageOrder));
+
+        return pageDTO;
+    }
 }

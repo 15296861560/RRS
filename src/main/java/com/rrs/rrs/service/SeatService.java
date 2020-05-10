@@ -132,7 +132,6 @@ public class SeatService {
         //获取申请中和已接受的订单
         List<Order> orders = getOrders();
 
-        Integer offset=size*(page-1);//偏移量
         //获取所有的餐台
         List<Seat> seats=seatMapper.selectAll();
 

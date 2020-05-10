@@ -65,6 +65,25 @@ public class SearchController {
         return "manage";
     }
 
+    //管理员根据时间查订单
+    @GetMapping("/admin_search_orderTime")
+    public String searchOrderbyTime(Model model,
+                                    @RequestParam(value ="status2",required = false)String status,
+                                    @RequestParam(value ="datetime",required = false)String datetime,
+                                    @RequestParam(value ="datetime2",required = false)String datetime2,
+                                    @RequestParam(name="page",defaultValue = "1")Integer page,
+                                    @RequestParam(name="size",defaultValue = "5")Integer size){
+
+        //用-分隔datetime
+        String[] dates = StringUtils.split(datetime, "-");
+        String orderTime=dates[0]+"年"+dates[1]+"月"+dates[2]+"日"+datetime2;
+
+        PageDTO pageDTO=orderService.listSearchByTime(page,size,orderTime,status);
+        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("section","order");
+        return "manage";
+    }
+
     //管理员根据位置查餐台
 //    @PostMapping("/admin_search_seat_location")
 //    public String searchSeatLocation(Model model,

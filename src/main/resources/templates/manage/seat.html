@@ -3,14 +3,7 @@
 
 <body>
 
-<script>
-    $(function() {
-        $("#datetime").datetimepicker({
-            format: 'YYYY-MM-DD',
-            locale: moment.locale('zh-cn'),
-        });
-    });
-</script>
+
 
 <div th:fragment="seat">
 
@@ -37,9 +30,9 @@
                             <input type="text" class="form-control" th:placeholder="${datetime==null?'预订日期':datetime}" th:value="${datetime==null?'':datetime}"  id="datetime" name="datetime"/>
                             <select class="form-control" id="datetime2" name="datetime2" data="xxxx">
                                 <option th:if="${datetime2!=null}" th:text="${datetime2}"></option>
-                                <option>07:00-10:00</option>
-                                <option>10:30-12:30</option>
-                                <option>13:00-15:00</option>
+                                <option>08:00-10:00</option>
+                                <option>10:00-12:00</option>
+                                <option>12:00-14:00</option>
                                 <option>17:00-19:00</option>
                                 <option>20:00-22:00</option>
                             </select>
@@ -53,6 +46,16 @@
                             <button type="submit" class="btn btn-default">开始搜索</button>
                         </div>
                     </form>
+
+                    <script>
+                        $(function() {
+                            $("#datetime").datetimepicker({
+                                format: 'YYYY-MM-DD',
+                                locale: moment.locale('zh-cn'),
+                            });
+                        });
+                    </script>
+
                 </div>
             </div>
             <!--添加餐台-->
