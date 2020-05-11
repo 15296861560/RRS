@@ -26,6 +26,7 @@
                             <li th:if="${session.admin.getLevel()>2}"><a href="/manage/seat">餐台管理</a></li>
                             <li th:if="${session.admin.getLevel()>3}"><a href="/manage/customer">用户管理</a></li>
                             <li><a href="/manage/tradition">传统下单</a></li>
+                            <li th:if="${session.admin.getLevel()==10}"><a href="/manage/customer">管理员管理</a></li>
                         </ul>
                     </li>
 
