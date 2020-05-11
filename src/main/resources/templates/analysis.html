@@ -35,6 +35,9 @@
             <a href="/analysis/seat" th:class="${section.equals('seat')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-print" aria-hidden="true">
                     </span>最受欢迎餐台排行</a>
+            <a href="/analysis/time" th:class="${section.equals('time')?'list-group-item active':'list-group-item'}">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true">
+                    </span>预订时间段排行</a>
             <a href="/analysis/category" th:class="${section.equals('category')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon  glyphicon-th-list" aria-hidden="true">
                     </span>菜品类目统计</a>
@@ -52,6 +55,10 @@
         <!--最受欢迎餐台排行-->
         <div th:if="${section=='seat'}">
             <div th:insert="~{analysis/seatRank::seatRank}"></div>
+        </div>
+        <!--预订时间段排行-->
+        <div th:if="${section=='time'}">
+            <div th:insert="~{analysis/timeRank::timeRank}"></div>
         </div>
         <!--菜品类目统计-->
         <div th:if="${section=='category'}">

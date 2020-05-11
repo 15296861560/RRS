@@ -11,6 +11,7 @@ import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -404,6 +405,55 @@ public class OrderService {
         }
         List resultList=new ArrayList();
         resultList.add(seatList);
+        resultList.add(qtyList);
+
+
+        return resultList;
+    }
+
+    //预订时间段排行
+    public List getTimeRankData() {
+
+        //获取所有的订单状态为已完成的订单信息
+        ArrayList<Order> analysisList=orderMapper.getAllOrderStatusTrue();
+
+        //统计各个餐台被预订的次数
+        HashMap<String,Integer> analysisMap=new HashMap();
+        analysisMap.put("08:00-10:00",0);
+        analysisMap.put("10:00-12:00",0);
+        analysisMap.put("12:00-14:00",0);
+        analysisMap.put("17:00-19:00",0);
+        analysisMap.put("20:00-22:00",0);
+        String datetime=null;
+        String[] dates = null;
+        for (Order order:analysisList) {
+            dates= StringUtils.split(order.getOrderTime(), "日");
+            datetime=dates[1];
+            if (analysisMap.containsKey(datetime)){//如果analysisMap中有时间段，计数加1
+                analysisMap.replace(datetime,analysisMap.get(datetime)+1);
+            }
+        }
+        //对统计数据进行排序
+        List<HashMap.Entry<String,Integer> > sortList = new ArrayList<HashMap.Entry<String,Integer> >(analysisMap.entrySet());
+        Collections.sort(sortList, new Comparator<HashMap.Entry<String,Integer> >() {
+
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<String,Integer> o1, HashMap.Entry<String,Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+
+        //将时间段和数量分离
+        List timeList=new ArrayList();
+        List qtyList=new ArrayList();
+        for (HashMap.Entry<String,Integer> item:sortList) {
+            timeList.add(item.getKey());
+            qtyList.add(item.getValue());
+        }
+        List resultList=new ArrayList();
+        resultList.add(timeList);
         resultList.add(qtyList);
 
 
