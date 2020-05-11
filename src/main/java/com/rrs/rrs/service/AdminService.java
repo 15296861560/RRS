@@ -111,4 +111,18 @@ public class AdminService {
         }
 
     }
+
+
+    //修改登录密码
+    public Object changePassword(String password,Admin admin){
+        String newPassword= DigestUtils.md5DigestAsHex(password.getBytes());//对新密码进行加密
+        admin.setPassword(newPassword);
+        try {
+            adminMapper.changePassword(admin);
+        }catch (Exception e){
+            return ResultDTO.errorOf(CustomizeErrorCode.UNKNOWN_ERROR);
+        }
+        return ResultDTO.okOf();
+    }
+
 }

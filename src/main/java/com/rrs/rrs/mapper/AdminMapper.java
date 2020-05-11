@@ -20,9 +20,13 @@ public interface AdminMapper {
     @Delete("delete from admin_table where admin_id=#{adminId}")
     void deleteById(@Param(value = "adminId") String adminId);
 
+    //更改权限
     @Update("update admin_table set level=#{level} where admin_id=#{adminId}")
     void changeLevel(Admin admin);
 
+    //更改密码
+    @Update("update admin_table set password=#{password} where admin_id=#{adminId}")
+    void changePassword(Admin admin);
 
     //创建用户
     @Insert("insert into admin_table(admin_id,admin_name,level,password,phone) " +

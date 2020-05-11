@@ -245,4 +245,33 @@ public class ManageController {
     }
 
 
+    //验证手机号码
+    @GetMapping("/admin/confirmPhone")
+    public String confirmPhone(Model model,
+                               HttpServletRequest request){
+        Admin admin=(Admin) request.getSession().getAttribute("admin");
+        User user=userService.findByPhone(admin.getPhone());
+        request.getSession().setAttribute("user",user);
+        //修改密码前验证号码
+        model.addAttribute("admin",admin);
+        model.addAttribute("nextUrl","/admin/adminChangePassword");
+        return "adminConfirmPhone";
+    }
+
+    @GetMapping("/admin/adminChangePassword")
+    public String toChangePassword(Model model,
+                               HttpServletRequest request){
+        return "adminChangePassword";
+    }
+
+    //修改登录密码
+    @ResponseBody
+    @RequestMapping(value ="/admin/changePassword",method = RequestMethod.POST)
+    public Object changePassword(@RequestBody JSONObject dataJson,
+                                 HttpServletRequest request){
+        String password=dataJson.getString("password");
+        Admin admin=(Admin) request.getSession().getAttribute("admin");
+        return adminService.changePassword(password,admin);
+    }
+
 }
