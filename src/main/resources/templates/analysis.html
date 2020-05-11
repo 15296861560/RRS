@@ -32,6 +32,9 @@
             <a href="/analysis/user" th:class="${section.equals('user')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true">
                     </span>点餐最多顾客排行</a>
+            <a href="/analysis/seat" th:class="${section.equals('seat')?'list-group-item active':'list-group-item'}">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true">
+                    </span>最受欢迎餐台排行</a>
             <a href="/analysis/category" th:class="${section.equals('category')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon  glyphicon-th-list" aria-hidden="true">
                     </span>菜品类目统计</a>
@@ -45,6 +48,10 @@
         <!--点餐最多顾客排行-->
         <div th:if="${section=='user'}">
             <div th:insert="~{analysis/userRank::userRank}"></div>
+        </div>
+        <!--最受欢迎餐台排行-->
+        <div th:if="${section=='seat'}">
+            <div th:insert="~{analysis/seatRank::seatRank}"></div>
         </div>
         <!--菜品类目统计-->
         <div th:if="${section=='category'}">

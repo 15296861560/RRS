@@ -40,6 +40,10 @@ public class AnalysisController {
             rankData=orderService.getUserRankData(10);
             model.addAttribute("section","user");
         }
+        else if (action.equals("seat")) {//最受欢迎餐台
+            rankData=orderService.getSeatRankData(10);
+            model.addAttribute("section","seat");
+        }
         else {//菜品类目统计
             rankData=foodService.getCategoryData();
             model.addAttribute("section","category");

@@ -363,4 +363,50 @@ public class OrderService {
 
         return pageDTO;
     }
+
+    public List getSeatRankData(int i) {
+        //获取所有的订单状态为已完成的订单信息
+        ArrayList<Order> analysisList=orderMapper.getAllOrderStatusTrue();
+
+        //统计各个餐台被预订的次数
+        HashMap<Integer,Integer> analysisMap=new HashMap();
+        for (Order order:analysisList) {
+            Integer seatId=order.getSeatId();
+            if (analysisMap.containsKey(seatId)){//如果analysisMap中有该餐台的id，计数加1
+                analysisMap.replace(seatId,analysisMap.get(seatId)+1);
+            }else {//果analysisMap中没有该餐台的id，以该id为键1为值加入analysisMap中
+                analysisMap.put(seatId,1);
+            }
+        }
+        //对统计数据进行排序
+        List<HashMap.Entry<Integer,Integer> > sortList = new ArrayList<HashMap.Entry<Integer,Integer> >(analysisMap.entrySet());
+        Collections.sort(sortList, new Comparator<HashMap.Entry<Integer,Integer> >() {
+
+            //降序排序
+            @Override
+            public int compare(HashMap.Entry<Integer,Integer> o1, HashMap.Entry<Integer,Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        //获取排名前l条数据
+        if (sortList.size() > i) {//判断list长度
+            sortList = sortList.subList(0, i);//取前l条数据
+        }
+
+        //将seatId和数量分离
+        List seatList=new ArrayList();
+        List qtyList=new ArrayList();
+        for (HashMap.Entry<Integer,Integer> item:sortList) {
+            Seat seat=seatMapper.findById(item.getKey());
+            seatList.add(seat.getLocation());
+            qtyList.add(item.getValue());
+        }
+        List resultList=new ArrayList();
+        resultList.add(seatList);
+        resultList.add(qtyList);
+
+
+        return resultList;
+    }
 }

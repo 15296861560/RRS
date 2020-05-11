@@ -4,14 +4,14 @@
 
 <body>
 
-<div th:fragment="foodRank">
+<div th:fragment="seatRank">
 
 
     <div class="col-sm-10">
         <ol class="breadcrumb">
             <li class="active">数据分析
             </li>
-            <li class="active">最受欢迎菜品排行
+            <li class="active">最受欢迎餐台排行
             </li>
         </ol>
         <input type="hidden" th:value="${nameListData}" id="nameListData">
@@ -30,14 +30,14 @@
             // 指定图表的配置项和数据
             var option = {
                 title: {
-                    text: '最受欢迎菜品排行'
+                    text: '最受欢迎餐台排行'
                 },
                 tooltip: {},
                 legend: {
-                    data: ['销量']
+                    data: ['被预约次数']
                 },
                 xAxis: {
-                    data:  nameListData
+                    data: nameListData
                 },
                 yAxis: {},
                 series: [{
