@@ -42,7 +42,7 @@
                         菜品价格：<span th:text="${basketDetailDTO.price+'元'}" style="color: red"></span><br>
                         菜品类型:<span th:text="${basketDetailDTO.type}"></span><br>
                         预订数量:<span th:text="${basketDetailDTO.qty}"></span><br>
-                    </span>
+                </span>
 
 
             </div>
@@ -50,8 +50,9 @@
 
     </div>
     <div class="font-locatin">
-        <a th:if="${basketId!=null}" th:href="@{/toPayByBasketId/(basketId=${basketId})}" class="btn btn-info pay-btn">进行支付</a>
+        <a th:if="${basketId!=null}" th:href="@{/toPayByBasketId/(basketId=${basketId})}" class="btn btn-success pay-btn">进行支付</a>
         <button th:if="${basketId!=null}" onclick="deleteOrder(this)"  th:data-id="${basketId}" class="btn btn-danger pay-btn">删除</button>
+        <button onclick="refund(this)"  th:data-id="${orderId}" class="btn btn-info pay-btn">退款</button>
     </div>
 </div>
 

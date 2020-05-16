@@ -4,6 +4,11 @@ function apply(e) {
     window.location.href="/profile/apply/"+orderId;
 }
 
+function refund(e) {
+    var orderId=e.getAttribute("data-id");
+    window.location.href="/refund/"+orderId;
+}
+
 function settle(e) {
     $.ajax({
         type: "POST",

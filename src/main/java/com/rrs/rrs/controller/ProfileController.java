@@ -89,6 +89,7 @@ public class ProfileController {
             model.addAttribute("basketId",basketId);
         }
 
+        model.addAttribute("orderId",order.getOrderId());
         model.addAttribute("basketDetailDTOS",basketDetailDTOS);
         model.addAttribute("nav","profile");
 
@@ -109,11 +110,11 @@ public class ProfileController {
 
 
     //撤销订单
-    @GetMapping("/profile/apply/{OrderId}")
+    @GetMapping("/profile/apply/{orderId}")
     public String apply(Model model,
-                        @PathVariable(name = "OrderId")Long OrderId){
+                        @PathVariable(name = "orderId")Long orderId){
 
-        orderService.setStatusToRequestReturn(OrderId);
+        orderService.setStatusToRequestReturn(orderId);
         model.addAttribute("tip","撤销订单成功");
         model.addAttribute("src","/profile/history");
         return "tip";

@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.rrs.rrs.config.AlipayConfig;
 import com.rrs.rrs.dto.AlipayVo;
+import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.Order;
 import com.rrs.rrs.model.User;
@@ -14,10 +17,7 @@ import com.rrs.rrs.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,5 +114,41 @@ public class PayController {
         }
         return "redirect:/index";
     }
+
+    //退款
+    @GetMapping("/refund/{orderId}")
+    @ResponseBody
+    public Object refund(@PathVariable(name = "orderId")Long orderId) throws Exception {
+
+        Order order=orderService.findOrderById(orderId);
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, app_id,
+                AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        request.setBizContent("{" +
+                "    \"out_trade_no\":\""+orderId+"\"," +
+                "    \"trade_no\":\""+orderId+"\"," +
+                "    \"refund_amount\":"+order.getAmount()+"," +
+                "    \"refund_reason\":\"正常退款\"," +
+                "    \"out_request_no\":\"HZ01RF001\"," +
+                "    \"operator_id\":\"OP001\"," +
+                "    \"store_id\":\"NJ_S_001\"," +
+                "    \"terminal_id\":\"NJ_T_001\"" +
+                "  }");
+        AlipayTradeRefundResponse response = alipayClient.execute(request);
+        ResultDTO result=new ResultDTO();
+        if(response.isSuccess()){
+            result.setCode(200);
+            result.setMessage("调用成功");
+            System.out.println("调用成功");
+        } else {
+            result.setCode(404);
+            result.setMessage("调用失败");
+            System.out.println("调用失败");
+        }
+
+        return result;
+    }
+
 }
 

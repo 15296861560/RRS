@@ -31,7 +31,7 @@ public class BasketController {
             return "redirect:/noLogin";
         }
 
-        Shopocart(model, user);
+        Shopcart(model, user);
         return "shopcart";
     }
 
@@ -105,11 +105,11 @@ public class BasketController {
         basketService.deleteBasketDetail(id);
 
         User user=(User)request.getSession().getAttribute("user");
-        Shopocart(model, user);
+        Shopcart(model, user);
         return "shopcart";
     }
 
-    private void Shopocart(Model model, User user) {
+    private void Shopcart(Model model, User user) {
         PageDTO<BasketDetailDTO> pageDTO = basketService.listBasketDetail(1, 9, user.getUserId());//获取购物车细节信息
         model.addAttribute("pageDTO", pageDTO);
         model.addAttribute("nav", "basket");
