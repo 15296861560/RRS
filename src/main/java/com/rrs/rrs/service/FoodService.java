@@ -71,22 +71,22 @@ public class FoodService {
     }
 
     //将所有上架菜品查询出来并进行分页处理
-    public PageDTO listByStatus(Integer page, Integer size,String status) {
+    public PageDTO listByStatus(Integer page, Integer size,String status,String sort,String condition) {
 
-        PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部",status,"全部");
+        PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部",status,"全部",sort,condition);
 
         return pageDTO;
     }
 
     //根据名称搜索上架菜品并进行分页处理
-    public PageDTO listByName(Integer page, Integer size, String search) {
-        PageDTO<FoodDTO> pageDTO=listSearch(page,size,search,"GOOD","全部");
+    public PageDTO listByName(Integer page, Integer size, String search,String sort,String condition) {
+        PageDTO<FoodDTO> pageDTO=listSearch(page,size,search,"GOOD","全部",sort,condition);
         return pageDTO;
     }
 
     //根据类型搜索上架菜品并进行分页处理
-    public PageDTO listByType(Integer page, Integer size, String search) {
-        PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部","GOOD",search);
+    public PageDTO listByType(Integer page, Integer size, String search,String sort,String condition) {
+        PageDTO<FoodDTO> pageDTO=listSearch(page,size,"全部","GOOD",search,sort,condition);
         return pageDTO;
     }
 
@@ -119,13 +119,15 @@ public class FoodService {
 
 
     //根据条件对菜品进行查询和分页
-    public PageDTO listSearch(int page, int size,String name,String status,String type) {
+    public PageDTO listSearch(int page, int size,String name,String status,String type,String sort,String condition) {
         PageDTO<FoodDTO> pageDTO=new PageDTO();
         Integer offset=size*(page-1);//偏移量
         //构建查询条件
         DataQueryDTO dataQueryDTO =new DataQueryDTO();
         dataQueryDTO.setOffset(offset);
         dataQueryDTO.setSize(size);
+        dataQueryDTO.setSort(sort);
+        dataQueryDTO.setCondition(condition);
         if (name.equals("全部"))name="^";
         else name=stringToRegex(name);
 

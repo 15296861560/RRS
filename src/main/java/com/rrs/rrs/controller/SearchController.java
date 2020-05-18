@@ -45,7 +45,7 @@ public class SearchController {
                            @RequestParam(value ="type",required = false)String type){
 
 
-        PageDTO pageDTO=foodService.listSearch(1,5,name,status,type);
+        PageDTO pageDTO=foodService.listSearch(1,5,name,status,type,"desc","gmt_create");
         model.addAttribute("foodTypeS", FoodTypeEnum.values());
         model.addAttribute("pageDTO",pageDTO);
         model.addAttribute("section","menu");

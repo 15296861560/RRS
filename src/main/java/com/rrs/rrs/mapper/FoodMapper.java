@@ -36,7 +36,7 @@ public interface FoodMapper {
     Integer searchCountByName(@Param(value = "search") String search);
 
     //带条件的分页查询
-    @Select("select * from menu_table where food_name regexp #{name} and status regexp #{status} and type regexp #{type} order by food_id limit #{offset},#{size}")
+    @Select("select * from menu_table where food_name regexp #{name} and status regexp #{status} and type regexp #{type} order by ${condition} ${sort} limit #{offset},#{size} ")
     List<Food> listSearch(DataQueryDTO dataQueryDTO);
 
     //带条件的查询数目

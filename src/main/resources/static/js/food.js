@@ -29,3 +29,9 @@ function toOrder(e) {
         }
     });
 }
+
+function submitForm(){
+//获取排序表单对象
+    var form = document.getElementById("sortForm");
+    form.submit();//form表单提交
+}

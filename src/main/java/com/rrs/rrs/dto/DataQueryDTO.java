@@ -10,5 +10,8 @@ public class DataQueryDTO {
     String status;//状态
     String type;//类型
     Long Id;//id
+    String sort;//升降
+    String condition;//条件
+
 
 }
