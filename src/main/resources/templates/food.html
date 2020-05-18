@@ -78,21 +78,21 @@
         <!--显示排序方式-->
         <div class="col-md-10 col-sm-10">
             <form role="form" class="form-inline" action="/food" method="get" id="sortForm">
+                <div class="pull-right m-bottom">
+                    <select class="form-control input-sm" name="sort" onchange="submitForm();">
+                        <option value="desc" th:selected="${sort.equals('desc')}">降序</option>
+                        <option value="asc" th:selected="${sort.equals('asc')}">升序</option>
+                    </select>
+                </div>
+                <div class="pull-right m-bottom">
+                    <select class="form-control input-sm" name="condition" onchange="submitForm();">
+                        <option value="gmt_create" th:selected="${condition.equals('gmt_create')}">新品</option>
+                        <option value="price" th:selected="${condition.equals('price')}">价格</option>
+                        <!--<option value="sales" >销量</option>-->
+                        <!--<option value="#">收藏</option>-->
+                    </select>
+                </div>
 
-            <div class="pull-right m-bottom">
-                <select class="form-control input-sm" name="condition" onchange="submitForm();">
-                    <option value="gmt_create" th:selected="${condition.equals('gmt_create')}">新品</option>
-                    <option value="price" th:selected="${condition.equals('price')}">价格</option>
-                    <!--<option value="sales" >销量</option>-->
-                    <!--<option value="#">收藏</option>-->
-                </select>
-            </div>
-            <div class="pull-right m-bottom">
-                <select class="form-control input-sm" name="sort" onchange="submitForm();">
-                    <option value="desc" th:selected="${sort.equals('desc')}">降序</option>
-                    <option value="asc" th:selected="${sort.equals('asc')}">升序</option>
-                </select>
-            </div>
 
             </form>
 
