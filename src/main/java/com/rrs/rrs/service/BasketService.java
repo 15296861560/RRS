@@ -11,6 +11,7 @@ import com.rrs.rrs.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -316,8 +317,19 @@ public class BasketService {
     }
 
     //删除购物车上的某种菜品
+    @Transactional
     public void deleteBasketDetail(Long basketDetailId) {
-        basketDetailMapper.deleteBasketDetailById(basketDetailId);
+        //调整basket支付金额
+        BasketDetail basketDetail=basketDetailMapper.findById(basketDetailId);
+        Basket basket=basketMapper.findById(basketDetail.getBasketId());
+        //修改支付金额
+        Food food=foodMapper.findById(basketDetail.getFoodId());
+        double payment=basket.getPayment()-food.getPrice()*basketDetail.getQty();
+        basket.setPayment(payment);
+
+        basketMapper.changePayment(basket);//更新数据库中的购物车
+        basketDetailMapper.deleteBasketDetailById(basketDetailId);//删除详细信息
+
     }
 
     //根据id查购物车
