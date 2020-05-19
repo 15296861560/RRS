@@ -12,7 +12,8 @@
 
 </head>
 <body>
-<div th:insert="~{navigation::nav}"></div>
+<div th:if="${action.equals('advise')}" th:insert="~{navigation::nav}"></div>
+<div th:if="${action.equals('check')}" th:insert="~{navigation-manage::nav}"></div>
 
 <div class="container-fluid main">
     <div class="row">
@@ -29,23 +30,23 @@
                 </div>
                 <div class="form-group" id="question-editor">
                     <label for="title">补充（必填，请参照右侧提示）:</label>
-                    <textarea th:value="${title}" id="description" name="description" class="form-control"
+                    <textarea th:text="${description}" id="description" name="description" class="form-control"
                               cols="30"  rows="10"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="advise_type" >类型</label>
                     <select class="form-control" id="advise_type" name="advise_type">
-                        <option>建议</option>
-                        <option>投诉</option>
+                        <option th:selected="${advise_type.equals('建议')}">建议</option>
+                        <option th:selected="${advise_type.equals('投诉')}">投诉</option>
                     </select>
                 </div>
-                    <button type="submit" class="btn btn-success btn-advise" >提交</button>
+                    <button th:if="${action.equals('advise')}" type="submit" class="btn btn-success btn-advise" >提交</button>
 
             </form>
         </div>
         <!--右边-->
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" th:if="${action.equals('advise')}">
             <h3>用户建议指南</h3>
             ·建议或投诉标题：<br><br>请用精简的语言描述您提交的建议或投诉，不能超过25字<br>
             ·建议或投诉补充：<br><br>详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关的资料（待实现）<br>

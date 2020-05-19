@@ -1,5 +1,6 @@
 package com.rrs.rrs.controller;
 
+import com.rrs.rrs.exception.CustomizeErrorCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,8 @@ public class IndexController {
     @GetMapping("/noLogin")
     public String noLogin(Model model){
 
-        model.addAttribute("backgroundPic", "/images/restaurant.jpg");
-        model.addAttribute("errorCode", null);
+        model.addAttribute("errorMessage", CustomizeErrorCode.NO_LOGIN.getMessage());
+        model.addAttribute("errorCode", CustomizeErrorCode.NO_LOGIN.getCode());
         return "error";
     }
 
