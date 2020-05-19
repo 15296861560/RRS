@@ -12,12 +12,17 @@
 
 </head>
 <body>
+<!--导航栏-->
 <div th:if="${action.equals('advise')}" th:insert="~{navigation::nav}"></div>
 <div th:if="${action.equals('check')}" th:insert="~{navigation-manage::nav}"></div>
 
+
 <div class="container-fluid main">
     <div class="row">
-        <!--左边-->
+
+        <div th:if="${nav!=null}" class="bgWhile" th:insert="~{main-nav::main-nav}"></div><br>
+
+
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 投诉或建议</h2>
             <hr>

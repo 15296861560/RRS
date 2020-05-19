@@ -26,6 +26,7 @@ public class AdviseController {
         model.addAttribute("description","描述");
         model.addAttribute("advise_type","建议");
         model.addAttribute("action","advise");
+        model.addAttribute("nav","advise");
         return "advise";
     }
 
