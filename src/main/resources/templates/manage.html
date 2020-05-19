@@ -44,9 +44,7 @@
                         <span class="glyphicon glyphicon-user" aria-hidden="true">
                     </span>用户管理</a>
             </div>
-            <a href="/manage/tradition" th:class="${section.equals('tradition')?'list-group-item active':'list-group-item'}">
-                        <span class="glyphicon glyphicon-book" aria-hidden="true">
-                    </span>传统下单</a>
+
             <div th:if="${session.admin.getLevel()==10}">
                 <a href="/manage/admin" th:class="${section.equals('admin')?'list-group-item active':'list-group-item'}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true">
