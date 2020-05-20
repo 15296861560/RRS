@@ -11,9 +11,11 @@ import com.rrs.rrs.dto.AlipayVo;
 import com.rrs.rrs.dto.ResultDTO;
 import com.rrs.rrs.model.Basket;
 import com.rrs.rrs.model.Order;
+import com.rrs.rrs.model.Seat;
 import com.rrs.rrs.model.User;
 import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.OrderService;
+import com.rrs.rrs.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,8 @@ public class PayController {
     private OrderService orderService;
     @Autowired
     BasketService basketService;
+    @Autowired
+    SeatService seatService;
 
 
     @GetMapping("/toPay")
@@ -98,7 +102,8 @@ public class PayController {
         orderService.orderApplyOK(orderId);
         //获取订单信息
         Order order=orderService.findOrderById(orderId);
-        model.addAttribute("tip","支付成功！请于"+order.getOrderTime()+"在"+order.getSeatId()+"号位置就餐");
+        Seat seat=seatService.findSeatById(order.getSeatId());
+        model.addAttribute("tip","支付成功！请于"+order.getOrderTime()+"在"+seat.getLocation()+"的位置就餐");
         model.addAttribute("src","/food");
         return "tip";
     }
