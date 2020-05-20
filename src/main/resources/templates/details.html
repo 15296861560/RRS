@@ -52,7 +52,7 @@
     <div class="font-locatin">
         <a th:if="${basketId!=null}" th:href="@{/toPayByBasketId/(basketId=${basketId})}" class="btn btn-success pay-btn">进行支付</a>
         <button th:if="${basketId!=null}" onclick="deleteOrder(this)"  th:data-id="${basketId}" class="btn btn-danger pay-btn">删除</button>
-        <button onclick="refund(this)"  th:data-id="${orderId}" class="btn btn-info pay-btn">退款</button>
+        <button th:if="${order.orderStatus!='REFUNDING'&&order.orderStatus!='REFUND_OK'}" onclick="applyRefund(this)"  th:data-id="${order.orderId}" class="btn btn-info pay-btn">退款</button>
     </div>
 </div>
 

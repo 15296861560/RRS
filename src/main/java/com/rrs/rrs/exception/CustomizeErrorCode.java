@@ -8,6 +8,8 @@ public enum  CustomizeErrorCode {
     NO_LOGIN(1004,"您还未登录无法进行该操作，请登录后重试！"),
     FAIL_TO_ORDER(1005,"加入订单失败！"),
     FAIL_TO_SETTLE(1006,"结算失败！"),
+    APPLY_REFUND_FAIL(1007,"申请退款失败！"),
+    REFUND_FAIL(1008,"进行退款失败！"),
     FOOD_NOT_FOUND(2001,"您找的菜品不存在，请换一个试试吧!"),
     FOOD_UPLOAD_FAIL(2002,"菜品上传失败!"),
     FILE_UPLOAD_FAIL(2003,"文件上传失败!"),

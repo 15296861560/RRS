@@ -124,8 +124,8 @@ public class OrderService {
     public void orderApplyOK(Long orderId) {
         Order order=orderMapper.findById(orderId);
         changeOrderStatus(orderId, OrderStatusEnum.APPLY_OK.getStatus());//将订单状态变为预订成功
-
     }
+
 
     //订单完成
     public void orderFinish(Long orderId) {
@@ -134,7 +134,7 @@ public class OrderService {
 
     }
 
-    private void changeOrderStatus(Long orderId, String status) {
+    public void changeOrderStatus(Long orderId, String status) {
         orderMapper.changeOrderStatus(orderId,status);
     }
 

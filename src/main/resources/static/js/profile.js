@@ -4,9 +4,30 @@ function apply(e) {
     window.location.href="/profile/apply/"+orderId;
 }
 
-function refund(e) {
+function applyRefund(e) {
     var orderId=e.getAttribute("data-id");
-    window.location.href="/refund/"+orderId;
+    $.ajax({
+        type: "GET",
+        url: "/refunding/"+orderId,
+        contentType: 'application/json',
+
+        success: function (response) {
+            if (response.code == 200) {//申请成功
+                Swal.fire({
+                    icon: 'success',
+                    title: '申请退款成功！',
+                    text: '请等待管理员同意',
+                });
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '申请退款失败！',
+                    text: '请勿重复退款',
+                });
+            }
+        }
+    });
 }
 
 function settle(e) {

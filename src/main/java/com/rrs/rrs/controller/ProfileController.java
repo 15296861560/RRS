@@ -89,7 +89,7 @@ public class ProfileController {
             model.addAttribute("basketId",basketId);
         }
 
-        model.addAttribute("orderId",order.getOrderId());
+        model.addAttribute("order",order);
         model.addAttribute("basketDetailDTOS",basketDetailDTOS);
         model.addAttribute("nav","profile");
 

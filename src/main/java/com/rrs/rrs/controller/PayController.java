@@ -9,10 +9,9 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.rrs.rrs.config.AlipayConfig;
 import com.rrs.rrs.dto.AlipayVo;
 import com.rrs.rrs.dto.ResultDTO;
-import com.rrs.rrs.model.Basket;
-import com.rrs.rrs.model.Order;
-import com.rrs.rrs.model.Seat;
-import com.rrs.rrs.model.User;
+import com.rrs.rrs.enums.OrderStatusEnum;
+import com.rrs.rrs.exception.CustomizeErrorCode;
+import com.rrs.rrs.model.*;
 import com.rrs.rrs.service.BasketService;
 import com.rrs.rrs.service.OrderService;
 import com.rrs.rrs.service.SeatService;
@@ -120,39 +119,59 @@ public class PayController {
         return "redirect:/index";
     }
 
-    //退款
-    @GetMapping("/refund/{orderId}")
+    //申请退款
     @ResponseBody
-    public Object refund(@PathVariable(name = "orderId")Long orderId) throws Exception {
+    @RequestMapping("/refunding/{orderId}")
+    public Object refunding(@PathVariable(name = "orderId")Long orderId) throws Exception {
 
-        Order order=orderService.findOrderById(orderId);
-        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, app_id,
-                AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+            try{
+                //将订单状态修改为申请退款
+                orderService.changeOrderStatus(orderId,OrderStatusEnum.REFUNDING.getStatus());
+                return ResultDTO.okOf();
+            }catch (Exception e){
+                return ResultDTO.errorOf(CustomizeErrorCode.APPLY_REFUND_FAIL);
+            }
+    }
 
-        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
-        request.setBizContent("{" +
-                "    \"out_trade_no\":\""+orderId+"\"," +
-                "    \"trade_no\":\""+orderId+"\"," +
-                "    \"refund_amount\":"+order.getAmount()+"," +
-                "    \"refund_reason\":\"正常退款\"," +
-                "    \"out_request_no\":\"HZ01RF001\"," +
-                "    \"operator_id\":\"OP001\"," +
-                "    \"store_id\":\"NJ_S_001\"," +
-                "    \"terminal_id\":\"NJ_T_001\"" +
-                "  }");
-        AlipayTradeRefundResponse response = alipayClient.execute(request);
-        ResultDTO result=new ResultDTO();
-        if(response.isSuccess()){
-            result.setCode(200);
-            result.setMessage("调用成功");
-            System.out.println("调用成功");
-        } else {
-            result.setCode(404);
-            result.setMessage("调用失败");
-            System.out.println("调用失败");
+    //进行退款
+    @ResponseBody
+    @RequestMapping(value = "/refund/{orderId}",method = RequestMethod.POST)
+    public Object refund(@PathVariable(name = "orderId")Long orderId,
+                         HttpServletRequest httpServletRequest) throws Exception {
+
+        Admin admin= (Admin) httpServletRequest.getSession().getAttribute("admin");
+        if (admin.getLevel()<5){
+            return ResultDTO.errorOf(CustomizeErrorCode.NEED_MORE_LEVEL);
+        }else{
+            Order order=orderService.findOrderById(orderId);
+            AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, app_id,
+                    AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+
+            AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+            request.setBizContent("{" +
+                    "    \"out_trade_no\":\""+orderId+"\"," +
+                    "    \"refund_amount\":"+order.getAmount()+"," +
+                    "    \"refund_reason\":\"正常退款\"," +
+                    "    \"out_request_no\":\"HZ01RF001\"," +
+                    "    \"operator_id\":\"OP001\"," +
+                    "    \"store_id\":\"NJ_S_001\"," +
+                    "    \"terminal_id\":\"NJ_T_001\"" +
+                    "  }");
+            AlipayTradeRefundResponse response = alipayClient.execute(request);
+            ResultDTO result=new ResultDTO();
+            if(response.isSuccess()){
+                result.setCode(200);
+                result.setMessage("调用成功");
+                //将订单状态修改为退款成功
+                orderService.changeOrderStatus(orderId,OrderStatusEnum.REFUND_OK.getStatus());
+                return ResultDTO.okOf();
+            } else {
+                result.setCode(404);
+                result.setMessage("调用失败");
+                return ResultDTO.errorOf(CustomizeErrorCode.REFUND_FAIL);
+            }
         }
 
-        return result;
     }
 
 }
