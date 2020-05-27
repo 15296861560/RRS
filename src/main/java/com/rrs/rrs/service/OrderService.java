@@ -316,7 +316,12 @@ public class OrderService {
         if (orders==null||orders.size()==0)return "您暂无下单历史";
         Order order=orders.get(0);
         Seat seat=seatMapper.findById(order.getSeatId());
-        String history="预约了 "+order.getOrderTime()+" 的 "+seat.getLocation()+" 点了 "+order.getContent().substring(0,20)+"......";
+        String history="预约了 "+order.getOrderTime()+" 的 "+seat.getLocation()+" 点了 ";
+        if (order.getContent().length()>20){
+            history=history+order.getContent().substring(0,20)+"......";
+        }else {
+            history=history+order.getContent()+"......";
+        }
         return history;
     }
 

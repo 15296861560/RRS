@@ -22,7 +22,7 @@ public interface OrderMapper {
     Order findById(@Param("orderId") Long orderId);
 
     //根据用户id查找订单
-    @Select("select * from order_table where user_id=#{userId}")
+    @Select("select * from order_table where user_id=#{userId} order by order_id desc")
     List<Order> selectByUserId(@Param("userId") Long userId);
 
     //所有订单的总数
