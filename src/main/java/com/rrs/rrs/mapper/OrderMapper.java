@@ -30,7 +30,7 @@ public interface OrderMapper {
     Integer orderCount();
 
     //对所有订单进行分页处理
-    @Select("select * from order_table order by order_time limit #{offset},#{size}")
+    @Select("select * from order_table order by order_id desc limit #{offset},#{size}")
     List<Order> list(@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
 
     //根据订单号删除订单
@@ -46,11 +46,11 @@ public interface OrderMapper {
     ArrayList<Order> getAllOrder();
 
     //获取所有的订单状态为已完成的订单信息
-    @Select("select * from order_table where order_status='FINISH'")
+    @Select("select * from order_table where order_status='FINISH' ")
     ArrayList<Order> getAllOrderStatusTrue();
 
     //根据订单状态获取订单
-    @Select("select * from order_table where order_status=#{status}")
+    @Select("select * from order_table where order_status=#{status} order by order_id desc")
     ArrayList<Order> getOrdersByStatus(@Param(value = "status")String status);
 
     //根据用户id查询订单
