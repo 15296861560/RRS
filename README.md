@@ -61,6 +61,94 @@
 [lombok](https://projectlombok.org/)
 
 ##数据库脚本
+DROP TABLE IF EXISTS `admin_table`;
+CREATE TABLE `admin_table` (
+  `admin_id` varchar(11) NOT NULL,
+  `admin_name` varchar(255) DEFAULT NULL,
+  `level` int(2) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `phone` char(20) DEFAULT NULL,
+  PRIMARY KEY (`admin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `advise_table`;
+CREATE TABLE `advise_table` (
+  `advise_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL,
+  `description` longtext,
+  `gmt_create` bigint(20) DEFAULT NULL,
+  `advice_type` char(4) DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`advise_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `basket_detail_table`;
+CREATE TABLE `basket_detail_table` (
+  `basket_detail_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `basket_id` bigint(20) NOT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `food_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`basket_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `basket_table`;
+CREATE TABLE `basket_table` (
+  `basket_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `gmt_create` bigint(20) DEFAULT NULL,
+  `gmt_modified` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `basket_status` char(10) DEFAULT NULL,
+  `payment` double(255,0) DEFAULT '0',
+  PRIMARY KEY (`basket_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `menu_table`;
+CREATE TABLE `menu_table` (
+  `food_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `food_name` varchar(255) NOT NULL,
+  `price` double(10,0) DEFAULT NULL,
+  `food_url` varchar(255) DEFAULT NULL,
+  `type` char(10) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `gmt_create` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`food_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `order_table`;
+CREATE TABLE `order_table` (
+  `order_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `seat_id` int(11) DEFAULT NULL,
+  `order_time` varchar(255) DEFAULT NULL,
+  `content` longtext,
+  `amount` double(255,0) DEFAULT NULL,
+  `order_status` char(10) DEFAULT NULL,
+  `basket_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `seat_table`;
+CREATE TABLE `seat_table` (
+  `seat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `location` varchar(255) NOT NULL,
+  `seat_url` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`seat_id`,`location`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `user_table`;
+CREATE TABLE `user_table` (
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(20) DEFAULT NULL,
+  `phone` char(20) DEFAULT NULL,
+  `password` char(64) DEFAULT NULL,
+  `gmt_create` bigint(20) NOT NULL,
+  `gmt_modified` bigint(20) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
+
+
 
 ##其它脚本
 mvn -Dmybatis.generator.overwrite = true mybatis-generator：generate

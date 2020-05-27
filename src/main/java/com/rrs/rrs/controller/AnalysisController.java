@@ -44,7 +44,7 @@ public class AnalysisController {
             rankData=orderService.getSeatRankData(10);
             model.addAttribute("section","seat");
         }
-        else if (action.equals("time")) {//最受欢迎餐台
+        else if (action.equals("time")) {//最受欢迎时间段
             rankData=orderService.getTimeRankData();
             model.addAttribute("section","time");
         }
